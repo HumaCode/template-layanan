@@ -1,0 +1,1186 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Akses Role — SIPEKA Pekalongan</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+/* ── ROOT TOKENS ── */
+:root{
+  --blue-900:#0d2d5e;--blue-800:#1a4480;--blue-700:#1d55a0;
+  --blue-600:#2b6cb0;--blue-500:#3182ce;--blue-400:#63b3ed;
+  --blue-100:#ebf4ff;--blue-50:#f0f7ff;
+  --teal:#0d9488;--gold:#e8a020;--rose:#e53e3e;--green:#16a34a;
+  --purple:#7c3aed;--orange:#ea580c;
+  --gray-900:#111827;--gray-800:#1f2937;--gray-700:#374151;
+  --gray-600:#4b5563;--gray-500:#6b7280;--gray-400:#9ca3af;
+  --gray-300:#d1d5db;--gray-200:#e5e7eb;--gray-100:#f3f4f6;
+  --gray-50:#f9fafb;--white:#fff;--nav-h:68px;
+  --sh-sm:0 1px 3px rgba(0,0,0,.06);
+  --sh-md:0 4px 16px rgba(13,45,94,.08),0 2px 6px rgba(13,45,94,.05);
+  --sh-lg:0 12px 40px rgba(13,45,94,.12),0 4px 12px rgba(13,45,94,.06);
+  --sh-xl:0 24px 60px rgba(13,45,94,.18);
+  --r-sm:8px;--r-md:12px;--r-lg:18px;--r-xl:24px;
+  --tr:.22s cubic-bezier(.4,0,.2,1);
+  --tr-b:.35s cubic-bezier(.34,1.56,.64,1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:#f4f7fc;color:var(--gray-800);min-height:100vh;overflow-x:hidden;font-size:14px;line-height:1.6}
+#bg-canvas{position:fixed;inset:0;z-index:0;pointer-events:none}
+
+/* ── SELECT2 ── */
+.select2-container--default .select2-selection--single{height:40px;border:1.5px solid var(--gray-200);border-radius:var(--r-md);background:#fff;display:flex;align-items:center;padding:0 12px;transition:border-color var(--tr),box-shadow var(--tr)}
+.select2-container--default.select2-container--focus .select2-selection--single,
+.select2-container--default.select2-container--open .select2-selection--single{border-color:var(--blue-400);box-shadow:0 0 0 3px rgba(99,179,237,.15);outline:none}
+.select2-container--default .select2-selection--single .select2-selection__rendered{color:var(--gray-800);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;line-height:40px;padding-left:0;padding-right:24px}
+.select2-container--default .select2-selection--single .select2-selection__placeholder{color:var(--gray-400);font-weight:400}
+.select2-container--default .select2-selection--single .select2-selection__arrow{height:40px;right:10px;width:18px}
+.select2-container--default .select2-selection--single .select2-selection__arrow b{border-color:var(--gray-400) transparent transparent;border-width:5px 4px 0}
+.select2-container--default.select2-container--open .select2-selection--single .select2-selection__arrow b{border-color:transparent transparent var(--blue-600);border-width:0 4px 5px}
+.select2-dropdown{border:1px solid var(--gray-200);border-radius:12px!important;box-shadow:var(--sh-xl);overflow:hidden;font-family:'DM Sans',sans-serif;z-index:99999!important}
+.select2-search--dropdown{padding:8px;background:var(--gray-50);border-bottom:1px solid var(--gray-100)}
+.select2-search--dropdown .select2-search__field{border:1.5px solid var(--gray-200);border-radius:8px;padding:7px 10px;font-family:'DM Sans',sans-serif;font-size:13px;outline:none;width:100%;transition:border-color var(--tr)}
+.select2-search--dropdown .select2-search__field:focus{border-color:var(--blue-400)}
+.select2-results{padding:5px}
+.select2-results__options{max-height:200px;overflow-y:auto}
+.select2-results__option{border-radius:8px;margin-bottom:2px;transition:background var(--tr);cursor:pointer}
+.s2-opt{display:flex;align-items:center;gap:9px;padding:8px 11px}
+.select2-results__option--highlighted{background:var(--blue-50)!important;color:var(--blue-700)!important}
+.select2-results__option[aria-selected=true]{background:var(--blue-100)!important}
+.s2-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.s2-lbl{font-size:13px;font-weight:600;flex:1}
+
+/* ── TOPBAR ── */
+.topbar{position:sticky;top:0;z-index:1040;height:var(--nav-h);background:rgba(255,255,255,.93);backdrop-filter:blur(24px) saturate(180%);border-bottom:1px solid rgba(13,45,94,.08);box-shadow:0 4px 24px rgba(13,45,94,.06)}
+.tb-inner{display:flex;align-items:center;height:100%;max-width:1400px;margin:0 auto;padding:0 20px}
+.brand{display:flex;align-items:center;gap:11px;text-decoration:none;flex-shrink:0;margin-right:24px}
+.brand-emb{position:relative;width:42px;height:42px;flex-shrink:0}
+.brand-core{width:42px;height:42px;background:linear-gradient(145deg,var(--blue-700),var(--blue-900));border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 4px 14px rgba(26,68,128,.35);animation:pulse6 6s ease-in-out infinite}
+@keyframes pulse6{0%,100%{box-shadow:0 4px 14px rgba(26,68,128,.35)}50%{box-shadow:0 4px 22px rgba(26,68,128,.55),0 0 0 6px rgba(26,68,128,.08)}}
+.brand-ring{position:absolute;inset:-4px;border-radius:15px;border:1.5px solid rgba(26,68,128,.18);animation:spin8 8s linear infinite}
+@keyframes spin8{to{transform:rotate(360deg)}}
+.brand-name{font-family:'Instrument Serif',serif;font-size:14.5px;color:var(--blue-900);display:block;line-height:1.2}
+.brand-sub{font-size:10.5px;font-weight:500;color:var(--gray-500);letter-spacing:.03em;text-transform:uppercase}
+.nav-main{display:flex;align-items:center;gap:2px;flex:1;list-style:none;padding:0}
+.nav-main>li{position:relative}
+.nli{display:flex;align-items:center;gap:5px;padding:7px 13px;border-radius:var(--r-sm);font-size:13.5px;font-weight:500;color:var(--gray-600);text-decoration:none;cursor:pointer;border:none;background:transparent;white-space:nowrap;transition:color var(--tr),background var(--tr)}
+.nav-main>li:hover>.nli,.nav-main>li.active>.nli{color:var(--blue-700);background:var(--blue-50)}
+.caret{font-size:9px;opacity:.6;transition:transform .25s}
+.nav-main>li:hover>.nli .caret{transform:rotate(180deg)}
+.nav-dd{position:absolute;top:calc(100% + 8px);left:50%;transform:translateX(-50%) translateY(-6px);min-width:200px;background:#fff;border:1px solid rgba(13,45,94,.09);border-radius:var(--r-lg);box-shadow:var(--sh-lg);padding:6px;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:1050}
+.nav-main>li:hover .nav-dd{opacity:1;pointer-events:auto;transform:translateX(-50%) translateY(0)}
+.nav-dd a{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:var(--r-sm);font-size:13px;font-weight:500;color:var(--gray-700);text-decoration:none;transition:all var(--tr)}
+.nav-dd a:hover{background:var(--blue-50);color:var(--blue-700)}
+.dd-ic{width:28px;height:28px;display:flex;align-items:center;justify-content:center;background:var(--blue-100);color:var(--blue-600);border-radius:7px;font-size:13px;flex-shrink:0;transition:all var(--tr)}
+.nav-dd a:hover .dd-ic{background:var(--blue-600);color:#fff}
+.dd-sep{height:1px;background:var(--gray-200);margin:5px 6px}
+.tb-right{display:flex;align-items:center;gap:4px;margin-left:auto;flex-shrink:0}
+.tb-btn{position:relative;width:38px;height:38px;display:flex;align-items:center;justify-content:center;border-radius:var(--r-sm);border:none;background:transparent;color:var(--gray-500);font-size:16px;cursor:pointer;transition:all var(--tr)}
+.tb-btn:hover{background:var(--blue-50);color:var(--blue-700)}
+.notif-dot{position:absolute;top:6px;right:6px;width:7px;height:7px;background:var(--rose);border-radius:50%;border:1.5px solid #fff;animation:ping 2.5s ease-in-out infinite}
+@keyframes ping{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.5);opacity:.6}}
+.gear-ic{transition:transform .4s}
+.tb-btn:hover .gear-ic{transform:rotate(90deg)}
+.usr-wrap{position:relative}
+.usr-btn{display:flex;align-items:center;gap:9px;padding:5px 10px 5px 5px;border:1.5px solid var(--gray-200);border-radius:40px;background:#fff;cursor:pointer;transition:all var(--tr);margin-left:4px}
+.usr-btn:hover{border-color:var(--blue-400);box-shadow:0 0 0 3px rgba(99,179,237,.18)}
+.usr-av{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--blue-600),var(--blue-900));display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0}
+.usr-name{font-size:12.5px;font-weight:600;color:var(--gray-700)}
+.usr-caret{font-size:9px;color:var(--gray-400);transition:transform .25s}
+.usr-wrap.open .usr-caret{transform:rotate(180deg)}
+.usr-dd{position:absolute;top:calc(100% + 10px);right:0;width:230px;background:#fff;border:1px solid rgba(13,45,94,.09);border-radius:var(--r-lg);box-shadow:var(--sh-xl);padding:6px;opacity:0;pointer-events:none;transform:translateY(-8px) scale(.97);transform-origin:top right;transition:opacity .25s,transform .25s;z-index:1060}
+.usr-wrap.open .usr-dd{opacity:1;pointer-events:auto;transform:translateY(0) scale(1)}
+.usr-dd-hdr{padding:10px 12px 12px;border-bottom:1px solid var(--gray-200);margin-bottom:5px}
+.usr-dd-hdr .uname{font-size:13.5px;font-weight:700;color:var(--gray-800);display:block}
+.usr-dd-hdr .urole{font-size:11.5px;color:var(--gray-500);display:block;margin-top:2px}
+.usr-dd-hdr .ustatus{display:inline-flex;align-items:center;gap:5px;margin-top:6px;font-size:11px;font-weight:600;color:var(--green);background:#f0fdf4;padding:2px 8px;border-radius:20px}
+.usd{width:5px;height:5px;background:var(--green);border-radius:50%;animation:ping 2s infinite}
+.usr-dd a{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:var(--r-sm);font-size:13px;font-weight:500;color:var(--gray-700);text-decoration:none;transition:all var(--tr)}
+.usr-dd a:hover{background:var(--blue-50);color:var(--blue-700)}
+.usr-dd a.lo-link{color:var(--rose);border-top:1px solid var(--gray-200);margin-top:4px}
+.usr-dd a.lo-link:hover{background:#fff5f5}
+.ham{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px;border:none;background:transparent;border-radius:var(--r-sm)}
+.ham span{display:block;width:22px;height:2.5px;background:var(--gray-600);border-radius:2px;transition:transform .3s,opacity .2s}
+.ham.open span:nth-child(1){transform:translateY(7.5px) rotate(45deg)}
+.ham.open span:nth-child(2){opacity:0}
+.ham.open span:nth-child(3){transform:translateY(-7.5px) rotate(-45deg)}
+
+/* ── PAGE LAYOUT ── */
+.pw{position:relative;z-index:1;min-height:calc(100vh - var(--nav-h));display:flex;flex-direction:column}
+.mc{flex:1;padding:28px 0 56px}
+.cc{max-width:1400px;margin:0 auto;padding:0 20px}
+
+/* ── PAGE HEADER ── */
+.phbar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:22px;padding:16px 22px;background:#fff;border:1px solid rgba(13,45,94,.08);border-radius:var(--r-xl);box-shadow:var(--sh-sm);position:relative;overflow:hidden}
+.phbar::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(180deg,var(--blue-600),var(--blue-900));border-radius:4px 0 0 4px}
+.ph-left{display:flex;align-items:center;gap:14px}
+.ph-icon{width:44px;height:44px;background:linear-gradient(135deg,var(--blue-100),var(--blue-50));border:1px solid rgba(26,68,128,.12);border-radius:var(--r-md);display:flex;align-items:center;justify-content:center;font-size:20px;color:var(--blue-600);flex-shrink:0}
+.ph-title{font-family:'Instrument Serif',serif;font-size:19px;color:var(--blue-900);line-height:1.2;margin-bottom:3px}
+.bc{display:flex;align-items:center;gap:5px;list-style:none;padding:0}
+.bc li{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--gray-400)}
+.bc li a{color:var(--blue-600);text-decoration:none;font-weight:500;transition:color var(--tr);display:flex;align-items:center;gap:4px}
+.bc li a:hover{color:var(--blue-800)}
+.bc li.act{color:var(--gray-500);font-weight:500}
+
+/* ── BUTTONS ── */
+.btn-prim{display:inline-flex;align-items:center;gap:7px;padding:10px 18px;border-radius:var(--r-md);background:linear-gradient(135deg,var(--blue-600),var(--blue-800));color:#fff;font-size:13px;font-weight:700;border:none;cursor:pointer;transition:all var(--tr-b);box-shadow:0 3px 12px rgba(26,68,128,.25);white-space:nowrap;font-family:'DM Sans',sans-serif}
+.btn-prim:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(26,68,128,.35)}
+.btn-out{display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border-radius:var(--r-md);background:#fff;color:var(--gray-700);font-size:13px;font-weight:600;border:1.5px solid var(--gray-200);cursor:pointer;transition:all var(--tr);white-space:nowrap;font-family:'DM Sans',sans-serif}
+.btn-out:hover{background:var(--gray-50);border-color:var(--gray-300)}
+.btn-red{display:inline-flex;align-items:center;gap:7px;padding:10px 18px;border-radius:var(--r-md);background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;font-size:13px;font-weight:700;border:none;cursor:pointer;transition:all var(--tr-b);box-shadow:0 3px 12px rgba(229,62,62,.2);font-family:'DM Sans',sans-serif}
+.btn-red:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(229,62,62,.35)}
+
+/* ── ROLE TABLE ── */
+.tbl-card{background:#fff;border:1px solid rgba(13,45,94,.07);border-radius:var(--r-xl);box-shadow:var(--sh-sm);overflow:hidden}
+.tbl-toolbar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;padding:16px 20px;border-bottom:1px solid var(--gray-100)}
+.tbl-title-txt{font-size:14px;font-weight:700;color:var(--gray-800);display:flex;align-items:center;gap:8px}
+.tbl-title-txt i{color:var(--blue-500)}
+.tbl-ctrl{display:flex;align-items:center;gap:8px}
+.srch-wrap{position:relative}
+.srch-wrap i{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--gray-400);font-size:14px;pointer-events:none}
+.srch-inp{padding:8px 12px 8px 34px;border:1.5px solid var(--gray-200);border-radius:var(--r-md);font-size:13px;font-family:'DM Sans',sans-serif;color:var(--gray-800);background:var(--gray-50);outline:none;width:200px;transition:all var(--tr)}
+.srch-inp:focus{border-color:var(--blue-400);background:#fff;box-shadow:0 0 0 3px rgba(99,179,237,.12);width:230px}
+.srch-inp::placeholder{color:var(--gray-400)}
+.tbl-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse}
+thead th{padding:10px 16px;text-align:left;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--gray-500);background:var(--gray-50);border-bottom:2px solid var(--gray-200);white-space:nowrap}
+tbody tr{border-bottom:1px solid var(--gray-100);transition:background .12s}
+tbody tr:last-child{border-bottom:none}
+tbody tr:hover{background:var(--blue-50)}
+tbody td{padding:14px 16px;vertical-align:middle}
+.role-av{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:#fff;flex-shrink:0;letter-spacing:-.5px}
+.pp{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:6px;font-size:11px;font-weight:700}
+.act-btn{width:32px;height:32px;border-radius:8px;border:none;display:flex;align-items:center;justify-content:center;font-size:13.5px;cursor:pointer;transition:all var(--tr-b);flex-shrink:0}
+.act-btn:hover{transform:scale(1.12)}
+.act-btn.edit{background:var(--blue-100);color:var(--blue-600)}
+.act-btn.edit:hover{background:var(--blue-600);color:#fff}
+.act-btn.dup{background:#f0fdf4;color:var(--green)}
+.act-btn.dup:hover{background:var(--green);color:#fff}
+.act-btn.del{background:#fee2e2;color:var(--rose)}
+.act-btn.del:hover{background:var(--rose);color:#fff}
+.tbl-footer{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;padding:13px 20px;border-top:1px solid var(--gray-100);background:var(--gray-50)}
+.tbl-info{font-size:12.5px;color:var(--gray-500)}
+.tbl-info span{font-weight:700;color:var(--gray-700)}
+.pg-wrap{display:flex;gap:5px}
+.pg-btn{width:32px;height:32px;border-radius:8px;border:1.5px solid var(--gray-200);background:#fff;color:var(--gray-600);font-size:12.5px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all var(--tr)}
+.pg-btn:hover{border-color:var(--blue-400);color:var(--blue-600)}
+.pg-btn.active{background:var(--blue-600);border-color:var(--blue-600);color:#fff}
+.pg-btn:disabled{opacity:.4;cursor:not-allowed}
+
+/* ══════════════════════════════════
+   DRAWER
+══════════════════════════════════ */
+.drw-overlay{position:fixed;inset:0;z-index:1080;background:rgba(10,20,44,.4);backdrop-filter:blur(5px);opacity:0;pointer-events:none;transition:opacity .3s}
+.drw-overlay.show{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;right:0;bottom:0;z-index:1090;width:min(840px,100vw);background:#fff;box-shadow:-16px 0 60px rgba(13,45,94,.16);transform:translateX(100%);transition:transform .38s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;overflow:hidden}
+.drawer.show{transform:translateX(0)}
+
+/* drawer header */
+.drw-hdr{display:flex;align-items:center;gap:14px;padding:20px 24px;flex-shrink:0;background:linear-gradient(135deg,var(--blue-900),var(--blue-700));position:relative;overflow:hidden}
+.drw-hdr::after{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23fff' fill-opacity='.04'%3E%3Cpath d='M0 38.59l2.83-2.83 1.41 1.41L1.41 40H0v-1.41zM0 1.4l2.83 2.83 1.41-1.41L1.41 0H0v1.41zM38.59 40l-2.83-2.83 1.41-1.41L40 38.59V40h-1.41zM40 1.41l-2.83 2.83-1.41-1.41L38.59 0H40v1.41z'/%3E%3C/g%3E%3C/svg%3E");pointer-events:none}
+.drw-role-av{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:800;color:#fff;flex-shrink:0;border:2px solid rgba(255,255,255,.2);letter-spacing:-.5px;position:relative;z-index:1}
+.drw-info{flex:1;position:relative;z-index:1;min-width:0}
+.drw-title{font-family:'Instrument Serif',serif;font-size:19px;color:#fff;line-height:1.25;margin-bottom:5px}
+.drw-meta{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.drw-pill{display:inline-flex;align-items:center;gap:4px;background:rgba(255,255,255,.12);padding:2px 9px;border-radius:20px;font-size:11px;font-weight:600;color:rgba(255,255,255,.88)}
+.drw-close{width:36px;height:36px;border-radius:9px;border:1.5px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:rgba(255,255,255,.8);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all var(--tr);flex-shrink:0;position:relative;z-index:1}
+.drw-close:hover{background:rgba(255,255,255,.2);color:#fff}
+
+/* drawer toolbar */
+.drw-toolbar{display:flex;align-items:center;gap:10px;padding:13px 22px;border-bottom:1px solid var(--gray-100);background:var(--gray-50);flex-shrink:0;flex-wrap:wrap}
+.copy-label{font-size:12px;font-weight:700;color:var(--gray-500);white-space:nowrap}
+.copy-s2{width:195px;flex-shrink:0}
+.cnt-badge{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:20px;font-size:12px;font-weight:700;background:var(--blue-100);color:var(--blue-700);white-space:nowrap}
+.cnt-badge span{font-size:15px;font-weight:800}
+
+/* drawer body */
+.drw-body{flex:1;overflow-y:auto;padding:18px 22px;background:#f8fafd}
+.drw-body::-webkit-scrollbar{width:4px}
+.drw-body::-webkit-scrollbar-thumb{background:var(--gray-300);border-radius:2px}
+
+/* permission section */
+.ps{margin-bottom:8px;border:1px solid var(--gray-200);border-radius:var(--r-lg);overflow:hidden;background:#fff}
+.ps-hdr{display:flex;align-items:center;gap:10px;padding:11px 15px;cursor:pointer;user-select:none;background:var(--gray-50);border-bottom:1px solid transparent;transition:background var(--tr)}
+.ps-hdr:hover{background:var(--blue-50)}
+.ps.open .ps-hdr{background:#fff;border-bottom-color:var(--gray-100)}
+.ps-icon{width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.ps-name{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--gray-600);flex:1}
+.ps-cnt{font-size:11px;font-weight:700;padding:2px 9px;border-radius:20px;background:var(--blue-100);color:var(--blue-700)}
+.ps-arrow{font-size:11px;color:var(--gray-400);transition:transform .22s}
+.ps.open .ps-arrow{transform:rotate(180deg)}
+.ps-body{display:none}
+.ps.open .ps-body{display:block}
+
+/* permission rows */
+.pm-row{display:grid;grid-template-columns:1fr auto;align-items:center;gap:8px;padding:10px 15px;border-bottom:1px solid var(--gray-100);transition:background .12s}
+.pm-row:last-child{border-bottom:none}
+.pm-row:hover{background:var(--blue-50)}
+.pm-row.is-menu{background:rgba(43,108,176,.02)}
+.pm-row.is-sub{padding-left:42px;background:#fff}
+.pm-row.is-sub:hover{background:var(--blue-50)}
+.pm-info{display:flex;align-items:center;gap:9px;min-width:0}
+.pm-icon{width:27px;height:27px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0}
+.pm-name{font-size:13px;font-weight:700;color:var(--gray-800);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pm-row.is-sub .pm-name{font-size:12.5px;font-weight:500;color:var(--gray-600)}
+.pm-row.is-sub .pm-icon{background:var(--gray-100);color:var(--gray-400)}
+.sub-line{width:14px;flex-shrink:0;display:flex;align-items:center}
+.sub-line::before{content:'';display:block;width:1px;height:30px;background:var(--gray-200)}
+
+/* checkbox group */
+.chk-grp{display:flex;align-items:center;gap:2px}
+.chk-item{display:flex;flex-direction:column;align-items:center;gap:2px;width:54px}
+.chk-item.na{opacity:.2;pointer-events:none}
+.chk-item input[type=checkbox]{width:15px;height:15px;cursor:pointer}
+.chk-item input.chk-menu{accent-color:var(--blue-600)}
+.chk-item input.chk-read{accent-color:var(--green)}
+.chk-item input.chk-create{accent-color:var(--teal)}
+.chk-item input.chk-edit{accent-color:var(--gold)}
+.chk-item input.chk-delete{accent-color:var(--rose)}
+.chk-lbl{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;white-space:nowrap}
+.lbl-menu{color:var(--blue-600)}.lbl-read{color:var(--green)}.lbl-create{color:var(--teal)}.lbl-edit{color:var(--gold)}.lbl-delete{color:var(--rose)}
+
+/* drawer footer */
+.drw-footer{padding:14px 22px;border-top:1px solid var(--gray-100);display:flex;align-items:center;gap:10px;background:#fff;flex-shrink:0}
+.save-ind{font-size:12px;color:var(--gray-400);display:flex;align-items:center;gap:4px;flex:1;min-width:0}
+
+/* ── ADD ROLE MODAL ── */
+.mveil{position:fixed;inset:0;z-index:2000;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(10,20,44,.45);backdrop-filter:blur(8px);opacity:0;pointer-events:none;transition:opacity .3s}
+.mveil.show{opacity:1;pointer-events:auto}
+.mbox{width:100%;max-width:500px;background:#fff;border-radius:var(--r-xl);box-shadow:0 32px 80px rgba(0,0,0,.28);transform:scale(.9) translateY(24px);opacity:0;transition:transform .4s cubic-bezier(.34,1.56,.64,1),opacity .3s;overflow:hidden}
+.mveil.show .mbox{transform:scale(1) translateY(0);opacity:1}
+.mhdr{display:flex;align-items:center;gap:14px;padding:18px 22px;border-bottom:1px solid var(--gray-100);background:linear-gradient(to right,var(--blue-50),#fff)}
+.mhdr-ic{width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,var(--blue-600),var(--blue-800));display:flex;align-items:center;justify-content:center;font-size:18px;color:#fff;flex-shrink:0}
+.mhdr-title{font-family:'Instrument Serif',serif;font-size:18px;color:var(--blue-900)}
+.mhdr-sub{font-size:12px;color:var(--gray-500);margin-top:2px}
+.mclose{margin-left:auto;width:34px;height:34px;border-radius:8px;border:none;background:var(--gray-100);color:var(--gray-500);font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all var(--tr)}
+.mclose:hover{background:var(--gray-200);color:var(--gray-800)}
+.mbody{padding:22px}
+.mftr{padding:14px 22px;border-top:1px solid var(--gray-100);display:flex;justify-content:flex-end;gap:10px;background:var(--gray-50)}
+.fg{margin-bottom:16px}
+.fg:last-child{margin-bottom:0}
+.flbl{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--gray-600);margin-bottom:6px;display:flex;align-items:center;gap:5px}
+.flbl .req{color:var(--rose)}
+.finp{width:100%;padding:9px 13px;border:1.5px solid var(--gray-200);border-radius:var(--r-md);font-size:13.5px;font-family:'DM Sans',sans-serif;color:var(--gray-800);background:#fff;outline:none;transition:all var(--tr)}
+.finp:focus{border-color:var(--blue-400);box-shadow:0 0 0 3px rgba(99,179,237,.12)}
+.finp::placeholder{color:var(--gray-400)}
+.color-grid{display:flex;gap:8px;flex-wrap:wrap}
+.cg-it{width:34px;height:34px;border-radius:9px;border:2px solid transparent;cursor:pointer;transition:all var(--tr-b);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:#fff}
+.cg-it:hover{transform:scale(1.1)}
+.cg-it.sel{border-color:var(--gray-900);box-shadow:0 0 0 2px #fff,0 0 0 4px var(--gray-900)}
+
+/* ── LOGOUT ── */
+.lo-veil{position:fixed;inset:0;z-index:9100;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(10,20,44,.5);backdrop-filter:blur(8px);opacity:0;pointer-events:none;transition:opacity .3s}
+.lo-veil.show{opacity:1;pointer-events:auto}
+.lo-card{width:100%;max-width:360px;background:#fff;border-radius:var(--r-xl);padding:34px 30px 28px;text-align:center;box-shadow:0 30px 80px rgba(0,0,0,.25);transform:scale(.88) translateY(20px);opacity:0;transition:transform .4s cubic-bezier(.34,1.56,.64,1),opacity .3s}
+.lo-veil.show .lo-card{transform:scale(1) translateY(0);opacity:1}
+.lo-icon{width:68px;height:68px;margin:0 auto 16px;background:#fff0f0;border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:28px;color:var(--rose)}
+
+/* ── TOAST ── */
+.toast-wrap{position:fixed;bottom:24px;right:24px;z-index:99999;display:flex;flex-direction:column;gap:10px;pointer-events:none}
+.ti{display:flex;align-items:center;gap:12px;padding:12px 15px;border-radius:var(--r-lg);background:#fff;box-shadow:var(--sh-xl);min-width:270px;max-width:350px;border-left:4px solid;pointer-events:auto;transform:translateX(120%);transition:transform .4s cubic-bezier(.34,1.56,.64,1)}
+.ti.show{transform:translateX(0)}
+.ti.success{border-color:var(--green)}.ti.error{border-color:var(--rose)}.ti.info{border-color:var(--blue-500)}.ti.warn{border-color:var(--gold)}
+.t-ic{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.ti.success .t-ic{background:#dcfce7;color:var(--green)}.ti.error .t-ic{background:#fee2e2;color:var(--rose)}.ti.info .t-ic{background:var(--blue-100);color:var(--blue-600)}.ti.warn .t-ic{background:#fef9c3;color:var(--gold)}
+.t-title{font-size:12.5px;font-weight:700;color:var(--gray-800);margin-bottom:1px}
+.t-msg{font-size:12px;color:var(--gray-500)}
+
+/* ── FOOTER ── */
+.site-footer{position:relative;z-index:1;background:#fff;border-top:1px solid rgba(13,45,94,.08);padding:40px 0 0}
+.fc{max-width:1400px;margin:0 auto;padding:0 20px}
+.fb-logo{display:flex;align-items:center;gap:10px;margin-bottom:13px}
+.fb-icon{width:36px;height:36px;background:linear-gradient(135deg,var(--blue-700),var(--blue-900));border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:17px}
+.fb-name{font-family:'Instrument Serif',serif;font-size:14px;color:var(--blue-900)}
+.fb-desc{font-size:13px;color:var(--gray-500);line-height:1.7;margin-bottom:16px}
+.fb-social{display:flex;gap:7px}
+.fb-social a{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;background:var(--blue-100);color:var(--blue-700);text-decoration:none;transition:all var(--tr)}
+.fb-social a:hover{background:var(--blue-700);color:#fff;transform:translateY(-3px)}
+.fh{font-size:11.5px;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--gray-800);margin-bottom:14px}
+.fl{list-style:none;padding:0}
+.fl li{margin-bottom:9px}
+.fl a{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--gray-500);text-decoration:none;transition:all var(--tr)}
+.fl a:hover{color:var(--blue-600);padding-left:4px}
+.fl a i{font-size:10px;color:var(--blue-400)}
+.fci{display:flex;align-items:flex-start;gap:9px;font-size:13px;color:var(--gray-600);margin-bottom:10px}
+.fci-ic{width:28px;height:28px;background:var(--blue-50);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--blue-600);flex-shrink:0}
+.f-bot{margin-top:32px;padding:16px 0;border-top:1px solid var(--gray-200);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.f-bot-txt{font-size:12px;color:var(--gray-400)}
+.f-bot-links{display:flex;gap:18px}
+.f-bot-links a{font-size:12px;color:var(--gray-400);text-decoration:none;transition:color var(--tr)}
+.f-bot-links a:hover{color:var(--blue-600)}
+
+@media(max-width:991px){.nav-main{display:none}.ham{display:flex}.usr-name{display:none}}
+@media(max-width:767px){.drw-toolbar{flex-direction:column;align-items:flex-start}.chk-item{width:46px}}
+@media(max-width:575px){.brand-txt{display:none}.drawer{width:100vw}.f-bot{flex-direction:column;text-align:center}.f-bot-links{justify-content:center}}
+::-webkit-scrollbar{width:5px;height:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--gray-300);border-radius:3px}
+</style>
+</head>
+<body>
+<canvas id="bg-canvas"></canvas>
+
+<!-- TOPBAR -->
+<header class="topbar">
+  <div class="tb-inner">
+    <a href="dashboard-pekalongan.html" class="brand">
+      <div class="brand-emb">
+        <div class="brand-core">🏛️</div>
+        <div class="brand-ring"></div>
+      </div>
+      <div class="brand-txt">
+        <span class="brand-name">Dinas Kominfo</span>
+        <span class="brand-sub">Kota Pekalongan</span>
+      </div>
+    </a>
+    <ul class="nav-main">
+      <li><a href="dashboard-pekalongan.html" class="nli"><i class="bi bi-grid-1x2-fill"></i> Dashboard</a></li>
+      <li>
+        <button class="nli"><i class="bi bi-person-check-fill"></i> Approval <i class="bi bi-chevron-down caret"></i></button>
+        <div class="nav-dd">
+          <a href="user-approved.html"><span class="dd-ic"><i class="bi bi-person-check"></i></span>User Approved</a>
+          <a href="permohonan.html"><span class="dd-ic"><i class="bi bi-file-earmark-check"></i></span>Permohonan</a>
+        </div>
+      </li>
+      <li>
+        <button class="nli"><i class="bi bi-grid-3x3-gap-fill"></i> Layanan <i class="bi bi-chevron-down caret"></i></button>
+        <div class="nav-dd">
+          <a href="kategori-layanan.html"><span class="dd-ic"><i class="bi bi-tags-fill"></i></span>Kategori Layanan</a>
+          <a href="daftar-layanan.html"><span class="dd-ic"><i class="bi bi-list-task"></i></span>Daftar Layanan</a>
+        </div>
+      </li>
+      <li><a href="#" class="nli"><i class="bi bi-megaphone-fill"></i> Aduan</a></li>
+      <li class="active">
+        <button class="nli"><i class="bi bi-sliders"></i> Konfigurasi <i class="bi bi-chevron-down caret"></i></button>
+        <div class="nav-dd">
+          <a href="#"><span class="dd-ic"><i class="bi bi-list-ul"></i></span>Menu</a>
+          <a href="#"><span class="dd-ic"><i class="bi bi-person-badge-fill"></i></span>Role</a>
+          <a href="#"><span class="dd-ic"><i class="bi bi-key-fill"></i></span>Permission</a>
+          <a href="akses-role.html"><span class="dd-ic"><i class="bi bi-diagram-3-fill"></i></span>Akses Role</a>
+          <div class="dd-sep"></div>
+          <a href="#"><span class="dd-ic"><i class="bi bi-people-fill"></i></span>User</a>
+        </div>
+      </li>
+    </ul>
+    <div class="tb-right">
+      <button class="tb-btn"><i class="bi bi-bell-fill"></i><span class="notif-dot"></span></button>
+      <button class="tb-btn"><i class="bi bi-gear-fill gear-ic"></i></button>
+      <div class="usr-wrap" id="usrWrap">
+        <button class="usr-btn" id="usrBtn">
+          <div class="usr-av">AD</div>
+          <span class="usr-name">Admin</span>
+          <i class="bi bi-chevron-down usr-caret"></i>
+        </button>
+        <div class="usr-dd">
+          <div class="usr-dd-hdr">
+            <span class="uname">Admin Pekalongan</span>
+            <span class="urole">Administrator Sistem</span>
+            <span class="ustatus"><span class="usd"></span> Online</span>
+          </div>
+          <a href="#"><i class="bi bi-person-circle"></i> Profil Saya</a>
+          <a href="#"><i class="bi bi-bell"></i> Notifikasi</a>
+          <a href="#" class="lo-link" id="loLink"><i class="bi bi-box-arrow-right"></i> Logout</a>
+        </div>
+      </div>
+      <button class="ham" id="hamBtn"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<div class="pw">
+<main class="mc">
+<div class="cc">
+
+  <!-- Page Header -->
+  <div class="phbar">
+    <div class="ph-left">
+      <div class="ph-icon"><i class="bi bi-diagram-3-fill"></i></div>
+      <div>
+        <h1 class="ph-title">Akses Role</h1>
+        <ul class="bc">
+          <li><a href="dashboard-pekalongan.html"><i class="bi bi-house-fill"></i> Home</a></li>
+          <li><i class="bi bi-chevron-right" style="font-size:10px;color:var(--gray-300)"></i></li>
+          <li><a href="#">Konfigurasi</a></li>
+          <li><i class="bi bi-chevron-right" style="font-size:10px;color:var(--gray-300)"></i></li>
+          <li class="act">Akses Role</li>
+        </ul>
+      </div>
+    </div>
+    <button class="btn-prim" id="addRoleBtn"><i class="bi bi-plus-lg"></i> Tambah Role</button>
+  </div>
+
+  <!-- Role Table -->
+  <div class="tbl-card">
+    <div class="tbl-toolbar">
+      <div class="tbl-title-txt"><i class="bi bi-person-badge-fill"></i> Daftar Role Sistem</div>
+      <div class="tbl-ctrl">
+        <div class="srch-wrap">
+          <i class="bi bi-search"></i>
+          <input type="text" class="srch-inp" id="roleSearch" placeholder="Cari role...">
+        </div>
+        <button class="btn-out" style="padding:8px 12px"><i class="bi bi-funnel-fill"></i></button>
+      </div>
+    </div>
+    <div class="tbl-wrap">
+      <table id="roleTable">
+        <thead>
+          <tr>
+            <th style="width:46px;text-align:center">#</th>
+            <th>Role</th>
+            <th>Guard</th>
+            <th>Pengguna</th>
+            <th>Izin Aktif</th>
+            <th>Menu Akses</th>
+            <th>Dibuat</th>
+            <th style="text-align:center;width:120px">Aksi</th>
+          </tr>
+        </thead>
+        <tbody id="roleTbody"></tbody>
+      </table>
+    </div>
+    <div class="tbl-footer">
+      <div class="tbl-info">Menampilkan <span id="rowShown">6</span> dari <span id="rowTotal">6</span> role</div>
+      <div class="pg-wrap">
+        <button class="pg-btn" disabled><i class="bi bi-chevron-left" style="font-size:11px"></i></button>
+        <button class="pg-btn active">1</button>
+        <button class="pg-btn" disabled><i class="bi bi-chevron-right" style="font-size:11px"></i></button>
+      </div>
+    </div>
+  </div>
+
+</div>
+</main>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="fc">
+    <div class="row g-4">
+      <div class="col-12 col-md-4">
+        <div class="fb-logo"><div class="fb-icon">🏛️</div><div class="fb-name">Dinas Kominfo<br><small style="font-size:11px;font-family:'DM Sans',sans-serif;opacity:.7">Kota Pekalongan</small></div></div>
+        <p class="fb-desc">Portal Layanan Digital Kota Pekalongan — pelayanan publik yang transparan dan akuntabel.</p>
+        <div class="fb-social"><a href="#"><i class="bi bi-facebook"></i></a><a href="#"><i class="bi bi-instagram"></i></a><a href="#"><i class="bi bi-twitter-x"></i></a><a href="#"><i class="bi bi-youtube"></i></a></div>
+      </div>
+      <div class="col-6 col-md-2"><div class="fh">Layanan</div><ul class="fl"><li><a href="#"><i class="bi bi-chevron-right"></i>Surat Menyurat</a></li><li><a href="#"><i class="bi bi-chevron-right"></i>Izin Usaha</a></li><li><a href="#"><i class="bi bi-chevron-right"></i>Kependudukan</a></li></ul></div>
+      <div class="col-6 col-md-2"><div class="fh">Informasi</div><ul class="fl"><li><a href="#"><i class="bi bi-chevron-right"></i>Berita Kota</a></li><li><a href="#"><i class="bi bi-chevron-right"></i>FAQ</a></li><li><a href="#"><i class="bi bi-chevron-right"></i>Kontak</a></li></ul></div>
+      <div class="col-12 col-md-4"><div class="fh">Hubungi Kami</div><div class="fci"><div class="fci-ic"><i class="bi bi-geo-alt-fill"></i></div><span>Jl. Sriwijaya No. 44, Pekalongan 51111</span></div><div class="fci"><div class="fci-ic"><i class="bi bi-telephone-fill"></i></div><span>(0285) 421 234</span></div><div class="fci"><div class="fci-ic"><i class="bi bi-envelope-fill"></i></div><span>kominfo@pekalongan.go.id</span></div></div>
+    </div>
+    <div class="f-bot"><div class="f-bot-txt">© 2024 Dinas Kominfo Kota Pekalongan. Hak cipta dilindungi.</div><div class="f-bot-links"><a href="#">Kebijakan Privasi</a><a href="#">Syarat &amp; Ketentuan</a></div></div>
+  </div>
+</footer>
+</div>
+
+<!-- PERMISSION DRAWER -->
+<div class="drw-overlay" id="drwOverlay"></div>
+<div class="drawer" id="drawer">
+  <div class="drw-hdr">
+    <div class="drw-role-av" id="drwAv">AD</div>
+    <div class="drw-info">
+      <div class="drw-title" id="drwTitle">Kelola Akses Role</div>
+      <div class="drw-meta">
+        <span class="drw-pill"><i class="bi bi-shield-check"></i> web</span>
+        <span class="drw-pill" id="drwPermPill"><i class="bi bi-key"></i> 0 izin</span>
+      </div>
+    </div>
+    <button class="drw-close" id="drwClose"><i class="bi bi-x-lg"></i></button>
+  </div>
+
+  <div class="drw-toolbar">
+    <!-- Copy from role -->
+    <span class="copy-label"><i class="bi bi-copy"></i> Salin dari:</span>
+    <div class="copy-s2"><select id="copyFromSel"><option value="">— Pilih role —</option></select></div>
+    <button class="btn-out" style="padding:7px 13px;font-size:12px" id="applyBtn"><i class="bi bi-arrow-right-circle-fill"></i> Terapkan</button>
+    <div style="display:flex;gap:7px;margin-left:auto;flex-wrap:wrap;align-items:center">
+      <button class="btn-out" style="padding:7px 13px;font-size:12px" id="selAllBtn"><i class="bi bi-check2-all"></i> Semua</button>
+      <button class="btn-out" style="padding:7px 13px;font-size:12px;color:var(--rose);border-color:var(--rose)" id="clearAllBtn"><i class="bi bi-x-circle"></i> Kosongkan</button>
+      <div class="cnt-badge"><i class="bi bi-key-fill"></i> <span id="cntNum">0</span> izin</div>
+    </div>
+  </div>
+
+  <div class="drw-body" id="drwBody"></div>
+
+  <div class="drw-footer">
+    <div class="save-ind" id="saveInd"><i class="bi bi-circle" style="font-size:11px;opacity:.4"></i> Belum ada perubahan</div>
+    <button class="btn-out" id="cancelBtn"><i class="bi bi-x-circle"></i> Batal</button>
+    <button class="btn-out" style="color:var(--orange);border-color:var(--orange)" id="resetBtn"><i class="bi bi-arrow-counterclockwise"></i> Reset</button>
+    <button class="btn-prim" id="saveBtn"><i class="bi bi-save-fill"></i> Simpan</button>
+  </div>
+</div>
+
+<!-- ADD ROLE MODAL -->
+<div class="mveil" id="mveil">
+  <div class="mbox">
+    <div class="mhdr">
+      <div class="mhdr-ic"><i class="bi bi-person-badge-fill"></i></div>
+      <div><div class="mhdr-title">Tambah Role Baru</div><div class="mhdr-sub">Buat role dengan nama dan warna identitas</div></div>
+      <button class="mclose" id="mClose"><i class="bi bi-x-lg"></i></button>
+    </div>
+    <div class="mbody">
+      <div class="fg">
+        <div class="flbl"><i class="bi bi-type" style="color:var(--blue-400)"></i> Nama Role <span class="req">*</span></div>
+        <input type="text" class="finp" id="roleNama" placeholder="contoh: Supervisor">
+      </div>
+      <div class="fg">
+        <div class="flbl"><i class="bi bi-shield" style="color:var(--teal)"></i> Guard Name</div>
+        <input type="text" class="finp" id="roleGuard" value="web">
+      </div>
+      <div class="fg">
+        <div class="flbl"><i class="bi bi-palette-fill" style="color:var(--rose)"></i> Warna Identitas</div>
+        <div class="color-grid" id="colorGrid"></div>
+      </div>
+      <div class="fg">
+        <div class="flbl"><i class="bi bi-chat-left-text" style="color:var(--gray-400)"></i> Deskripsi</div>
+        <input type="text" class="finp" id="roleDesc" placeholder="Deskripsi singkat...">
+      </div>
+    </div>
+    <div class="mftr">
+      <button class="btn-out" id="mCancel"><i class="bi bi-x-circle"></i> Batal</button>
+      <button class="btn-prim" id="mSubmit"><i class="bi bi-check-circle-fill"></i> Buat Role</button>
+    </div>
+  </div>
+</div>
+
+<!-- LOGOUT MODAL -->
+<div class="lo-veil" id="loVeil">
+  <div class="lo-card">
+    <div class="lo-icon"><i class="bi bi-box-arrow-right"></i></div>
+    <h2 style="font-family:'Instrument Serif',serif;font-size:21px;color:var(--gray-900);margin-bottom:9px">Konfirmasi Logout</h2>
+    <p style="font-size:13px;color:var(--gray-500);margin-bottom:26px;line-height:1.6">Apakah Anda yakin ingin keluar dari sistem?</p>
+    <div style="display:flex;gap:10px">
+      <button class="btn-out" style="flex:1" id="loCancelBtn">Batal</button>
+      <button class="btn-red" id="loConfirmBtn">Logout</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast-wrap" id="toastWrap"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script>
+'use strict';
+
+/* ============================================================
+   1. DATA
+============================================================ */
+var TREE = [
+  { cat:'DASHBOARD', icon:'🏠', bg:'#eff6ff', ic:'#2b6cb0', menus:[
+    { name:'Dashboard Utama', icon:'bi-grid-1x2-fill', bg:'#eff6ff', ic:'#2b6cb0', perms:['menu','read'], sub:[
+      { name:'Widget Statistik', icon:'bi-speedometer2', perms:['menu','read'] },
+      { name:'Notifikasi', icon:'bi-bell-fill', perms:['menu','read'] }
+    ]}
+  ]},
+  { cat:'MASTER', icon:'🗂️', bg:'#eff6ff', ic:'#2b6cb0', menus:[
+    { name:'Kategori Layanan', icon:'bi-tags-fill', bg:'#eff6ff', ic:'#2b6cb0', perms:['menu','read','create','edit','delete'], sub:[
+      { name:'Tambah Kategori', icon:'bi-plus-circle', perms:['menu','read','create','edit','delete'] },
+      { name:'Edit Kategori', icon:'bi-pencil', perms:['menu','read','create','edit','delete'] }
+    ]},
+    { name:'Daftar Layanan', icon:'bi-list-task', bg:'#f0fdf4', ic:'#16a34a', perms:['menu','read','create','edit','delete'], sub:[
+      { name:'Tambah Layanan', icon:'bi-plus-circle', perms:['menu','read','create','edit','delete'] },
+      { name:'Edit Layanan', icon:'bi-pencil', perms:['menu','read','create','edit','delete'] },
+      { name:'Hapus Layanan', icon:'bi-trash', perms:['menu','read','create','edit','delete'] }
+    ]}
+  ]},
+  { cat:'APPROVAL', icon:'✅', bg:'#f0fdf4', ic:'#16a34a', menus:[
+    { name:'User Approved', icon:'bi-person-check-fill', bg:'#f0fdf4', ic:'#16a34a', perms:['menu','read','create','edit','delete'], sub:[
+      { name:'Approve User', icon:'bi-check-circle', perms:['menu','read','create','edit','delete'] },
+      { name:'Reject User', icon:'bi-x-circle', perms:['menu','read','create','edit','delete'] }
+    ]},
+    { name:'Permohonan', icon:'bi-file-earmark-check', bg:'#fff7ed', ic:'#ea580c', perms:['menu','read','create','edit','delete'], sub:[
+      { name:'Lihat Permohonan', icon:'bi-eye', perms:['menu','read','create','edit','delete'] },
+      { name:'Proses Permohonan', icon:'bi-arrow-right-circle', perms:['menu','read','create','edit','delete'] },
+      { name:'Tolak Permohonan', icon:'bi-x-lg', perms:['menu','read','create','edit','delete'] }
+    ]},
+    { name:'Verifikasi Dokumen', icon:'bi-shield-check', bg:'#fdf4ff', ic:'#7c3aed', perms:['menu','read','create','edit','delete'], sub:[
+      { name:'Upload Verifikasi', icon:'bi-upload', perms:['menu','read','create','edit','delete'] },
+      { name:'Validasi Dokumen', icon:'bi-patch-check', perms:['menu','read','create','edit','delete'] }
+    ]}
+  ]},
+  { cat:'ADUAN & FAQ', icon:'📣', bg:'#fff7ed', ic:'#ea580c', menus:[
+    { name:'Pesan Masuk', icon:'bi-chat-left-text-fill', bg:'#fff7ed', ic:'#ea580c', perms:['menu','read','create','edit','delete'], sub:[
+      { name:'Balas Pesan', icon:'bi-reply-fill', perms:['menu','read','create','edit','delete'] },
+      { name:'Arsip Pesan', icon:'bi-archive', perms:['menu','read','create','edit','delete'] }
+    ]},
+    { name:'Laporan Aduan', icon:'bi-exclamation-triangle-fill', bg:'#fff1f2', ic:'#e53e3e', perms:['menu','read','create','edit','delete'], sub:[
+      { name:'Lihat Aduan', icon:'bi-eye', perms:['menu','read','create','edit','delete'] },
+      { name:'Tanggapi Aduan', icon:'bi-chat-dots', perms:['menu','read','create','edit','delete'] }
+    ]},
+    { name:'FAQ', icon:'bi-question-circle-fill', bg:'#fef9c3', ic:'#b45309', perms:['menu','read','create','edit','delete'], sub:[
+      { name:'Tambah FAQ', icon:'bi-plus-circle', perms:['menu','read','create','edit','delete'] },
+      { name:'Edit FAQ', icon:'bi-pencil', perms:['menu','read','create','edit','delete'] }
+    ]}
+  ]},
+  { cat:'KONFIGURASI', icon:'⚙️', bg:'#fdf4ff', ic:'#7c3aed', menus:[
+    { name:'Menu', icon:'bi-list-ul', bg:'#fdf4ff', ic:'#7c3aed', perms:['menu','read','create','edit','delete'], sub:[
+      { name:'Tambah Menu', icon:'bi-plus-circle', perms:['menu','read','create','edit','delete'] },
+      { name:'Urutan Menu', icon:'bi-sort-down', perms:['menu','read','create','edit','delete'] }
+    ]},
+    { name:'Role', icon:'bi-person-badge-fill', bg:'#eff6ff', ic:'#2b6cb0', perms:['menu','read','create','edit','delete'], sub:[
+      { name:'Tambah Role', icon:'bi-plus-circle', perms:['menu','read','create','edit','delete'] },
+      { name:'Edit Role', icon:'bi-pencil', perms:['menu','read','create','edit','delete'] }
+    ]},
+    { name:'Akses Role', icon:'bi-diagram-3-fill', bg:'#f0fdf4', ic:'#16a34a', perms:['menu','read','create','edit','delete'], sub:[
+      { name:'Edit Permission', icon:'bi-shield-lock-fill', perms:['menu','read','create','edit','delete'] }
+    ]},
+    { name:'User Management', icon:'bi-people-fill', bg:'#fff1f2', ic:'#e53e3e', perms:['menu','read','create','edit','delete'], sub:[
+      { name:'Tambah User', icon:'bi-person-plus', perms:['menu','read','create','edit','delete'] },
+      { name:'Edit User', icon:'bi-person-gear', perms:['menu','read','create','edit','delete'] },
+      { name:'Nonaktifkan User', icon:'bi-person-x', perms:['menu','read','create','edit','delete'] }
+    ]}
+  ]},
+  { cat:'LAPORAN', icon:'📊', bg:'#fef9c3', ic:'#b45309', menus:[
+    { name:'Laporan Permohonan', icon:'bi-bar-chart-fill', bg:'#fef9c3', ic:'#b45309', perms:['menu','read','create','edit','delete'], sub:[
+      { name:'Export Laporan', icon:'bi-download', perms:['menu','read','create','edit','delete'] },
+      { name:'Cetak Laporan', icon:'bi-printer-fill', perms:['menu','read','create','edit','delete'] }
+    ]},
+    { name:'Statistik Layanan', icon:'bi-graph-up-arrow', bg:'#f0fdfa', ic:'#0d9488', perms:['menu','read','create','edit','delete'], sub:[
+      { name:'Grafik Harian', icon:'bi-calendar-date', perms:['menu','read','create','edit','delete'] },
+      { name:'Grafik Bulanan', icon:'bi-calendar-month', perms:['menu','read','create','edit','delete'] }
+    ]}
+  ]}
+];
+
+var ROLES = [
+  { key:'superadmin', name:'Super Admin', init:'SA', g1:'#dc2626', g2:'#991b1b', guard:'web', users:3,  desc:'Akses penuh ke semua fitur',    chips:['Semua Menu'], date:'12 Jan 2024',
+    preset:'all' },
+  { key:'admin',      name:'Admin',       init:'AD', g1:'#2b6cb0', g2:'#1a4480', guard:'web', users:8,  desc:'Kelola konten dan pengguna',    chips:['Dashboard','Layanan','User'], date:'12 Jan 2024',
+    preset:{ cats:null, perms:['menu','read','create','edit','delete'] } },
+  { key:'operator',   name:'Operator',    init:'OP', g1:'#0d9488', g2:'#0f766e', guard:'web', users:24, desc:'Proses permohonan layanan',     chips:['Dashboard','Permohonan'], date:'15 Feb 2024',
+    preset:{ cats:['DASHBOARD','APPROVAL','ADUAN & FAQ'], perms:['menu','read','create','edit'] } },
+  { key:'verifikator',name:'Verifikator', init:'VF', g1:'#7c3aed', g2:'#5b21b6', guard:'web', users:12, desc:'Verifikasi dokumen pemohon',   chips:['Dashboard','Verifikasi'], date:'20 Feb 2024',
+    preset:{ cats:['DASHBOARD','APPROVAL'], perms:['menu','read','create','edit'] } },
+  { key:'pimpinan',   name:'Pimpinan Bidang', init:'PB', g1:'#e8a020', g2:'#b45309', guard:'web', users:5,  desc:'Persetujuan dan monitoring', chips:['Dashboard','Laporan'], date:'1 Mar 2024',
+    preset:{ cats:['DASHBOARD','LAPORAN','APPROVAL'], perms:['menu','read'] } },
+  { key:'pemohon',    name:'Pemohon',     init:'PM', g1:'#6b7280', g2:'#374151', guard:'web', users:1240,desc:'Akses portal publik saja',    chips:['Profil','Permohonan'], date:'1 Mar 2024',
+    preset:{ cats:['DASHBOARD'], perms:['menu','read'] } }
+];
+
+/* role chip colors */
+var CHIP_COLORS = {
+  'Semua Menu':  { bg:'#ebf4ff', c:'#2b6cb0' },
+  'Dashboard':   { bg:'#ebf4ff', c:'#2b6cb0' },
+  'Layanan':     { bg:'#dcfce7', c:'#16a34a' },
+  'User':        { bg:'#fdf4ff', c:'#7c3aed' },
+  'Permohonan':  { bg:'#fff7ed', c:'#ea580c' },
+  'Verifikasi':  { bg:'#fdf4ff', c:'#7c3aed' },
+  'Laporan':     { bg:'#fef9c3', c:'#92400e' },
+  'Profil':      { bg:'#f3f4f6', c:'#6b7280' },
+};
+
+/* ============================================================
+   2. BUILD TABLE
+============================================================ */
+function buildTable(filter) {
+  var tbody = document.getElementById('roleTbody');
+  tbody.innerHTML = '';
+  var list = filter ? ROLES.filter(function(r){ return r.name.toLowerCase().indexOf(filter.toLowerCase()) > -1; }) : ROLES;
+  document.getElementById('rowShown').textContent = list.length;
+  document.getElementById('rowTotal').textContent = ROLES.length;
+
+  list.forEach(function(r, i) {
+    var permCount = r.preset === 'all' ? '∞' : countPresetPerms(r.preset);
+    var chipHtml = r.chips.map(function(c) {
+      var clr = CHIP_COLORS[c] || { bg:'#f3f4f6', c:'#6b7280' };
+      return '<span class="pp" style="background:' + clr.bg + ';color:' + clr.c + '">' + c + '</span>';
+    }).join(' ');
+
+    var tr = document.createElement('tr');
+    tr.setAttribute('data-key', r.key);
+    tr.innerHTML =
+      '<td style="text-align:center;font-size:12px;color:var(--gray-400);font-weight:700">' + String(i+1).padStart(2,'0') + '</td>' +
+      '<td><div style="display:flex;align-items:center;gap:11px">' +
+        '<div class="role-av" style="background:linear-gradient(135deg,' + r.g1 + ',' + r.g2 + ')">' + r.init + '</div>' +
+        '<div><div style="font-weight:700;color:var(--gray-900)">' + r.name + '</div><div style="font-size:11.5px;color:var(--gray-400)">' + r.desc + '</div></div>' +
+      '</div></td>' +
+      '<td><span style="font-size:12px;font-weight:600;background:#f3f4f6;color:var(--gray-600);padding:3px 9px;border-radius:6px">' + r.guard + '</span></td>' +
+      '<td><span style="font-weight:700">' + r.users.toLocaleString('id-ID') + '</span> <span style="font-size:11px;color:var(--gray-400)">pengguna</span></td>' +
+      '<td><span style="font-size:13px;font-weight:800;color:var(--blue-600)">' + permCount + '</span> <span style="font-size:11px;color:var(--gray-400)">izin</span></td>' +
+      '<td><div style="display:flex;flex-wrap:wrap;gap:4px">' + chipHtml + '</div></td>' +
+      '<td style="font-size:12.5px;color:var(--gray-500)">' + r.date + '</td>' +
+      '<td><div style="display:flex;align-items:center;justify-content:center;gap:5px">' +
+        '<button class="act-btn edit" title="Kelola Izin" onclick="openDrawer(\'' + r.key + '\')"><i class="bi bi-shield-fill-check"></i></button>' +
+        '<button class="act-btn dup" title="Duplikat" onclick="toast(\'success\',\'Duplikat\',\'Role \\\'' + r.name + '\\\' diduplikat.\')"><i class="bi bi-copy"></i></button>' +
+        '<button class="act-btn del" title="Hapus" onclick="delRole(\'' + r.name + '\')"><i class="bi bi-trash-fill"></i></button>' +
+      '</div></td>';
+    tbody.appendChild(tr);
+  });
+}
+
+function countPresetPerms(preset) {
+  if (!preset) return 0;
+  var n = 0;
+  TREE.forEach(function(cat) {
+    if (preset.cats && preset.cats.indexOf(cat.cat) === -1) return;
+    cat.menus.forEach(function(menu) {
+      preset.perms.forEach(function(p) { if (menu.perms.indexOf(p) > -1) n++; });
+      (menu.sub || []).forEach(function(sub) {
+        preset.perms.forEach(function(p) { if (sub.perms.indexOf(p) > -1) n++; });
+      });
+    });
+  });
+  return n;
+}
+
+/* ============================================================
+   3. PERMISSION STATE
+============================================================ */
+var STATE = {};      // { 'ci_mi_perm': true/false, 'ci_mi_si_perm': true/false }
+var SAVED = {};
+var isDirty = false;
+var currentRoleKey = null;
+
+function key(ci, mi, si, p) {
+  return si === null ? (ci + '_' + mi + '_' + p) : (ci + '_' + mi + '_' + si + '_' + p);
+}
+
+function loadPreset(roleKey) {
+  STATE = {};
+  var role = ROLES.find(function(r){ return r.key === roleKey; });
+  if (!role) return;
+  var preset = role.preset;
+
+  TREE.forEach(function(cat, ci) {
+    cat.menus.forEach(function(menu, mi) {
+      var catOk = (preset === 'all') || (!preset.cats) || (preset.cats.indexOf(cat.cat) > -1);
+      if (!catOk) return;
+      var perms = (preset === 'all') ? ['menu','read','create','edit','delete'] : preset.perms;
+      perms.forEach(function(p) { if (menu.perms.indexOf(p) > -1) STATE[key(ci,mi,null,p)] = true; });
+      (menu.sub || []).forEach(function(sub, si) {
+        perms.forEach(function(p) { if (sub.perms.indexOf(p) > -1) STATE[key(ci,mi,si,p)] = true; });
+      });
+    });
+  });
+}
+
+function countChecked() {
+  return Object.keys(STATE).filter(function(k){ return STATE[k]; }).length;
+}
+
+function countSection(ci) {
+  return Object.keys(STATE).filter(function(k){ return k.indexOf(ci+'_') === 0 && STATE[k]; }).length;
+}
+
+/* ============================================================
+   4. RENDER DRAWER
+============================================================ */
+function renderDrawer() {
+  var body = document.getElementById('drwBody');
+  body.innerHTML = '';
+  var ALL5 = ['menu','read','create','edit','delete'];
+
+  TREE.forEach(function(cat, ci) {
+    /* section wrapper */
+    var sec = document.createElement('div');
+    sec.className = 'ps open';
+
+    /* header */
+    var hdr = document.createElement('div');
+    hdr.className = 'ps-hdr';
+    hdr.innerHTML =
+      '<div class="ps-icon" style="background:' + cat.bg + ';color:' + cat.ic + '">' + cat.icon + '</div>' +
+      '<span class="ps-name">' + cat.cat + '</span>' +
+      '<span class="ps-cnt" id="pcnt_' + ci + '">' + countSection(ci) + '</span>' +
+      '<i class="bi bi-chevron-down ps-arrow"></i>';
+    hdr.addEventListener('click', function() {
+      sec.classList.toggle('open');
+    });
+    sec.appendChild(hdr);
+
+    /* body */
+    var bdy = document.createElement('div');
+    bdy.className = 'ps-body';
+
+    cat.menus.forEach(function(menu, mi) {
+      /* menu row */
+      bdy.appendChild(makeRow(menu, ci, mi, null, false));
+      /* sub rows */
+      (menu.sub || []).forEach(function(sub, si) {
+        bdy.appendChild(makeRow(sub, ci, mi, si, true));
+      });
+    });
+
+    sec.appendChild(bdy);
+    body.appendChild(sec);
+  });
+
+  updateCounter();
+}
+
+function makeRow(item, ci, mi, si, isSub) {
+  var ALL5 = ['menu','read','create','edit','delete'];
+  var div = document.createElement('div');
+  div.className = 'pm-row ' + (isSub ? 'is-sub' : 'is-menu');
+
+  /* left: info */
+  var info = document.createElement('div');
+  info.className = 'pm-info';
+
+  if (isSub) {
+    var line = document.createElement('div');
+    line.className = 'sub-line';
+    info.appendChild(line);
+  }
+
+  var iconDiv = document.createElement('div');
+  iconDiv.className = 'pm-icon';
+  if (!isSub) { iconDiv.style.background = item.bg || '#f3f4f6'; iconDiv.style.color = item.ic || '#6b7280'; }
+  iconDiv.innerHTML = '<i class="bi ' + item.icon + '"></i>';
+  info.appendChild(iconDiv);
+
+  var nameSpan = document.createElement('span');
+  nameSpan.className = 'pm-name';
+  nameSpan.textContent = item.name;
+  info.appendChild(nameSpan);
+  div.appendChild(info);
+
+  /* right: checkboxes */
+  var chkGrp = document.createElement('div');
+  chkGrp.className = 'chk-grp';
+
+  ALL5.forEach(function(p) {
+    var has = item.perms.indexOf(p) > -1;
+    var k = key(ci, mi, si, p);
+
+    var wrap = document.createElement('div');
+    wrap.className = 'chk-item' + (has ? '' : ' na');
+
+    var inp = document.createElement('input');
+    inp.type = 'checkbox';
+    inp.className = 'chk-' + p;
+    inp.checked = !!STATE[k];
+    inp.disabled = !has;
+    if (has) {
+      inp.addEventListener('change', (function(kk, ci2, mi2, si2) {
+        return function() {
+          STATE[kk] = this.checked;
+          /* auto-check parent "menu" if sub is checked */
+          if (si2 !== null && this.checked) {
+            var pk = key(ci2, mi2, null, 'menu');
+            STATE[pk] = true;
+            var pel = document.querySelector('input[data-key="' + pk + '"]');
+            if (pel) pel.checked = true;
+          }
+          markDirty();
+          updateCounter();
+          /* update section count */
+          var cel = document.getElementById('pcnt_' + ci2);
+          if (cel) cel.textContent = countSection(ci2);
+        };
+      })(k, ci, mi, si));
+    }
+    inp.setAttribute('data-key', k);
+
+    var lbl = document.createElement('span');
+    lbl.className = 'chk-lbl lbl-' + p;
+    lbl.textContent = p;
+
+    wrap.appendChild(inp);
+    wrap.appendChild(lbl);
+    chkGrp.appendChild(wrap);
+  });
+
+  div.appendChild(chkGrp);
+  return div;
+}
+
+function updateCounter() {
+  var n = countChecked();
+  document.getElementById('cntNum').textContent = n;
+  document.getElementById('drwPermPill').innerHTML = '<i class="bi bi-key"></i> ' + n + ' izin';
+}
+
+function markDirty() {
+  isDirty = true;
+  document.getElementById('saveInd').innerHTML = '<i class="bi bi-dot" style="font-size:20px;color:#e8a020"></i> Ada perubahan belum disimpan';
+}
+
+/* ============================================================
+   5. SELECT ALL / CLEAR
+============================================================ */
+function selectAll() {
+  TREE.forEach(function(cat, ci) {
+    cat.menus.forEach(function(menu, mi) {
+      menu.perms.forEach(function(p) { STATE[key(ci,mi,null,p)] = true; });
+      (menu.sub || []).forEach(function(sub, si) {
+        sub.perms.forEach(function(p) { STATE[key(ci,mi,si,p)] = true; });
+      });
+    });
+  });
+  renderDrawer();
+  markDirty();
+  toast('info','Semua Dipilih','Semua izin dicentang.');
+}
+
+function clearAll() {
+  STATE = {};
+  renderDrawer();
+  markDirty();
+  toast('warn','Dikosongkan','Semua izin dihapus.');
+}
+
+function resetState() {
+  STATE = JSON.parse(JSON.stringify(SAVED));
+  isDirty = false;
+  renderDrawer();
+  document.getElementById('saveInd').innerHTML = '<i class="bi bi-circle" style="font-size:11px;opacity:.4"></i> Belum ada perubahan';
+  toast('info','Reset','Izin dikembalikan ke kondisi awal.');
+}
+
+/* ============================================================
+   6. COPY FROM ROLE
+============================================================ */
+function applyCopy() {
+  var val = $('#copyFromSel').val();
+  if (!val) { toast('warn','Perhatian','Pilih role sumber terlebih dahulu.'); return; }
+  if (val === currentRoleKey) { toast('warn','Perhatian','Tidak bisa menyalin dari role yang sama.'); return; }
+  loadPreset(val);
+  renderDrawer();
+  markDirty();
+  $('#copyFromSel').val('').trigger('change');
+  toast('success','Berhasil','Izin disalin dari role ' + val + '.');
+}
+
+/* ============================================================
+   7. OPEN / CLOSE DRAWER
+============================================================ */
+function openDrawer(roleKey) {
+  var role = ROLES.find(function(r){ return r.key === roleKey; });
+  if (!role) return;
+  currentRoleKey = roleKey;
+  isDirty = false;
+
+  /* update header */
+  var av = document.getElementById('drwAv');
+  av.textContent = role.init;
+  av.style.background = 'linear-gradient(135deg,' + role.g1 + ',' + role.g2 + ')';
+  document.getElementById('drwTitle').textContent = 'Akses Role — ' + role.name;
+  document.getElementById('saveInd').innerHTML = '<i class="bi bi-circle" style="font-size:11px;opacity:.4"></i> Belum ada perubahan';
+
+  /* update copy-from select: hide current role */
+  document.querySelectorAll('#copyFromSel option').forEach(function(opt) {
+    opt.style.display = (opt.value === roleKey) ? 'none' : '';
+  });
+  $('#copyFromSel').val('').trigger('change');
+
+  loadPreset(roleKey);
+  SAVED = JSON.parse(JSON.stringify(STATE));
+  renderDrawer();
+
+  document.getElementById('drwOverlay').classList.add('show');
+  document.getElementById('drawer').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeDrawer(force) {
+  if (!force && isDirty) {
+    if (!confirm('Ada perubahan yang belum disimpan.\nYakin ingin menutup?')) return;
+  }
+  document.getElementById('drwOverlay').classList.remove('show');
+  document.getElementById('drawer').classList.remove('show');
+  document.body.style.overflow = '';
+  currentRoleKey = null;
+}
+
+function saveDrawer() {
+  var n = countChecked();
+  SAVED = JSON.parse(JSON.stringify(STATE));
+  isDirty = false;
+  closeDrawer(true);
+  toast('success','Tersimpan', n + ' izin berhasil disimpan.');
+}
+
+/* ============================================================
+   8. ADD ROLE MODAL
+============================================================ */
+var ROLE_COLORS = [
+  {c1:'#dc2626',c2:'#991b1b'},{c1:'#2b6cb0',c2:'#1a4480'},{c1:'#0d9488',c2:'#0f766e'},
+  {c1:'#7c3aed',c2:'#5b21b6'},{c1:'#e8a020',c2:'#b45309'},{c1:'#ea580c',c2:'#9a3412'},
+  {c1:'#16a34a',c2:'#15803d'},{c1:'#0891b2',c2:'#0e7490'},{c1:'#6b7280',c2:'#374151'},
+  {c1:'#be185d',c2:'#9d174d'}
+];
+var selColor = 1;
+
+function buildColorGrid() {
+  var g = document.getElementById('colorGrid');
+  g.innerHTML = '';
+  ROLE_COLORS.forEach(function(c, i) {
+    var d = document.createElement('div');
+    d.className = 'cg-it' + (i === selColor ? ' sel' : '');
+    d.style.background = 'linear-gradient(135deg,' + c.c1 + ',' + c.c2 + ')';
+    d.textContent = document.getElementById('roleNama').value.substring(0,2).toUpperCase() || '??';
+    d.addEventListener('click', function() { selColor = i; buildColorGrid(); });
+    g.appendChild(d);
+  });
+}
+
+function openAddModal() {
+  document.getElementById('roleNama').value = '';
+  document.getElementById('roleGuard').value = 'web';
+  document.getElementById('roleDesc').value = '';
+  selColor = 1;
+  buildColorGrid();
+  document.getElementById('mveil').classList.add('show');
+  setTimeout(function(){ document.getElementById('roleNama').focus(); }, 300);
+}
+
+function closeAddModal() {
+  document.getElementById('mveil').classList.remove('show');
+}
+
+function submitRole() {
+  var nama = document.getElementById('roleNama').value.trim();
+  if (!nama) { toast('warn','Perhatian','Nama role wajib diisi.'); return; }
+  closeAddModal();
+  toast('success','Role Ditambahkan','Role "' + nama + '" berhasil dibuat.');
+}
+
+function delRole(name) {
+  if (confirm('Hapus role "' + name + '"?\nSemua izin terkait akan ikut terhapus.')) {
+    toast('error','Dihapus','Role "' + name + '" telah dihapus.');
+  }
+}
+
+/* ============================================================
+   9. SELECT2 INIT
+============================================================ */
+$(function() {
+  /* populate copy-from options */
+  var sel = document.getElementById('copyFromSel');
+  ROLES.forEach(function(r) {
+    var opt = document.createElement('option');
+    opt.value = r.key;
+    opt.textContent = r.name;
+    opt.setAttribute('data-color', r.g1);
+    sel.appendChild(opt);
+  });
+
+  function fmtRole(s) {
+    if (!s.id) return $('<span style="color:var(--gray-400)">' + s.text + '</span>');
+    var c = $(s.element).data('color') || '#6b7280';
+    return $(
+      '<div class="s2-opt">' +
+        '<div class="s2-dot" style="background:' + c + '"></div>' +
+        '<span class="s2-lbl">' + s.text + '</span>' +
+      '</div>'
+    );
+  }
+
+  $('#copyFromSel').select2({
+    placeholder: '— Pilih role —',
+    allowClear: true,
+    templateResult: fmtRole,
+    templateSelection: function(s){ return s.text || '— Pilih role —'; },
+    width: '100%'
+  });
+
+  /* build table */
+  buildTable();
+
+  /* search */
+  document.getElementById('roleSearch').addEventListener('input', function() {
+    buildTable(this.value);
+  });
+
+  /* drawer buttons */
+  document.getElementById('drwOverlay').addEventListener('click', function(){ closeDrawer(false); });
+  document.getElementById('drwClose').addEventListener('click', function(){ closeDrawer(false); });
+  document.getElementById('cancelBtn').addEventListener('click', function(){ closeDrawer(false); });
+  document.getElementById('saveBtn').addEventListener('click', saveDrawer);
+  document.getElementById('resetBtn').addEventListener('click', resetState);
+  document.getElementById('selAllBtn').addEventListener('click', selectAll);
+  document.getElementById('clearAllBtn').addEventListener('click', clearAll);
+  document.getElementById('applyBtn').addEventListener('click', applyCopy);
+
+  /* add role */
+  document.getElementById('addRoleBtn').addEventListener('click', openAddModal);
+  document.getElementById('mClose').addEventListener('click', closeAddModal);
+  document.getElementById('mCancel').addEventListener('click', closeAddModal);
+  document.getElementById('mSubmit').addEventListener('click', submitRole);
+  document.getElementById('mveil').addEventListener('click', function(e){ if (e.target === this) closeAddModal(); });
+  document.getElementById('roleNama').addEventListener('input', buildColorGrid);
+
+  /* topbar */
+  document.getElementById('usrBtn').addEventListener('click', function(e){
+    e.stopPropagation();
+    document.getElementById('usrWrap').classList.toggle('open');
+  });
+  document.addEventListener('click', function(){ document.getElementById('usrWrap').classList.remove('open'); });
+  document.getElementById('loLink').addEventListener('click', function(e){ e.preventDefault(); document.getElementById('loVeil').classList.add('show'); });
+  document.getElementById('loCancelBtn').addEventListener('click', function(){ document.getElementById('loVeil').classList.remove('show'); });
+  document.getElementById('loConfirmBtn').addEventListener('click', function(){ document.getElementById('loVeil').classList.remove('show'); toast('info','Logout','Anda telah keluar.'); });
+  document.getElementById('hamBtn').addEventListener('click', function(){ this.classList.toggle('open'); });
+});
+
+/* ============================================================
+   10. TOAST
+============================================================ */
+var toastId = 0;
+function toast(type, title, msg) {
+  var icons = { success:'bi-check-circle-fill', error:'bi-x-circle-fill', info:'bi-info-circle-fill', warn:'bi-exclamation-triangle-fill' };
+  var id = 'toast_' + (++toastId);
+  var el = document.createElement('div');
+  el.className = 'ti ' + type;
+  el.id = id;
+  el.innerHTML =
+    '<div class="t-ic"><i class="bi ' + icons[type] + '"></i></div>' +
+    '<div style="flex:1"><div class="t-title">' + title + '</div><div class="t-msg">' + msg + '</div></div>' +
+    '<button onclick="rmToast(\'' + id + '\')" style="border:none;background:transparent;color:var(--gray-400);cursor:pointer;padding:3px;font-size:12px"><i class="bi bi-x-lg"></i></button>';
+  document.getElementById('toastWrap').appendChild(el);
+  requestAnimationFrame(function(){ el.classList.add('show'); });
+  setTimeout(function(){ rmToast(id); }, 4500);
+}
+function rmToast(id) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  el.classList.remove('show');
+  setTimeout(function(){ if(el.parentNode) el.parentNode.removeChild(el); }, 400);
+}
+
+/* ============================================================
+   11. ANIMATED BACKGROUND
+============================================================ */
+(function() {
+  var cv = document.getElementById('bg-canvas');
+  var cx = cv.getContext('2d');
+  var W, H;
+  var orbs = [215,200,185,40,168,230].map(function(h) {
+    return { x:Math.random()*100, y:Math.random()*100, vx:(Math.random()-.5)*.012, vy:(Math.random()-.5)*.012, r:200+Math.random()*280, h:h, a:.025+Math.random()*.02 };
+  });
+  var pts = Array.from({length:45}, function() {
+    return { x:Math.random(), y:Math.random(), vx:(Math.random()-.5)*.00022, vy:(Math.random()-.5)*.00022, r:.5+Math.random()*1.6, a:.08+Math.random()*.18 };
+  });
+  function resize(){ W = cv.width = window.innerWidth; H = cv.height = window.innerHeight; }
+  window.addEventListener('resize', resize); resize();
+  function draw() {
+    cx.clearRect(0,0,W,H);
+    orbs.forEach(function(o) {
+      o.x += o.vx; o.y += o.vy;
+      if(o.x < -15 || o.x > 115) o.vx *= -1;
+      if(o.y < -15 || o.y > 115) o.vy *= -1;
+      var gx=o.x/100*W, gy=o.y/100*H;
+      var g = cx.createRadialGradient(gx,gy,0,gx,gy,o.r);
+      g.addColorStop(0,'hsla('+o.h+',55%,65%,'+o.a+')');
+      g.addColorStop(1,'hsla('+o.h+',55%,65%,0)');
+      cx.fillStyle=g; cx.beginPath(); cx.arc(gx,gy,o.r,0,Math.PI*2); cx.fill();
+    });
+    pts.forEach(function(p) {
+      p.x+=p.vx; p.y+=p.vy;
+      if(p.x<0||p.x>1) p.vx*=-1;
+      if(p.y<0||p.y>1) p.vy*=-1;
+      cx.beginPath(); cx.arc(p.x*W,p.y*H,p.r,0,Math.PI*2);
+      cx.fillStyle='rgba(26,68,128,'+p.a+')'; cx.fill();
+    });
+    for(var i=0;i<pts.length;i++) for(var j=i+1;j<pts.length;j++) {
+      var dx=(pts[i].x-pts[j].x)*W, dy=(pts[i].y-pts[j].y)*H, d=Math.sqrt(dx*dx+dy*dy);
+      if(d<90){ cx.beginPath(); cx.moveTo(pts[i].x*W,pts[i].y*H); cx.lineTo(pts[j].x*W,pts[j].y*H); cx.strokeStyle='rgba(26,68,128,'+(0.045*(1-d/90))+')'; cx.lineWidth=.6; cx.stroke(); }
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+</script>
+</body>
+</html>

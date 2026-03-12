@@ -1,0 +1,1617 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daftar Layanan — Dinas Kominfo Kota Pekalongan</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{
+  --blue-900:#0d2d5e;--blue-800:#1a4480;--blue-700:#1d55a0;
+  --blue-600:#2b6cb0;--blue-500:#3182ce;--blue-400:#63b3ed;
+  --blue-100:#ebf4ff;--blue-50:#f0f7ff;
+  --teal:#0d9488;--gold:#e8a020;--rose:#e53e3e;--green:#16a34a;
+  --purple:#7c3aed;--orange:#ea580c;
+  --gray-900:#111827;--gray-800:#1f2937;--gray-700:#374151;
+  --gray-600:#4b5563;--gray-500:#6b7280;--gray-400:#9ca3af;
+  --gray-300:#d1d5db;--gray-200:#e5e7eb;--gray-100:#f3f4f6;
+  --gray-50:#f9fafb;--white:#fff;--nav-height:68px;
+  --sh-sm:0 1px 3px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.04);
+  --sh-md:0 4px 16px rgba(13,45,94,.08),0 2px 6px rgba(13,45,94,.05);
+  --sh-lg:0 12px 40px rgba(13,45,94,.12),0 4px 12px rgba(13,45,94,.06);
+  --sh-xl:0 24px 60px rgba(13,45,94,.18);
+  --r-sm:8px;--r-md:12px;--r-lg:18px;--r-xl:24px;
+  --tr:all .22s cubic-bezier(.4,0,.2,1);
+  --tr-b:all .35s cubic-bezier(.34,1.56,.64,1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:#f4f7fc;color:var(--gray-800);min-height:100vh;overflow-x:hidden;font-size:14px;line-height:1.6}
+#bg-canvas{position:fixed;inset:0;z-index:0;pointer-events:none}
+
+/* ═══════════════════════════════════
+   SELECT2 CUSTOM THEME
+═══════════════════════════════════ */
+.select2-container{width:100% !important}
+
+/* ── Selection box (closed state) ── */
+.select2-container--default .select2-selection--single{
+  height:44px;
+  border:1.5px solid var(--gray-200);
+  border-radius:var(--r-md);
+  background:white;
+  display:flex;
+  align-items:center;
+  transition:var(--tr);
+  box-shadow:none;
+  padding:0 12px;
+}
+.select2-container--default.select2-container--focus .select2-selection--single,
+.select2-container--default.select2-container--open .select2-selection--single{
+  border-color:var(--blue-400);
+  box-shadow:0 0 0 3px rgba(99,179,237,.15);
+  outline:none;
+}
+.select2-container--default .select2-selection--single .select2-selection__rendered{
+  color:var(--gray-800);
+  font-family:'DM Sans',sans-serif;
+  font-size:13.5px;
+  font-weight:500;
+  line-height:44px;
+  padding-left:0;
+  padding-right:28px;
+}
+.select2-container--default .select2-selection--single .select2-selection__placeholder{
+  color:var(--gray-400);
+  font-weight:400;
+}
+.select2-container--default .select2-selection--single .select2-selection__arrow{
+  height:44px;
+  right:10px;
+  width:20px;
+}
+.select2-container--default .select2-selection--single .select2-selection__arrow b{
+  border-color:var(--gray-400) transparent transparent transparent;
+  border-width:5px 4px 0 4px;
+  margin-top:-2px;
+  transition:transform .25s ease;
+}
+.select2-container--default.select2-container--open .select2-selection--single .select2-selection__arrow b{
+  border-color:transparent transparent var(--blue-600) transparent;
+  border-width:0 4px 5px 4px;
+  margin-top:-4px;
+}
+
+/* ── Dropdown container ── */
+.select2-dropdown{
+  border:1px solid var(--gray-200);
+  border-radius:var(--r-lg) !important;
+  box-shadow:var(--sh-xl);
+  overflow:hidden;
+  font-family:'DM Sans',sans-serif;
+  animation:s2drop .18s ease;
+  z-index:9999;
+}
+@keyframes s2drop{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+.select2-dropdown--below{
+  border-top:none;
+  border-radius:0 0 var(--r-lg) var(--r-lg) !important;
+  margin-top:4px;
+}
+.select2-dropdown--above{
+  border-bottom:none;
+  border-radius:var(--r-lg) var(--r-lg) 0 0 !important;
+  margin-bottom:4px;
+}
+
+/* ── Search box ── */
+.select2-search--dropdown{
+  padding:10px 10px 6px;
+  background:var(--gray-50);
+  border-bottom:1px solid var(--gray-100);
+}
+.select2-search--dropdown .select2-search__field{
+  border:1.5px solid var(--gray-200);
+  border-radius:var(--r-sm);
+  padding:8px 12px 8px 34px;
+  font-family:'DM Sans',sans-serif;
+  font-size:13px;
+  color:var(--gray-800);
+  background:white url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='%239ca3af' viewBox='0 0 16 16'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85zm-5.242 1.15a5.5 5.5 0 1 1 0-11 5.5 5.5 0 0 1 0 11z'/%3E%3C/svg%3E") no-repeat 10px center;
+  outline:none;
+  width:100%;
+  transition:var(--tr);
+}
+.select2-search--dropdown .select2-search__field:focus{
+  border-color:var(--blue-400);
+  box-shadow:0 0 0 3px rgba(99,179,237,.12);
+}
+
+/* ── Results list ── */
+.select2-results{padding:6px}
+.select2-results__options{max-height:240px;overflow-y:auto}
+.select2-results__options::-webkit-scrollbar{width:4px}
+.select2-results__options::-webkit-scrollbar-thumb{background:var(--gray-300);border-radius:2px}
+
+/* ── Result item ── */
+.select2-results__option{
+  padding:0;
+  border-radius:var(--r-sm);
+  margin-bottom:2px;
+  transition:var(--tr);
+  cursor:pointer;
+}
+.select2-results__option .s2-item{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:9px 12px;
+  border-radius:var(--r-sm);
+}
+.select2-results__option--highlighted .s2-item,
+.select2-results__option--highlighted{
+  background:var(--blue-50) !important;
+  color:var(--blue-700) !important;
+}
+.select2-results__option--selected .s2-item,
+.select2-results__option--selected{
+  background:var(--blue-100) !important;
+  color:var(--blue-800) !important;
+  font-weight:600;
+}
+.s2-icon{
+  width:32px;height:32px;border-radius:9px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;flex-shrink:0;
+}
+.s2-label{font-size:13.5px;font-weight:600;color:inherit;flex:1}
+.s2-sub{font-size:11px;color:var(--gray-400);margin-top:1px}
+.s2-badge{font-size:10.5px;font-weight:700;padding:2px 7px;border-radius:8px;flex-shrink:0}
+/* group header */
+.select2-results__group{
+  padding:8px 12px 4px;
+  font-size:10.5px;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:.06em;
+  color:var(--gray-400);
+  background:var(--gray-50);
+  border-top:1px solid var(--gray-100);
+  margin-top:4px;
+}
+.select2-results__group:first-child{border-top:none;margin-top:0}
+/* no results */
+.select2-results__option--disabled{
+  color:var(--gray-400);
+  font-size:13px;
+  text-align:center;
+  padding:18px 12px;
+  cursor:default;
+}
+/* ── Multiple select ── */
+.select2-container--default .select2-selection--multiple{
+  min-height:44px;
+  border:1.5px solid var(--gray-200);
+  border-radius:var(--r-md);
+  background:white;
+  padding:4px 8px;
+  transition:var(--tr);
+}
+.select2-container--default.select2-container--focus .select2-selection--multiple{
+  border-color:var(--blue-400);
+  box-shadow:0 0 0 3px rgba(99,179,237,.15);
+  outline:none;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__choice{
+  background:var(--blue-100);
+  border:none;
+  border-radius:6px;
+  color:var(--blue-700);
+  font-size:12px;
+  font-weight:700;
+  padding:3px 26px 3px 8px;
+  margin-top:3px;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove{
+  color:var(--blue-500);
+  font-size:14px;
+  right:5px;
+  top:50%;
+  transform:translateY(-50%);
+}
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove:hover{
+  color:var(--rose);
+  background:transparent;
+}
+.select2-container--default .select2-selection--multiple .select2-search__field{
+  font-family:'DM Sans',sans-serif;
+  font-size:13px;
+  color:var(--gray-800);
+  margin-top:2px;
+}
+.select2-container--default .select2-selection--multiple .select2-search__field::placeholder{
+  color:var(--gray-400);
+}
+
+/* ═══════════════════════════════════
+   TOPBAR
+═══════════════════════════════════ */
+.topbar{position:sticky;top:0;z-index:1040;height:var(--nav-height);background:rgba(255,255,255,.92);backdrop-filter:blur(24px) saturate(180%);border-bottom:1px solid rgba(13,45,94,.08);box-shadow:0 1px 0 rgba(13,45,94,.05),0 4px 24px rgba(13,45,94,.06)}
+.tb-inner{display:flex;align-items:center;height:100%;max-width:1400px;margin:0 auto;padding:0 20px}
+.brand{display:flex;align-items:center;gap:11px;text-decoration:none;flex-shrink:0;margin-right:28px}
+.brand-emb{position:relative;width:42px;height:42px;flex-shrink:0}
+.brand-emb-inner{width:42px;height:42px;background:linear-gradient(145deg,var(--blue-700),var(--blue-900));border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 4px 14px rgba(26,68,128,.35);animation:pulse6 6s ease-in-out infinite}
+@keyframes pulse6{0%,100%{box-shadow:0 4px 14px rgba(26,68,128,.35)}50%{box-shadow:0 4px 22px rgba(26,68,128,.55),0 0 0 6px rgba(26,68,128,.08)}}
+.brand-ring{position:absolute;inset:-4px;border-radius:15px;border:1.5px solid rgba(26,68,128,.18);animation:spin8 8s linear infinite}
+@keyframes spin8{to{transform:rotate(360deg)}}
+.brand-name{font-family:'Instrument Serif',serif;font-size:14.5px;color:var(--blue-900);display:block;line-height:1.2}
+.brand-sub{font-size:10.5px;font-weight:500;color:var(--gray-500);letter-spacing:.03em;text-transform:uppercase}
+.nav-main{display:flex;align-items:center;gap:2px;flex:1;list-style:none}
+.nav-main>li{position:relative}
+.nli{display:flex;align-items:center;gap:5px;padding:7px 13px;border-radius:var(--r-sm);font-size:13.5px;font-weight:500;color:var(--gray-600);text-decoration:none;cursor:pointer;border:none;background:transparent;white-space:nowrap;transition:var(--tr);position:relative}
+.nli::after{content:'';position:absolute;bottom:-1px;left:50%;transform:translateX(-50%) scaleX(0);width:80%;height:2px;background:var(--blue-600);border-radius:2px;transition:transform .22s}
+.nav-main>li:hover>.nli,.nav-main>li.active>.nli{color:var(--blue-700);background:var(--blue-50)}
+.nav-main>li.active>.nli::after,.nav-main>li:hover>.nli::after{transform:translateX(-50%) scaleX(1)}
+.caret{font-size:9px;transition:transform .25s;opacity:.6}
+.nav-main>li:hover>.nli .caret{transform:rotate(180deg)}
+.nav-dd{position:absolute;top:calc(100% + 10px);left:50%;transform:translateX(-50%) translateY(-6px);min-width:200px;background:var(--white);border:1px solid rgba(13,45,94,.09);border-radius:var(--r-lg);box-shadow:var(--sh-lg);padding:6px;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:1050}
+.nav-dd::before{content:'';position:absolute;top:-6px;left:50%;transform:translateX(-50%);border:6px solid transparent;border-bottom-color:var(--white);border-top:none;filter:drop-shadow(0 -2px 2px rgba(13,45,94,.08))}
+.nav-main>li:hover .nav-dd,.nav-main>li:focus-within .nav-dd{opacity:1;pointer-events:auto;transform:translateX(-50%) translateY(0)}
+.nav-dd a{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:var(--r-sm);font-size:13px;font-weight:500;color:var(--gray-700);text-decoration:none;transition:var(--tr)}
+.nav-dd a:hover{background:var(--blue-50);color:var(--blue-700);padding-left:16px}
+.dd-ic{width:28px;height:28px;display:flex;align-items:center;justify-content:center;background:var(--blue-100);color:var(--blue-600);border-radius:7px;font-size:13px;flex-shrink:0;transition:var(--tr)}
+.nav-dd a:hover .dd-ic{background:var(--blue-600);color:white}
+.dd-div{height:1px;background:var(--gray-200);margin:5px 6px}
+.tb-right{display:flex;align-items:center;gap:4px;margin-left:auto;flex-shrink:0}
+.tb-btn{position:relative;width:38px;height:38px;display:flex;align-items:center;justify-content:center;border-radius:var(--r-sm);border:none;background:transparent;color:var(--gray-500);font-size:16px;cursor:pointer;transition:var(--tr)}
+.tb-btn:hover{background:var(--blue-50);color:var(--blue-700)}
+.notif-dot{position:absolute;top:6px;right:6px;width:7px;height:7px;background:var(--rose);border-radius:50%;border:1.5px solid white;animation:ping 2.5s ease-in-out infinite}
+@keyframes ping{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.5);opacity:.6}}
+.gear-ic{transition:transform .4s}
+.tb-btn:hover .gear-ic{transform:rotate(90deg)}
+.usr-wrap{position:relative}
+.usr-btn{display:flex;align-items:center;gap:9px;padding:5px 10px 5px 5px;border:1.5px solid var(--gray-200);border-radius:40px;background:white;cursor:pointer;transition:var(--tr);margin-left:4px}
+.usr-btn:hover{border-color:var(--blue-400);box-shadow:0 0 0 3px rgba(99,179,237,.18)}
+.usr-av{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--blue-600),var(--blue-900));display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:white;flex-shrink:0}
+.usr-name{font-size:12.5px;font-weight:600;color:var(--gray-700);max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.usr-caret{font-size:9px;color:var(--gray-400);transition:transform .25s}
+.usr-wrap.open .usr-caret{transform:rotate(180deg)}
+.usr-dd{position:absolute;top:calc(100% + 10px);right:0;width:230px;background:white;border:1px solid rgba(13,45,94,.09);border-radius:var(--r-lg);box-shadow:var(--sh-xl);padding:6px;opacity:0;pointer-events:none;transform:translateY(-8px) scale(.97);transform-origin:top right;transition:opacity .25s cubic-bezier(.4,0,.2,1),transform .25s cubic-bezier(.4,0,.2,1);z-index:1060}
+.usr-wrap.open .usr-dd{opacity:1;pointer-events:auto;transform:translateY(0) scale(1)}
+.usr-dd-hdr{padding:10px 12px 12px;border-bottom:1px solid var(--gray-200);margin-bottom:5px}
+.usr-dd-hdr .uname{font-size:13.5px;font-weight:700;color:var(--gray-800);display:block}
+.usr-dd-hdr .urole{font-size:11.5px;color:var(--gray-500);display:block;margin-top:2px}
+.usr-dd-hdr .ustatus{display:inline-flex;align-items:center;gap:5px;margin-top:6px;font-size:11px;font-weight:600;color:var(--green);background:#f0fdf4;padding:2px 8px;border-radius:20px}
+.usd{width:5px;height:5px;background:var(--green);border-radius:50%;animation:ping 2s infinite}
+.usr-dd a{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:var(--r-sm);font-size:13px;font-weight:500;color:var(--gray-700);text-decoration:none;transition:var(--tr)}
+.usr-dd a:hover{background:var(--blue-50);color:var(--blue-700)}
+.usr-dd a i{font-size:15px;width:18px;text-align:center}
+.usr-dd a.lo-link{color:var(--rose);border-top:1px solid var(--gray-200);margin-top:4px}
+.usr-dd a.lo-link:hover{background:#fff5f5}
+.ham{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px;border:none;background:transparent;border-radius:var(--r-sm);margin-left:6px}
+.ham span{display:block;width:22px;height:2.5px;background:var(--gray-600);border-radius:2px;transition:transform .3s,opacity .2s}
+.ham.open span:nth-child(1){transform:translateY(7.5px) rotate(45deg)}
+.ham.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+.ham.open span:nth-child(3){transform:translateY(-7.5px) rotate(-45deg)}
+.mob-drw{position:fixed;top:var(--nav-height);left:0;right:0;z-index:1035;background:rgba(255,255,255,.97);backdrop-filter:blur(20px);border-bottom:1px solid var(--gray-200);box-shadow:var(--sh-lg);max-height:calc(100vh - var(--nav-height));overflow-y:auto;transform:translateY(-8px);opacity:0;pointer-events:none;transition:transform .3s,opacity .3s}
+.mob-drw.open{transform:translateY(0);opacity:1;pointer-events:auto}
+.mob-list{list-style:none;padding:10px 12px 16px}
+.mob-item>.mob-trigger{display:flex;align-items:center;justify-content:space-between;padding:11px 14px;border-radius:var(--r-md);font-size:14px;font-weight:600;color:var(--gray-700);cursor:pointer;user-select:none;transition:var(--tr)}
+.mob-item>.mob-trigger:hover,.mob-item.active>.mob-trigger{background:var(--blue-50);color:var(--blue-700)}
+.mob-caret{font-size:10px;transition:transform .25s}
+.mob-item.expanded>.mob-trigger .mob-caret{transform:rotate(180deg)}
+.mob-sub{display:none;padding:4px 0 4px 14px}
+.mob-item.expanded>.mob-sub{display:block}
+.mob-sub a{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:var(--r-sm);font-size:13px;font-weight:500;color:var(--gray-600);text-decoration:none;transition:var(--tr)}
+.mob-sub a:hover{background:var(--blue-50);color:var(--blue-700)}
+.mob-sub a i{font-size:14px;color:var(--blue-500);width:16px;text-align:center}
+
+/* ═══════════════════════════════════
+   LAYOUT
+═══════════════════════════════════ */
+.pw{position:relative;z-index:1;min-height:calc(100vh - var(--nav-height));display:flex;flex-direction:column}
+.mc{flex:1;padding:30px 0 56px}
+.cc{max-width:1400px;margin:0 auto;padding:0 20px}
+
+/* ═══════════════════════════════════
+   PAGE HEADER
+═══════════════════════════════════ */
+.phbar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:24px;padding:18px 24px;background:white;border:1px solid rgba(13,45,94,.08);border-radius:var(--r-xl);box-shadow:var(--sh-sm);position:relative;overflow:hidden}
+.phbar::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(180deg,var(--blue-600),var(--blue-900));border-radius:4px 0 0 4px}
+.ph-left{display:flex;align-items:center;gap:16px}
+.ph-icon{width:46px;height:46px;background:linear-gradient(135deg,var(--blue-100),var(--blue-50));border:1px solid rgba(26,68,128,.12);border-radius:var(--r-md);display:flex;align-items:center;justify-content:center;font-size:20px;color:var(--blue-600);flex-shrink:0}
+.ph-title{font-family:'Instrument Serif',serif;font-size:20px;color:var(--blue-900);line-height:1.2;margin-bottom:4px}
+.bc{display:flex;align-items:center;gap:6px;list-style:none;padding:0;margin:0}
+.bc li{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--gray-400)}
+.bc li a{color:var(--blue-600);text-decoration:none;font-weight:500;transition:color .18s;display:flex;align-items:center;gap:4px}
+.bc li a:hover{color:var(--blue-800)}
+.bc li.act{color:var(--gray-500);font-weight:500}
+
+/* ═══════════════════════════════════
+   STAT CARDS
+═══════════════════════════════════ */
+.stat-card{background:white;border:1px solid rgba(13,45,94,.07);border-radius:var(--r-xl);box-shadow:var(--sh-sm);padding:20px 22px;display:flex;align-items:center;gap:16px;transition:var(--tr)}
+.stat-card:hover{box-shadow:var(--sh-md);transform:translateY(-2px)}
+.stat-icon{width:50px;height:50px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:21px;flex-shrink:0}
+.stat-num{font-family:'Instrument Serif',serif;font-size:26px;color:var(--gray-900);line-height:1;margin-bottom:3px}
+.stat-lbl{font-size:12px;font-weight:600;color:var(--gray-500);text-transform:uppercase;letter-spacing:.04em}
+.stat-badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;padding:2px 8px;border-radius:10px;margin-top:5px}
+.badge-up{background:#dcfce7;color:var(--green)}
+.badge-neu{background:var(--blue-100);color:var(--blue-700)}
+.badge-warn{background:#fef9c3;color:#92400e}
+
+/* ═══════════════════════════════════
+   TABLE CARD
+═══════════════════════════════════ */
+.tbl-card{background:white;border:1px solid rgba(13,45,94,.07);border-radius:var(--r-xl);box-shadow:var(--sh-sm);overflow:hidden}
+.tbl-toolbar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;padding:18px 20px;border-bottom:1px solid var(--gray-100)}
+.tbl-title{font-size:14px;font-weight:700;color:var(--gray-800);display:flex;align-items:center;gap:8px}
+.tbl-title i{color:var(--blue-500)}
+.tbl-controls{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.search-wrap{position:relative}
+.search-wrap i{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--gray-400);font-size:14px;pointer-events:none;z-index:1}
+.search-inp{padding:9px 12px 9px 34px;border:1.5px solid var(--gray-200);border-radius:var(--r-md);font-size:13px;font-family:'DM Sans',sans-serif;color:var(--gray-800);background:var(--gray-50);outline:none;width:220px;transition:var(--tr)}
+.search-inp:focus{border-color:var(--blue-400);background:white;box-shadow:0 0 0 3px rgba(99,179,237,.12);width:260px}
+.search-inp::placeholder{color:var(--gray-400)}
+.flt-sel-native{padding:9px 30px 9px 12px;border:1.5px solid var(--gray-200);border-radius:var(--r-md);font-size:13px;font-family:'DM Sans',sans-serif;color:var(--gray-700);background:white;outline:none;cursor:pointer;transition:var(--tr);appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%239ca3af'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center}
+.flt-sel-native:focus{border-color:var(--blue-400);box-shadow:0 0 0 3px rgba(99,179,237,.12)}
+.tbl-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse}
+thead th{padding:11px 16px;text-align:left;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--gray-500);background:var(--gray-50);border-bottom:2px solid var(--gray-200);white-space:nowrap}
+thead th.sort{cursor:pointer;user-select:none;transition:var(--tr)}
+thead th.sort:hover{color:var(--blue-600);background:var(--blue-50)}
+thead th i{font-size:10px;opacity:.5;margin-left:3px}
+tbody tr{border-bottom:1px solid var(--gray-100);transition:background .18s}
+tbody tr:last-child{border-bottom:none}
+tbody tr:hover{background:var(--blue-50)}
+tbody td{padding:14px 16px;vertical-align:middle}
+.row-icon{width:40px;height:40px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.chip{display:inline-flex;align-items:center;gap:5px;padding:3px 10px 3px 7px;border-radius:8px;font-size:12px;font-weight:700}
+.badge-status{display:inline-flex;align-items:center;gap:5px;padding:4px 11px;border-radius:20px;font-size:11.5px;font-weight:700}
+.badge-status.aktif{background:#dcfce7;color:#166534}
+.badge-status.nonaktif{background:var(--gray-100);color:var(--gray-500)}
+.badge-status.draft{background:#fef9c3;color:#92400e}
+.stt-dot{width:5px;height:5px;border-radius:50%}
+.act-btn{width:32px;height:32px;border-radius:8px;border:none;display:flex;align-items:center;justify-content:center;font-size:13.5px;cursor:pointer;transition:var(--tr-b);flex-shrink:0}
+.act-btn:hover{transform:scale(1.1)}
+.act-btn.view{background:#f0fdf4;color:var(--green)}
+.act-btn.view:hover{background:var(--green);color:white}
+.act-btn.edit{background:var(--blue-100);color:var(--blue-600)}
+.act-btn.edit:hover{background:var(--blue-600);color:white}
+.act-btn.tog{background:#fef9c3;color:#b45309}
+.act-btn.tog:hover{background:#d97706;color:white}
+.act-btn.del{background:#fee2e2;color:var(--rose)}
+.act-btn.del:hover{background:var(--rose);color:white}
+.tbl-footer{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;padding:14px 20px;border-top:1px solid var(--gray-100);background:var(--gray-50)}
+.tbl-info{font-size:12.5px;color:var(--gray-500)}
+.tbl-info span{font-weight:700;color:var(--gray-700)}
+.pg-wrap{display:flex;gap:5px}
+.pg-btn{width:32px;height:32px;border-radius:8px;border:1.5px solid var(--gray-200);background:white;color:var(--gray-600);font-size:12.5px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:var(--tr)}
+.pg-btn:hover{border-color:var(--blue-400);color:var(--blue-600);background:var(--blue-50)}
+.pg-btn.active{background:var(--blue-600);border-color:var(--blue-600);color:white}
+.pg-btn:disabled{opacity:.4;cursor:not-allowed}
+
+/* ═══════════════════════════════════
+   BUTTONS
+═══════════════════════════════════ */
+.btn-prim{display:inline-flex;align-items:center;gap:7px;padding:10px 18px;border-radius:var(--r-md);background:linear-gradient(135deg,var(--blue-600),var(--blue-800));color:white;font-size:13px;font-weight:700;border:none;cursor:pointer;transition:var(--tr-b);box-shadow:0 3px 12px rgba(26,68,128,.25);white-space:nowrap;text-decoration:none}
+.btn-prim:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(26,68,128,.35);color:white}
+.btn-prim:active{transform:scale(.97)}
+.btn-out{display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border-radius:var(--r-md);background:white;color:var(--gray-700);font-size:13px;font-weight:700;border:1.5px solid var(--gray-200);cursor:pointer;transition:var(--tr);white-space:nowrap;text-decoration:none}
+.btn-out:hover{background:var(--gray-50);border-color:var(--gray-300)}
+.btn-red{display:inline-flex;align-items:center;gap:7px;padding:10px 18px;border-radius:var(--r-md);background:linear-gradient(135deg,#ef4444,#dc2626);color:white;font-size:13px;font-weight:700;border:none;cursor:pointer;transition:var(--tr-b);box-shadow:0 3px 12px rgba(229,62,62,.2);white-space:nowrap}
+.btn-red:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(229,62,62,.35)}
+
+/* ═══════════════════════════════════
+   MODAL
+═══════════════════════════════════ */
+.mveil{position:fixed;inset:0;z-index:2000;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(10,20,44,.45);backdrop-filter:blur(8px);opacity:0;pointer-events:none;transition:opacity .3s}
+.mveil.show{opacity:1;pointer-events:auto}
+.mbox{width:100%;max-width:660px;background:white;border-radius:var(--r-xl);box-shadow:0 32px 80px rgba(0,0,0,.28);transform:scale(.9) translateY(24px);opacity:0;transition:transform .4s cubic-bezier(.34,1.56,.64,1),opacity .3s;overflow:hidden;max-height:92vh;display:flex;flex-direction:column}
+.mveil.show .mbox{transform:scale(1) translateY(0);opacity:1}
+.mhdr{display:flex;align-items:center;gap:14px;padding:20px 24px;border-bottom:1px solid var(--gray-100);background:linear-gradient(to right,var(--blue-50),white);flex-shrink:0}
+.mhdr-icon{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,var(--blue-600),var(--blue-800));display:flex;align-items:center;justify-content:center;font-size:19px;color:white;flex-shrink:0;box-shadow:0 4px 12px rgba(26,68,128,.3)}
+.mhdr-title{font-family:'Instrument Serif',serif;font-size:18px;color:var(--blue-900)}
+.mhdr-sub{font-size:12px;color:var(--gray-500);margin-top:2px}
+.mclose{margin-left:auto;width:36px;height:36px;border-radius:9px;border:none;background:var(--gray-100);color:var(--gray-500);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:var(--tr);flex-shrink:0}
+.mclose:hover{background:var(--gray-200);color:var(--gray-800)}
+.mbody{padding:24px;overflow-y:auto;flex:1}
+.mbody::-webkit-scrollbar{width:5px}
+.mbody::-webkit-scrollbar-thumb{background:var(--gray-200);border-radius:3px}
+.mfooter{padding:16px 24px;border-top:1px solid var(--gray-100);display:flex;align-items:center;justify-content:flex-end;gap:10px;background:var(--gray-50);flex-shrink:0}
+
+/* form */
+.fg{margin-bottom:18px}
+.fg:last-child{margin-bottom:0}
+.flbl{font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--gray-600);margin-bottom:7px;display:flex;align-items:center;gap:5px}
+.flbl .req{color:var(--rose)}
+.finp{width:100%;padding:10px 14px;border:1.5px solid var(--gray-200);border-radius:var(--r-md);font-size:13.5px;font-family:'DM Sans',sans-serif;color:var(--gray-800);background:white;outline:none;transition:var(--tr)}
+.finp:focus{border-color:var(--blue-400);box-shadow:0 0 0 3px rgba(99,179,237,.12)}
+.finp::placeholder{color:var(--gray-400)}
+textarea.finp{resize:vertical;min-height:80px;line-height:1.6}
+.fhint{font-size:11.5px;color:var(--gray-400);margin-top:5px;display:flex;align-items:center;gap:4px}
+.sw-row{display:flex;align-items:center;gap:10px}
+.sw{position:relative;width:44px;height:24px;flex-shrink:0}
+.sw input{opacity:0;width:0;height:0;position:absolute}
+.sw-slider{position:absolute;inset:0;background:var(--gray-200);border-radius:24px;cursor:pointer;transition:.3s}
+.sw-slider::before{content:'';position:absolute;width:18px;height:18px;border-radius:50%;background:white;top:3px;left:3px;transition:.3s;box-shadow:0 1px 4px rgba(0,0,0,.2)}
+.sw input:checked+.sw-slider{background:var(--green)}
+.sw input:checked+.sw-slider::before{transform:translateX(20px)}
+.sw-lbl{font-size:13px;font-weight:600;color:var(--gray-700)}
+
+/* select2 inside modal — tighter wrapper */
+.s2-wrapper .select2-container--default .select2-selection--single{height:44px}
+
+/* preview strip */
+.preview-strip{display:flex;align-items:center;gap:14px;padding:14px 16px;background:var(--blue-50);border:1.5px dashed rgba(43,108,176,.2);border-radius:var(--r-lg);margin-bottom:18px}
+.ps-icon{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;transition:var(--tr)}
+.ps-name{font-size:14px;font-weight:700;color:var(--gray-800);margin-bottom:2px}
+.ps-sub{font-size:12px;color:var(--gray-500)}
+
+/* char counter */
+.cc-row{display:flex;align-items:flex-end;gap:6px}
+.cc-cnt{font-size:11px;color:var(--gray-400);margin-left:auto;margin-top:4px;white-space:nowrap}
+
+/* ═══════════════════════════════════
+   LOGOUT MODAL
+═══════════════════════════════════ */
+.lo-veil{position:fixed;inset:0;z-index:9100;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(10,20,44,.5);backdrop-filter:blur(8px);opacity:0;pointer-events:none;transition:opacity .3s}
+.lo-veil.show{opacity:1;pointer-events:auto}
+.lo-card{width:100%;max-width:380px;background:white;border-radius:var(--r-xl);padding:36px 32px 30px;text-align:center;box-shadow:0 30px 80px rgba(0,0,0,.25);transform:scale(.88) translateY(24px);opacity:0;transition:transform .4s cubic-bezier(.34,1.56,.64,1),opacity .3s}
+.lo-veil.show .lo-card{transform:scale(1) translateY(0);opacity:1}
+.lo-icon{width:70px;height:70px;margin:0 auto 18px;background:#fff0f0;border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:28px;color:var(--rose);position:relative}
+.lo-icon::after{content:'';position:absolute;inset:-6px;border-radius:25px;border:1.5px solid rgba(229,62,62,.2);animation:ringR 2s ease-in-out infinite}
+@keyframes ringR{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.08);opacity:0}}
+
+/* ═══════════════════════════════════
+   TOAST
+═══════════════════════════════════ */
+.toast-wrap{position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:10px;pointer-events:none}
+.ti{display:flex;align-items:center;gap:12px;padding:13px 16px;border-radius:var(--r-lg);background:white;box-shadow:var(--sh-xl);min-width:280px;max-width:370px;border-left:4px solid;pointer-events:auto;transform:translateX(110%);transition:transform .4s cubic-bezier(.34,1.56,.64,1)}
+.ti.show{transform:translateX(0)}
+.ti.success{border-color:var(--green)}.ti.error{border-color:var(--rose)}.ti.info{border-color:var(--blue-500)}.ti.warn{border-color:var(--gold)}
+.t-ic{width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.ti.success .t-ic{background:#dcfce7;color:var(--green)}.ti.error .t-ic{background:#fee2e2;color:var(--rose)}.ti.info .t-ic{background:var(--blue-100);color:var(--blue-600)}.ti.warn .t-ic{background:#fef9c3;color:var(--gold)}
+.t-title{font-size:13px;font-weight:700;color:var(--gray-800);margin-bottom:1px}
+.t-msg{font-size:12px;color:var(--gray-500)}
+
+/* ═══════════════════════════════════
+   FOOTER
+═══════════════════════════════════ */
+.site-footer{position:relative;z-index:1;background:white;border-top:1px solid rgba(13,45,94,.08);padding:44px 0 0}
+.fc{max-width:1400px;margin:0 auto;padding:0 20px}
+.fb-logo{display:flex;align-items:center;gap:11px;margin-bottom:14px}
+.fb-icon{width:38px;height:38px;background:linear-gradient(135deg,var(--blue-700),var(--blue-900));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px}
+.fb-name{font-family:'Instrument Serif',serif;font-size:15px;color:var(--blue-900)}
+.fb-desc{font-size:13px;color:var(--gray-500);line-height:1.7;margin-bottom:18px}
+.fb-social{display:flex;gap:8px}
+.fb-social a{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:14px;background:var(--blue-100);color:var(--blue-700);text-decoration:none;transition:var(--tr)}
+.fb-social a:hover{background:var(--blue-700);color:white;transform:translateY(-3px)}
+.fh{font-size:11.5px;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--gray-800);margin-bottom:16px}
+.fl{list-style:none;padding:0}
+.fl li{margin-bottom:10px}
+.fl a{display:flex;align-items:center;gap:7px;font-size:13px;color:var(--gray-500);text-decoration:none;transition:var(--tr)}
+.fl a:hover{color:var(--blue-600);padding-left:4px}
+.fl a i{font-size:11px;color:var(--blue-400)}
+.fci{display:flex;align-items:flex-start;gap:10px;font-size:13px;color:var(--gray-600);margin-bottom:12px}
+.fci-ic{width:30px;height:30px;background:var(--blue-50);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--blue-600);flex-shrink:0}
+.f-bot{margin-top:36px;padding:18px 0;border-top:1px solid var(--gray-200);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.f-bot-txt{font-size:12.5px;color:var(--gray-400)}
+.f-bot-links{display:flex;gap:20px}
+.f-bot-links a{font-size:12.5px;color:var(--gray-400);text-decoration:none;transition:color .18s}
+.f-bot-links a:hover{color:var(--blue-600)}
+
+/* ═══════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════ */
+@media(max-width:991px){.nav-main{display:none}.ham{display:flex}.usr-name{display:none}.usr-btn{padding:5px}}
+@media(max-width:767px){:root{--nav-height:60px}.phbar{padding:14px 16px}.ph-title{font-size:17px}}
+@media(max-width:575px){.brand-text-wrap{display:none}.f-bot{flex-direction:column;text-align:center}.f-bot-links{justify-content:center}.search-inp{width:160px}}
+::-webkit-scrollbar{width:5px;height:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--gray-300);border-radius:3px}
+</style>
+</head>
+<body>
+<canvas id="bg-canvas"></canvas>
+
+<!-- ════════ TOPBAR ════════ -->
+<header class="topbar">
+  <div class="tb-inner">
+    <a href="dashboard-pekalongan.html" class="brand">
+      <div class="brand-emb">
+        <div class="brand-emb-inner">🏛️</div>
+        <div class="brand-ring"></div>
+      </div>
+      <div class="brand-text-wrap">
+        <span class="brand-name">Dinas Kominfo</span>
+        <span class="brand-sub">Kota Pekalongan</span>
+      </div>
+    </a>
+    <ul class="nav-main">
+      <li><a href="dashboard-pekalongan.html" class="nli"><i class="bi bi-grid-1x2-fill"></i> Dashboard</a></li>
+      <li>
+        <button class="nli"><i class="bi bi-person-check-fill"></i> Approval <i class="bi bi-chevron-down caret"></i></button>
+        <div class="nav-dd">
+          <a href="user-approved.html"><span class="dd-ic"><i class="bi bi-person-check"></i></span>User Approved</a>
+          <a href="permohonan.html"><span class="dd-ic"><i class="bi bi-file-earmark-check"></i></span>Permohonan</a>
+          <a href="detail-permohonan.html"><span class="dd-ic"><i class="bi bi-file-earmark-text"></i></span>Detail Permohonan</a>
+        </div>
+      </li>
+      <li class="active">
+        <button class="nli"><i class="bi bi-grid-3x3-gap-fill"></i> Layanan <i class="bi bi-chevron-down caret"></i></button>
+        <div class="nav-dd">
+          <a href="kategori-layanan.html"><span class="dd-ic"><i class="bi bi-tags-fill"></i></span>Kategori Layanan</a>
+          <a href="daftar-layanan.html"><span class="dd-ic"><i class="bi bi-list-task"></i></span>Daftar Layanan</a>
+          <div class="dd-div"></div>
+          <a href="#"><span class="dd-ic"><i class="bi bi-person-vcard-fill"></i></span>Kependudukan</a>
+          <a href="#"><span class="dd-ic"><i class="bi bi-hospital-fill"></i></span>Layanan Kesehatan</a>
+        </div>
+      </li>
+      <li>
+        <button class="nli"><i class="bi bi-megaphone-fill"></i> Aduan <i class="bi bi-chevron-down caret"></i></button>
+        <div class="nav-dd">
+          <a href="#"><span class="dd-ic"><i class="bi bi-chat-left-text-fill"></i></span>Pesan Masuk</a>
+          <a href="#"><span class="dd-ic"><i class="bi bi-exclamation-triangle-fill"></i></span>Laporan</a>
+        </div>
+      </li>
+      <li><a href="#" class="nli"><i class="bi bi-question-circle-fill"></i> FAQ</a></li>
+      <li>
+        <button class="nli"><i class="bi bi-sliders"></i> Konfigurasi <i class="bi bi-chevron-down caret"></i></button>
+        <div class="nav-dd">
+          <a href="#"><span class="dd-ic"><i class="bi bi-list-ul"></i></span>Menu</a>
+          <a href="#"><span class="dd-ic"><i class="bi bi-person-badge-fill"></i></span>Role</a>
+          <a href="#"><span class="dd-ic"><i class="bi bi-key-fill"></i></span>Permission</a>
+          <div class="dd-div"></div>
+          <a href="#"><span class="dd-ic"><i class="bi bi-people-fill"></i></span>User</a>
+        </div>
+      </li>
+    </ul>
+    <div class="tb-right">
+      <button class="tb-btn"><i class="bi bi-bell-fill"></i><span class="notif-dot"></span></button>
+      <button class="tb-btn"><i class="bi bi-gear-fill gear-ic"></i></button>
+      <div class="usr-wrap" id="usrWrap">
+        <button class="usr-btn" onclick="toggleUsr()">
+          <div class="usr-av">AD</div>
+          <span class="usr-name">Admin</span>
+          <i class="bi bi-chevron-down usr-caret"></i>
+        </button>
+        <div class="usr-dd" id="usrDD">
+          <div class="usr-dd-hdr">
+            <span class="uname">Admin Pekalongan</span>
+            <span class="urole">Administrator Sistem</span>
+            <span class="ustatus"><span class="usd"></span> Online</span>
+          </div>
+          <div>
+            <a href="#"><i class="bi bi-person-circle"></i> Profil Saya</a>
+            <a href="#"><i class="bi bi-bell"></i> Notifikasi</a>
+            <a href="#"><i class="bi bi-shield-lock"></i> Keamanan</a>
+            <a href="#" class="lo-link" onclick="openLo(event)"><i class="bi bi-box-arrow-right"></i> Logout</a>
+          </div>
+        </div>
+      </div>
+      <button class="ham" id="hamBtn" onclick="toggleDrw()"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile Drawer -->
+<div class="mob-drw" id="mobDrw">
+  <ul class="mob-list">
+    <li class="mob-item"><div class="mob-trigger" onclick="location.href='dashboard-pekalongan.html'"><span><i class="bi bi-grid-1x2-fill me-2"></i>Dashboard</span></div></li>
+    <li class="mob-item expanded" onclick="toggleMob(this)">
+      <div class="mob-trigger"><span><i class="bi bi-grid-3x3-gap-fill me-2"></i>Layanan</span><i class="bi bi-chevron-down mob-caret"></i></div>
+      <div class="mob-sub">
+        <a href="kategori-layanan.html"><i class="bi bi-tags-fill"></i>Kategori Layanan</a>
+        <a href="daftar-layanan.html"><i class="bi bi-list-task"></i>Daftar Layanan</a>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- ════════ MAIN ════════ -->
+<div class="pw">
+<main class="mc">
+<div class="cc">
+
+  <!-- Page Header -->
+  <div class="phbar">
+    <div class="ph-left">
+      <div class="ph-icon"><i class="bi bi-list-task"></i></div>
+      <div>
+        <h1 class="ph-title">Daftar Layanan</h1>
+        <ul class="bc">
+          <li><a href="dashboard-pekalongan.html"><i class="bi bi-house-fill"></i> Home</a></li>
+          <li><i class="bi bi-chevron-right" style="font-size:10px;color:var(--gray-300)"></i></li>
+          <li><a href="#">Layanan</a></li>
+          <li><i class="bi bi-chevron-right" style="font-size:10px;color:var(--gray-300)"></i></li>
+          <li class="act">Daftar Layanan</li>
+        </ul>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+      <button class="btn-out" onclick="showToast('info','Export','Data sedang diekspor...')"><i class="bi bi-download"></i> Export</button>
+      <button class="btn-out" onclick="showToast('info','Import','Silakan pilih file untuk diimpor.')"><i class="bi bi-upload"></i> Import</button>
+      <button class="btn-prim" onclick="openModal()"><i class="bi bi-plus-lg"></i> Tambah Layanan</button>
+    </div>
+  </div>
+
+  <!-- Stat Cards -->
+  <div class="row g-3 mb-4">
+    <div class="col-6 col-lg-3">
+      <div class="stat-card">
+        <div class="stat-icon" style="background:var(--blue-100)"><i class="bi bi-list-task" style="color:var(--blue-600)"></i></div>
+        <div>
+          <div class="stat-num">24</div>
+          <div class="stat-lbl">Total Layanan</div>
+          <span class="stat-badge badge-neu"><i class="bi bi-layers"></i> Semua</span>
+        </div>
+      </div>
+    </div>
+    <div class="col-6 col-lg-3">
+      <div class="stat-card">
+        <div class="stat-icon" style="background:#dcfce7"><i class="bi bi-check-circle-fill" style="color:var(--green)"></i></div>
+        <div>
+          <div class="stat-num">18</div>
+          <div class="stat-lbl">Aktif</div>
+          <span class="stat-badge badge-up"><i class="bi bi-arrow-up"></i> +3 bulan ini</span>
+        </div>
+      </div>
+    </div>
+    <div class="col-6 col-lg-3">
+      <div class="stat-card">
+        <div class="stat-icon" style="background:#fef9c3"><i class="bi bi-pencil-square" style="color:#b45309"></i></div>
+        <div>
+          <div class="stat-num">4</div>
+          <div class="stat-lbl">Draft</div>
+          <span class="stat-badge badge-warn"><i class="bi bi-clock"></i> Belum publish</span>
+        </div>
+      </div>
+    </div>
+    <div class="col-6 col-lg-3">
+      <div class="stat-card">
+        <div class="stat-icon" style="background:#fff7ed"><i class="bi bi-bar-chart-fill" style="color:var(--orange)"></i></div>
+        <div>
+          <div class="stat-num">1.247</div>
+          <div class="stat-lbl">Total Permohonan</div>
+          <span class="stat-badge badge-up"><i class="bi bi-arrow-up"></i> +218 bulan ini</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Table Card -->
+  <div class="tbl-card">
+    <div class="tbl-toolbar">
+      <div class="tbl-title"><i class="bi bi-list-ul"></i> Daftar Semua Layanan</div>
+      <div class="tbl-controls">
+        <div class="search-wrap">
+          <i class="bi bi-search"></i>
+          <input type="text" class="search-inp" placeholder="Cari nama layanan...">
+        </div>
+        <!-- Filter kategori pakai Select2 (toolbar versi compact) -->
+        <div style="width:210px">
+          <select id="filterKategori" class="filter-kategori-select">
+            <option value="">Semua Kategori</option>
+            <optgroup label="Administrasi">
+              <option value="1">📄 Surat Keterangan</option>
+              <option value="2">📮 Surat Pengantar</option>
+            </optgroup>
+            <optgroup label="Kependudukan">
+              <option value="3">👤 KTP &amp; KK</option>
+              <option value="4">🎂 Akta Kelahiran</option>
+              <option value="5">⚰️ Akta Kematian</option>
+            </optgroup>
+            <optgroup label="Perizinan">
+              <option value="6">🏢 Izin Usaha</option>
+              <option value="7">🏗️ Perizinan Bangunan</option>
+              <option value="8">🌿 Izin Lingkungan</option>
+            </optgroup>
+            <optgroup label="Teknologi">
+              <option value="9">🖥️ Sertifikat Elektronik</option>
+              <option value="10">⚡ Internet &amp; Infrastruktur</option>
+            </optgroup>
+            <optgroup label="Sosial">
+              <option value="11">❤️ Layanan Sosial</option>
+              <option value="12">🎓 Beasiswa Daerah</option>
+            </optgroup>
+          </select>
+        </div>
+        <select class="flt-sel-native">
+          <option value="">Semua Status</option>
+          <option>Aktif</option>
+          <option>Non-Aktif</option>
+          <option>Draft</option>
+        </select>
+        <button class="btn-out" style="padding:9px 12px" onclick="showToast('info','Filter','Filter diterapkan.')"><i class="bi bi-funnel-fill"></i></button>
+      </div>
+    </div>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:48px;text-align:center">#</th>
+            <th class="sort">Nama Layanan <i class="bi bi-chevron-expand"></i></th>
+            <th class="sort">Kategori <i class="bi bi-chevron-expand"></i></th>
+            <th class="sort">SLA <i class="bi bi-chevron-expand"></i></th>
+            <th>Persyaratan</th>
+            <th class="sort">Biaya <i class="bi bi-chevron-expand"></i></th>
+            <th class="sort">Permohonan <i class="bi bi-chevron-expand"></i></th>
+            <th class="sort">Status <i class="bi bi-chevron-expand"></i></th>
+            <th style="text-align:center">Aksi</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <tr>
+            <td style="text-align:center;font-size:12px;color:var(--gray-400);font-weight:700">01</td>
+            <td>
+              <div style="display:flex;align-items:center;gap:12px">
+                <div class="row-icon" style="background:#eff6ff">📄</div>
+                <div>
+                  <div style="font-weight:700;color:var(--gray-900);font-size:13.5px">Surat Keterangan Domisili</div>
+                  <div style="font-size:11.5px;color:var(--gray-400);margin-top:1px">Keterangan tempat tinggal warga</div>
+                </div>
+              </div>
+            </td>
+            <td><span class="chip" style="background:var(--blue-100);color:var(--blue-700)"><i class="bi bi-tags-fill" style="font-size:10px"></i>Surat Keterangan</span></td>
+            <td><b>3</b> <span style="font-size:11px;color:var(--gray-400)">hari</span></td>
+            <td><span style="font-size:12px;color:var(--gray-600)">KTP, KK, Pengantar RT/RW</span></td>
+            <td><span style="font-weight:700;color:var(--green);font-size:13px">Gratis</span></td>
+            <td>
+              <div style="display:flex;align-items:center;gap:6px">
+                <span style="font-weight:700;color:var(--gray-800)">142</span>
+                <span style="font-size:11px;background:#dcfce7;color:var(--green);font-weight:700;padding:1px 7px;border-radius:8px">+18</span>
+              </div>
+            </td>
+            <td><span class="badge-status aktif"><span class="stt-dot" style="background:var(--green)"></span>Aktif</span></td>
+            <td>
+              <div style="display:flex;align-items:center;justify-content:center;gap:5px">
+                <button class="act-btn view" onclick="showToast('info','Detail','Membuka detail layanan...')"><i class="bi bi-eye-fill"></i></button>
+                <button class="act-btn edit" onclick="openModalEdit('Surat Keterangan Domisili','📄','#eff6ff','1','3','Keterangan tempat tinggal warga','Gratis','KTP, KK, Pengantar RT/RW')"><i class="bi bi-pencil-fill"></i></button>
+                <button class="act-btn tog" onclick="showToast('warn','Status','Status layanan diubah.')"><i class="bi bi-toggle-on"></i></button>
+                <button class="act-btn del" onclick="confirmDel('Surat Keterangan Domisili')"><i class="bi bi-trash-fill"></i></button>
+              </div>
+            </td>
+          </tr>
+
+          <tr>
+            <td style="text-align:center;font-size:12px;color:var(--gray-400);font-weight:700">02</td>
+            <td>
+              <div style="display:flex;align-items:center;gap:12px">
+                <div class="row-icon" style="background:#fff7ed">🏢</div>
+                <div>
+                  <div style="font-weight:700;color:var(--gray-900);font-size:13.5px">Izin Usaha Mikro Kecil (IUMK)</div>
+                  <div style="font-size:11.5px;color:var(--gray-400);margin-top:1px">Perizinan usaha skala mikro dan kecil</div>
+                </div>
+              </div>
+            </td>
+            <td><span class="chip" style="background:#fff7ed;color:var(--orange)"><i class="bi bi-tags-fill" style="font-size:10px"></i>Izin Usaha</span></td>
+            <td><b>7</b> <span style="font-size:11px;color:var(--gray-400)">hari</span></td>
+            <td><span style="font-size:12px;color:var(--gray-600)">KTP, NPWP, Foto Usaha, Surat Domisili</span></td>
+            <td><span style="font-weight:700;color:var(--green);font-size:13px">Gratis</span></td>
+            <td>
+              <div style="display:flex;align-items:center;gap:6px">
+                <span style="font-weight:700;color:var(--gray-800)">98</span>
+                <span style="font-size:11px;background:#dcfce7;color:var(--green);font-weight:700;padding:1px 7px;border-radius:8px">+12</span>
+              </div>
+            </td>
+            <td><span class="badge-status aktif"><span class="stt-dot" style="background:var(--green)"></span>Aktif</span></td>
+            <td>
+              <div style="display:flex;align-items:center;justify-content:center;gap:5px">
+                <button class="act-btn view" onclick="showToast('info','Detail','Membuka detail layanan...')"><i class="bi bi-eye-fill"></i></button>
+                <button class="act-btn edit" onclick="openModalEdit('Izin Usaha Mikro Kecil','🏢','#fff7ed','6','7','Perizinan usaha skala mikro dan kecil','Gratis','KTP, NPWP, Foto Usaha, Surat Domisili')"><i class="bi bi-pencil-fill"></i></button>
+                <button class="act-btn tog" onclick="showToast('warn','Status','Status layanan diubah.')"><i class="bi bi-toggle-on"></i></button>
+                <button class="act-btn del" onclick="confirmDel('Izin Usaha Mikro Kecil')"><i class="bi bi-trash-fill"></i></button>
+              </div>
+            </td>
+          </tr>
+
+          <tr>
+            <td style="text-align:center;font-size:12px;color:var(--gray-400);font-weight:700">03</td>
+            <td>
+              <div style="display:flex;align-items:center;gap:12px">
+                <div class="row-icon" style="background:#f0fdf4">👤</div>
+                <div>
+                  <div style="font-weight:700;color:var(--gray-900);font-size:13.5px">Penerbitan / Perpanjangan KTP-el</div>
+                  <div style="font-size:11.5px;color:var(--gray-400);margin-top:1px">Perekaman dan cetak KTP elektronik</div>
+                </div>
+              </div>
+            </td>
+            <td><span class="chip" style="background:#f0fdf4;color:var(--green)"><i class="bi bi-tags-fill" style="font-size:10px"></i>KTP &amp; KK</span></td>
+            <td><b>5</b> <span style="font-size:11px;color:var(--gray-400)">hari</span></td>
+            <td><span style="font-size:12px;color:var(--gray-600)">F1-01, Pengantar RT/RW, KK</span></td>
+            <td><span style="font-weight:700;color:var(--green);font-size:13px">Gratis</span></td>
+            <td>
+              <div style="display:flex;align-items:center;gap:6px">
+                <span style="font-weight:700;color:var(--gray-800)">213</span>
+                <span style="font-size:11px;background:#dcfce7;color:var(--green);font-weight:700;padding:1px 7px;border-radius:8px">+34</span>
+              </div>
+            </td>
+            <td><span class="badge-status aktif"><span class="stt-dot" style="background:var(--green)"></span>Aktif</span></td>
+            <td>
+              <div style="display:flex;align-items:center;justify-content:center;gap:5px">
+                <button class="act-btn view" onclick="showToast('info','Detail','Membuka detail layanan...')"><i class="bi bi-eye-fill"></i></button>
+                <button class="act-btn edit" onclick="openModalEdit('Penerbitan / Perpanjangan KTP-el','👤','#f0fdf4','3','5','Perekaman dan cetak KTP elektronik','Gratis','F1-01, Pengantar RT/RW, KK')"><i class="bi bi-pencil-fill"></i></button>
+                <button class="act-btn tog" onclick="showToast('warn','Status','Status layanan diubah.')"><i class="bi bi-toggle-on"></i></button>
+                <button class="act-btn del" onclick="confirmDel('Penerbitan / Perpanjangan KTP-el')"><i class="bi bi-trash-fill"></i></button>
+              </div>
+            </td>
+          </tr>
+
+          <tr>
+            <td style="text-align:center;font-size:12px;color:var(--gray-400);font-weight:700">04</td>
+            <td>
+              <div style="display:flex;align-items:center;gap:12px">
+                <div class="row-icon" style="background:#fdf4ff">🖥️</div>
+                <div>
+                  <div style="font-weight:700;color:var(--gray-900);font-size:13.5px">Pendaftaran Tanda Tangan Elektronik</div>
+                  <div style="font-size:11.5px;color:var(--gray-400);margin-top:1px">Sertifikat elektronik BSrE BSSN</div>
+                </div>
+              </div>
+            </td>
+            <td><span class="chip" style="background:#fdf4ff;color:var(--purple)"><i class="bi bi-tags-fill" style="font-size:10px"></i>Sertifikat Elektronik</span></td>
+            <td><b>3</b> <span style="font-size:11px;color:var(--gray-400)">hari</span></td>
+            <td><span style="font-size:12px;color:var(--gray-600)">KTP, NIK, Email Aktif, Foto Selfie</span></td>
+            <td><span style="font-weight:700;color:var(--green);font-size:13px">Gratis</span></td>
+            <td>
+              <div style="display:flex;align-items:center;gap:6px">
+                <span style="font-weight:700;color:var(--gray-800)">77</span>
+                <span style="font-size:11px;background:#dcfce7;color:var(--green);font-weight:700;padding:1px 7px;border-radius:8px">+9</span>
+              </div>
+            </td>
+            <td><span class="badge-status aktif"><span class="stt-dot" style="background:var(--green)"></span>Aktif</span></td>
+            <td>
+              <div style="display:flex;align-items:center;justify-content:center;gap:5px">
+                <button class="act-btn view" onclick="showToast('info','Detail','Membuka detail layanan...')"><i class="bi bi-eye-fill"></i></button>
+                <button class="act-btn edit" onclick="openModalEdit('Pendaftaran TTE','🖥️','#fdf4ff','9','3','Sertifikat elektronik BSrE BSSN','Gratis','KTP, NIK, Email Aktif, Foto Selfie')"><i class="bi bi-pencil-fill"></i></button>
+                <button class="act-btn tog" onclick="showToast('warn','Status','Status layanan diubah.')"><i class="bi bi-toggle-on"></i></button>
+                <button class="act-btn del" onclick="confirmDel('Pendaftaran TTE')"><i class="bi bi-trash-fill"></i></button>
+              </div>
+            </td>
+          </tr>
+
+          <tr>
+            <td style="text-align:center;font-size:12px;color:var(--gray-400);font-weight:700">05</td>
+            <td>
+              <div style="display:flex;align-items:center;gap:12px">
+                <div class="row-icon" style="background:#f0fdf4">🎂</div>
+                <div>
+                  <div style="font-weight:700;color:var(--gray-900);font-size:13.5px">Akta Kelahiran</div>
+                  <div style="font-size:11.5px;color:var(--gray-400);margin-top:1px">Penerbitan akta kelahiran anak</div>
+                </div>
+              </div>
+            </td>
+            <td><span class="chip" style="background:#f0fdf4;color:var(--green)"><i class="bi bi-tags-fill" style="font-size:10px"></i>Akta Kelahiran</span></td>
+            <td><b>7</b> <span style="font-size:11px;color:var(--gray-400)">hari</span></td>
+            <td><span style="font-size:12px;color:var(--gray-600)">Surat Lahir RS, KTP Ortu, KK, Buku Nikah</span></td>
+            <td><span style="font-weight:700;color:var(--green);font-size:13px">Gratis</span></td>
+            <td>
+              <div style="display:flex;align-items:center;gap:6px">
+                <span style="font-weight:700;color:var(--gray-800)">189</span>
+                <span style="font-size:11px;background:#dcfce7;color:var(--green);font-weight:700;padding:1px 7px;border-radius:8px">+27</span>
+              </div>
+            </td>
+            <td><span class="badge-status aktif"><span class="stt-dot" style="background:var(--green)"></span>Aktif</span></td>
+            <td>
+              <div style="display:flex;align-items:center;justify-content:center;gap:5px">
+                <button class="act-btn view" onclick="showToast('info','Detail','Membuka detail layanan...')"><i class="bi bi-eye-fill"></i></button>
+                <button class="act-btn edit" onclick="openModalEdit('Akta Kelahiran','🎂','#f0fdf4','4','7','Penerbitan akta kelahiran anak','Gratis','Surat Lahir RS, KTP Ortu, KK, Buku Nikah')"><i class="bi bi-pencil-fill"></i></button>
+                <button class="act-btn tog" onclick="showToast('warn','Status','Status layanan diubah.')"><i class="bi bi-toggle-on"></i></button>
+                <button class="act-btn del" onclick="confirmDel('Akta Kelahiran')"><i class="bi bi-trash-fill"></i></button>
+              </div>
+            </td>
+          </tr>
+
+          <tr>
+            <td style="text-align:center;font-size:12px;color:var(--gray-400);font-weight:700">06</td>
+            <td>
+              <div style="display:flex;align-items:center;gap:12px">
+                <div class="row-icon" style="background:#fff1f2">❤️</div>
+                <div>
+                  <div style="font-weight:700;color:var(--gray-900);font-size:13.5px">Bantuan Sosial PKH</div>
+                  <div style="font-size:11.5px;color:var(--gray-400);margin-top:1px">Permohonan Program Keluarga Harapan</div>
+                </div>
+              </div>
+            </td>
+            <td><span class="chip" style="background:#fff1f2;color:var(--rose)"><i class="bi bi-tags-fill" style="font-size:10px"></i>Layanan Sosial</span></td>
+            <td><b>14</b> <span style="font-size:11px;color:var(--gray-400)">hari</span></td>
+            <td><span style="font-size:12px;color:var(--gray-600)">KTP, KK, Surat Tidak Mampu, SKTM</span></td>
+            <td><span style="font-weight:700;color:var(--green);font-size:13px">Gratis</span></td>
+            <td>
+              <div style="display:flex;align-items:center;gap:6px">
+                <span style="font-weight:700;color:var(--gray-800)">156</span>
+                <span style="font-size:11px;background:#dcfce7;color:var(--green);font-weight:700;padding:1px 7px;border-radius:8px">+22</span>
+              </div>
+            </td>
+            <td><span class="badge-status aktif"><span class="stt-dot" style="background:var(--green)"></span>Aktif</span></td>
+            <td>
+              <div style="display:flex;align-items:center;justify-content:center;gap:5px">
+                <button class="act-btn view" onclick="showToast('info','Detail','Membuka detail layanan...')"><i class="bi bi-eye-fill"></i></button>
+                <button class="act-btn edit" onclick="openModalEdit('Bantuan Sosial PKH','❤️','#fff1f2','11','14','Permohonan Program Keluarga Harapan','Gratis','KTP, KK, Surat Tidak Mampu, SKTM')"><i class="bi bi-pencil-fill"></i></button>
+                <button class="act-btn tog" onclick="showToast('warn','Status','Status layanan diubah.')"><i class="bi bi-toggle-on"></i></button>
+                <button class="act-btn del" onclick="confirmDel('Bantuan Sosial PKH')"><i class="bi bi-trash-fill"></i></button>
+              </div>
+            </td>
+          </tr>
+
+          <tr>
+            <td style="text-align:center;font-size:12px;color:var(--gray-400);font-weight:700">07</td>
+            <td>
+              <div style="display:flex;align-items:center;gap:12px">
+                <div class="row-icon" style="background:#f0fdfa">🏗️</div>
+                <div>
+                  <div style="font-weight:700;color:var(--gray-900);font-size:13.5px">Persetujuan Bangunan Gedung (PBG)</div>
+                  <div style="font-size:11.5px;color:var(--gray-400);margin-top:1px">Izin mendirikan bangunan baru</div>
+                </div>
+              </div>
+            </td>
+            <td><span class="chip" style="background:#f0fdfa;color:var(--teal)"><i class="bi bi-tags-fill" style="font-size:10px"></i>Perizinan Bangunan</span></td>
+            <td><b>21</b> <span style="font-size:11px;color:var(--gray-400)">hari</span></td>
+            <td><span style="font-size:12px;color:var(--gray-600)">KTP, SHM, Gambar Teknis, RAB, Izin Lokasi</span></td>
+            <td><span style="font-weight:700;color:var(--orange);font-size:13px">Berbayar</span></td>
+            <td>
+              <div style="display:flex;align-items:center;gap:6px">
+                <span style="font-weight:700;color:var(--gray-800)">44</span>
+                <span style="font-size:11px;background:#dcfce7;color:var(--green);font-weight:700;padding:1px 7px;border-radius:8px">+5</span>
+              </div>
+            </td>
+            <td><span class="badge-status aktif"><span class="stt-dot" style="background:var(--green)"></span>Aktif</span></td>
+            <td>
+              <div style="display:flex;align-items:center;justify-content:center;gap:5px">
+                <button class="act-btn view" onclick="showToast('info','Detail','Membuka detail layanan...')"><i class="bi bi-eye-fill"></i></button>
+                <button class="act-btn edit" onclick="openModalEdit('Persetujuan Bangunan Gedung','🏗️','#f0fdfa','7','21','Izin mendirikan bangunan baru','Berbayar','KTP, SHM, Gambar Teknis, RAB')"><i class="bi bi-pencil-fill"></i></button>
+                <button class="act-btn tog" onclick="showToast('warn','Status','Status layanan diubah.')"><i class="bi bi-toggle-on"></i></button>
+                <button class="act-btn del" onclick="confirmDel('Persetujuan Bangunan Gedung')"><i class="bi bi-trash-fill"></i></button>
+              </div>
+            </td>
+          </tr>
+
+          <!-- Draft rows -->
+          <tr style="opacity:.7">
+            <td style="text-align:center;font-size:12px;color:var(--gray-400);font-weight:700">08</td>
+            <td>
+              <div style="display:flex;align-items:center;gap:12px">
+                <div class="row-icon" style="background:#fef9c3">🎓</div>
+                <div>
+                  <div style="font-weight:700;color:var(--gray-700);font-size:13.5px">Beasiswa Pelajar Berprestasi</div>
+                  <div style="font-size:11.5px;color:var(--gray-400);margin-top:1px">Layanan beasiswa tingkat kota</div>
+                </div>
+              </div>
+            </td>
+            <td><span class="chip" style="background:#fef9c3;color:#92400e"><i class="bi bi-tags-fill" style="font-size:10px"></i>Beasiswa Daerah</span></td>
+            <td><b>30</b> <span style="font-size:11px;color:var(--gray-400)">hari</span></td>
+            <td><span style="font-size:12px;color:var(--gray-500)">KTP, KK, Raport, Rekomendasi Sekolah</span></td>
+            <td><span style="font-weight:700;color:var(--green);font-size:13px">Gratis</span></td>
+            <td><span style="font-weight:700;color:var(--gray-500)">0</span></td>
+            <td><span class="badge-status draft"><span class="stt-dot" style="background:#b45309"></span>Draft</span></td>
+            <td>
+              <div style="display:flex;align-items:center;justify-content:center;gap:5px">
+                <button class="act-btn view" onclick="showToast('info','Preview','Membuka preview draft...')"><i class="bi bi-eye-fill"></i></button>
+                <button class="act-btn edit" onclick="openModalEdit('Beasiswa Pelajar Berprestasi','🎓','#fef9c3','12','30','Layanan beasiswa tingkat kota','Gratis','KTP, KK, Raport, Rekomendasi Sekolah')"><i class="bi bi-pencil-fill"></i></button>
+                <button class="act-btn tog" style="background:#dcfce7;color:var(--green)" onclick="showToast('success','Publish','Layanan berhasil dipublikasikan.')"><i class="bi bi-send-fill"></i></button>
+                <button class="act-btn del" onclick="confirmDel('Beasiswa Pelajar Berprestasi')"><i class="bi bi-trash-fill"></i></button>
+              </div>
+            </td>
+          </tr>
+
+          <tr>
+            <td style="text-align:center;font-size:12px;color:var(--gray-400);font-weight:700">09</td>
+            <td>
+              <div style="display:flex;align-items:center;gap:12px">
+                <div class="row-icon" style="background:#fef9c3">⚡</div>
+                <div>
+                  <div style="font-weight:700;color:var(--gray-900);font-size:13.5px">Internet Desa / Kelurahan</div>
+                  <div style="font-size:11.5px;color:var(--gray-400);margin-top:1px">Permohonan jaringan internet wilayah</div>
+                </div>
+              </div>
+            </td>
+            <td><span class="chip" style="background:#fef9c3;color:#b45309"><i class="bi bi-tags-fill" style="font-size:10px"></i>Internet &amp; Infrastruktur</span></td>
+            <td><b>7</b> <span style="font-size:11px;color:var(--gray-400)">hari</span></td>
+            <td><span style="font-size:12px;color:var(--gray-600)">Surat Permohonan, KTP Kades, Peta Wilayah</span></td>
+            <td><span style="font-weight:700;color:var(--green);font-size:13px">Gratis</span></td>
+            <td>
+              <div style="display:flex;align-items:center;gap:6px">
+                <span style="font-weight:700;color:var(--gray-800)">55</span>
+                <span style="font-size:11px;background:#dcfce7;color:var(--green);font-weight:700;padding:1px 7px;border-radius:8px">+8</span>
+              </div>
+            </td>
+            <td><span class="badge-status aktif"><span class="stt-dot" style="background:var(--green)"></span>Aktif</span></td>
+            <td>
+              <div style="display:flex;align-items:center;justify-content:center;gap:5px">
+                <button class="act-btn view" onclick="showToast('info','Detail','Membuka detail layanan...')"><i class="bi bi-eye-fill"></i></button>
+                <button class="act-btn edit" onclick="openModalEdit('Internet Desa / Kelurahan','⚡','#fef9c3','10','7','Permohonan jaringan internet wilayah','Gratis','Surat Permohonan, KTP Kades, Peta Wilayah')"><i class="bi bi-pencil-fill"></i></button>
+                <button class="act-btn tog" onclick="showToast('warn','Status','Status layanan diubah.')"><i class="bi bi-toggle-on"></i></button>
+                <button class="act-btn del" onclick="confirmDel('Internet Desa')"><i class="bi bi-trash-fill"></i></button>
+              </div>
+            </td>
+          </tr>
+
+          <tr>
+            <td style="text-align:center;font-size:12px;color:var(--gray-400);font-weight:700">10</td>
+            <td>
+              <div style="display:flex;align-items:center;gap:12px">
+                <div class="row-icon" style="background:#eff6ff">📮</div>
+                <div>
+                  <div style="font-weight:700;color:var(--gray-900);font-size:13.5px">Surat Pengantar SKCK</div>
+                  <div style="font-size:11.5px;color:var(--gray-400);margin-top:1px">Pengantar Surat Keterangan Catatan Kepolisian</div>
+                </div>
+              </div>
+            </td>
+            <td><span class="chip" style="background:var(--blue-100);color:var(--blue-700)"><i class="bi bi-tags-fill" style="font-size:10px"></i>Surat Pengantar</span></td>
+            <td><b>1</b> <span style="font-size:11px;color:var(--gray-400)">hari</span></td>
+            <td><span style="font-size:12px;color:var(--gray-600)">KTP, KK, Foto 4x6</span></td>
+            <td><span style="font-weight:700;color:var(--green);font-size:13px">Gratis</span></td>
+            <td>
+              <div style="display:flex;align-items:center;gap:6px">
+                <span style="font-weight:700;color:var(--gray-800)">273</span>
+                <span style="font-size:11px;background:#dcfce7;color:var(--green);font-weight:700;padding:1px 7px;border-radius:8px">+43</span>
+              </div>
+            </td>
+            <td><span class="badge-status aktif"><span class="stt-dot" style="background:var(--green)"></span>Aktif</span></td>
+            <td>
+              <div style="display:flex;align-items:center;justify-content:center;gap:5px">
+                <button class="act-btn view" onclick="showToast('info','Detail','Membuka detail layanan...')"><i class="bi bi-eye-fill"></i></button>
+                <button class="act-btn edit" onclick="openModalEdit('Surat Pengantar SKCK','📮','#eff6ff','2','1','Pengantar SKCK','Gratis','KTP, KK, Foto 4x6')"><i class="bi bi-pencil-fill"></i></button>
+                <button class="act-btn tog" onclick="showToast('warn','Status','Status layanan diubah.')"><i class="bi bi-toggle-on"></i></button>
+                <button class="act-btn del" onclick="confirmDel('Surat Pengantar SKCK')"><i class="bi bi-trash-fill"></i></button>
+              </div>
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+
+    <div class="tbl-footer">
+      <div class="tbl-info">Menampilkan <span>1–10</span> dari <span>24</span> layanan</div>
+      <div class="pg-wrap">
+        <button class="pg-btn" disabled><i class="bi bi-chevron-left" style="font-size:11px"></i></button>
+        <button class="pg-btn active">1</button>
+        <button class="pg-btn">2</button>
+        <button class="pg-btn">3</button>
+        <button class="pg-btn"><i class="bi bi-chevron-right" style="font-size:11px"></i></button>
+      </div>
+    </div>
+  </div>
+
+</div>
+</main>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="fc">
+    <div class="row g-4">
+      <div class="col-12 col-md-4">
+        <div class="fb-logo">
+          <div class="fb-icon">🏛️</div>
+          <div class="fb-name">Dinas Kominfo<br><small style="font-size:12px;font-family:'DM Sans',sans-serif;opacity:.7">Kota Pekalongan</small></div>
+        </div>
+        <p class="fb-desc">Portal Layanan Digital Kota Pekalongan — pelayanan publik yang transparan dan akuntabel.</p>
+        <div class="fb-social">
+          <a href="#"><i class="bi bi-facebook"></i></a><a href="#"><i class="bi bi-instagram"></i></a>
+          <a href="#"><i class="bi bi-twitter-x"></i></a><a href="#"><i class="bi bi-youtube"></i></a>
+        </div>
+      </div>
+      <div class="col-6 col-md-2">
+        <div class="fh">Layanan</div>
+        <ul class="fl">
+          <li><a href="#"><i class="bi bi-chevron-right"></i>Surat Menyurat</a></li>
+          <li><a href="#"><i class="bi bi-chevron-right"></i>Izin Usaha</a></li>
+          <li><a href="#"><i class="bi bi-chevron-right"></i>Kependudukan</a></li>
+        </ul>
+      </div>
+      <div class="col-6 col-md-2">
+        <div class="fh">Informasi</div>
+        <ul class="fl">
+          <li><a href="#"><i class="bi bi-chevron-right"></i>Berita Kota</a></li>
+          <li><a href="#"><i class="bi bi-chevron-right"></i>FAQ</a></li>
+          <li><a href="#"><i class="bi bi-chevron-right"></i>Kontak</a></li>
+        </ul>
+      </div>
+      <div class="col-12 col-md-4">
+        <div class="fh">Hubungi Kami</div>
+        <div class="fci"><div class="fci-ic"><i class="bi bi-geo-alt-fill"></i></div><span>Jl. Sriwijaya No. 44, Pekalongan 51111</span></div>
+        <div class="fci"><div class="fci-ic"><i class="bi bi-telephone-fill"></i></div><span>(0285) 421 234</span></div>
+        <div class="fci"><div class="fci-ic"><i class="bi bi-envelope-fill"></i></div><span>kominfo@pekalongan.go.id</span></div>
+      </div>
+    </div>
+    <div class="f-bot">
+      <div class="f-bot-txt">© 2024 Dinas Kominfo Kota Pekalongan. Hak cipta dilindungi.</div>
+      <div class="f-bot-links"><a href="#">Kebijakan Privasi</a><a href="#">Syarat &amp; Ketentuan</a></div>
+    </div>
+  </div>
+</footer>
+</div>
+
+<!-- ════════ MODAL TAMBAH / EDIT LAYANAN ════════ -->
+<div class="mveil" id="mveil" onclick="if(event.target===this)closeModal()">
+  <div class="mbox">
+    <div class="mhdr">
+      <div class="mhdr-icon" id="mIcon"><i class="bi bi-plus-circle-fill"></i></div>
+      <div>
+        <div class="mhdr-title" id="mTitle">Tambah Layanan Baru</div>
+        <div class="mhdr-sub" id="mSub">Lengkapi informasi layanan berikut</div>
+      </div>
+      <button class="mclose" onclick="closeModal()"><i class="bi bi-x-lg"></i></button>
+    </div>
+
+    <div class="mbody">
+
+      <!-- Live preview -->
+      <div class="preview-strip" id="prevStrip">
+        <div class="ps-icon" id="prevIcon" style="background:#eff6ff">📄</div>
+        <div style="flex:1">
+          <div class="ps-name" id="prevName">Nama Layanan</div>
+          <div class="ps-sub" id="prevSub">Pilih kategori · SLA: — hari</div>
+        </div>
+        <span class="badge-status aktif" id="prevBadge"><span class="stt-dot" style="background:var(--green)"></span>Aktif</span>
+      </div>
+
+      <div class="row g-3">
+
+        <!-- Nama Layanan -->
+        <div class="col-12">
+          <div class="fg">
+            <div class="flbl"><i class="bi bi-type" style="color:var(--blue-400)"></i> Nama Layanan <span class="req">*</span></div>
+            <input type="text" class="finp" id="fNama" placeholder="contoh: Surat Keterangan Usaha" oninput="updatePreview()">
+          </div>
+        </div>
+
+        <!-- Kategori pakai Select2 -->
+        <div class="col-12 col-md-7">
+          <div class="fg">
+            <div class="flbl"><i class="bi bi-tags-fill" style="color:var(--purple)"></i> Kategori Layanan <span class="req">*</span></div>
+            <div class="s2-wrapper">
+              <select id="fKategori" class="modal-kategori-select">
+                <option value="">— Pilih kategori —</option>
+                <optgroup label="📄 Administrasi" data-icon="📄" data-bg="#eff6ff">
+                  <option value="1" data-icon="📄" data-bg="#eff6ff" data-sub="Surat keterangan domisili, usaha, dll.">Surat Keterangan</option>
+                  <option value="2" data-icon="📮" data-bg="#eff6ff" data-sub="Surat pengantar ke instansi lain">Surat Pengantar</option>
+                </optgroup>
+                <optgroup label="👤 Kependudukan" data-icon="👤" data-bg="#f0fdf4">
+                  <option value="3" data-icon="👤" data-bg="#f0fdf4" data-sub="KTP elektronik dan Kartu Keluarga">KTP &amp; KK</option>
+                  <option value="4" data-icon="🎂" data-bg="#f0fdf4" data-sub="Penerbitan akta kelahiran anak">Akta Kelahiran</option>
+                  <option value="5" data-icon="⚰️" data-bg="#f3f4f6" data-sub="Penerbitan akta kematian">Akta Kematian</option>
+                </optgroup>
+                <optgroup label="📋 Perizinan" data-icon="🏢" data-bg="#fff7ed">
+                  <option value="6" data-icon="🏢" data-bg="#fff7ed" data-sub="Perizinan usaha mikro dan kecil">Izin Usaha</option>
+                  <option value="7" data-icon="🏗️" data-bg="#f0fdfa" data-sub="IMB, PBG, SLF bangunan">Perizinan Bangunan</option>
+                  <option value="8" data-icon="🌿" data-bg="#f0fdf4" data-sub="Amdal, UKL-UPL, SPPL">Izin Lingkungan</option>
+                </optgroup>
+                <optgroup label="💻 Teknologi" data-icon="🖥️" data-bg="#fdf4ff">
+                  <option value="9" data-icon="🖥️" data-bg="#fdf4ff" data-sub="Sertifikat elektronik BSrE BSSN">Sertifikat Elektronik</option>
+                  <option value="10" data-icon="⚡" data-bg="#fef9c3" data-sub="Internet desa dan infrastruktur TIK">Internet &amp; Infrastruktur</option>
+                </optgroup>
+                <optgroup label="❤️ Sosial" data-icon="❤️" data-bg="#fff1f2">
+                  <option value="11" data-icon="❤️" data-bg="#fff1f2" data-sub="Bantuan sosial, PKH, BPNT">Layanan Sosial</option>
+                  <option value="12" data-icon="🎓" data-bg="#fef9c3" data-sub="Permohonan beasiswa tingkat daerah">Beasiswa Daerah</option>
+                </optgroup>
+              </select>
+            </div>
+            <div class="fhint"><i class="bi bi-info-circle"></i> Belum ada kategori? <a href="kategori-layanan.html" target="_blank" style="color:var(--blue-600);font-weight:600">Tambah Kategori</a></div>
+          </div>
+        </div>
+
+        <!-- SLA -->
+        <div class="col-12 col-md-5">
+          <div class="fg">
+            <div class="flbl"><i class="bi bi-clock-fill" style="color:var(--teal)"></i> SLA (Hari Kerja) <span class="req">*</span></div>
+            <input type="number" class="finp" id="fSla" placeholder="misal: 7" min="1" max="90" oninput="updatePreview()">
+            <div class="fhint"><i class="bi bi-info-circle"></i> Batas waktu penyelesaian layanan</div>
+          </div>
+        </div>
+
+        <!-- Deskripsi -->
+        <div class="col-12">
+          <div class="fg">
+            <div class="flbl"><i class="bi bi-text-paragraph" style="color:var(--gray-400)"></i> Deskripsi Layanan</div>
+            <div class="cc-row">
+              <textarea class="finp" id="fDesc" placeholder="Jelaskan secara ringkas layanan ini kepada pemohon…" rows="3"
+                oninput="updateCharCount(this,'ccDesc',250)"></textarea>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:4px">
+              <div class="fhint"><i class="bi bi-info-circle"></i> Tampil di halaman portal publik</div>
+              <span class="cc-cnt" id="ccDesc">0 / 250</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Persyaratan -->
+        <div class="col-12">
+          <div class="fg">
+            <div class="flbl"><i class="bi bi-list-check" style="color:var(--gold)"></i> Persyaratan Dokumen</div>
+            <textarea class="finp" id="fSyarat" placeholder="Pisahkan dengan koma. Contoh: KTP, KK, Foto 3x4, Surat Pengantar RT/RW" rows="2"></textarea>
+            <div class="fhint"><i class="bi bi-info-circle"></i> Dokumen yang harus dilampirkan pemohon saat mengajukan</div>
+          </div>
+        </div>
+
+        <!-- Alur Layanan -->
+        <div class="col-12">
+          <div class="fg">
+            <div class="flbl"><i class="bi bi-diagram-3-fill" style="color:var(--blue-500)"></i> Alur / Prosedur Layanan</div>
+            <textarea class="finp" id="fAlur" placeholder="Jelaskan langkah-langkah pengajuan layanan ini secara singkat…" rows="3"></textarea>
+          </div>
+        </div>
+
+        <!-- Biaya & Unit -->
+        <div class="col-12 col-md-6">
+          <div class="fg">
+            <div class="flbl"><i class="bi bi-cash-coin" style="color:var(--green)"></i> Biaya Layanan</div>
+            <select class="finp" id="fBiaya">
+              <option value="gratis">💚 Gratis (Tidak dipungut biaya)</option>
+              <option value="berbayar">💰 Berbayar (Ada retribusi)</option>
+              <option value="tergantung">🔎 Tergantung Jenis Permohonan</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-12 col-md-6">
+          <div class="fg">
+            <div class="flbl"><i class="bi bi-building-fill" style="color:var(--orange)"></i> Unit Pelaksana</div>
+            <select class="finp" id="fUnit">
+              <option value="">— Pilih unit —</option>
+              <option>Dinas Kominfo</option>
+              <option>Dinas Dukcapil</option>
+              <option>Dinas PMPTSP</option>
+              <option>Dinas Sosial</option>
+              <option>Dinas PUPR</option>
+              <option>BKPSDM</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Link &  Nomor Layanan -->
+        <div class="col-12 col-md-7">
+          <div class="fg">
+            <div class="flbl"><i class="bi bi-link-45deg" style="color:var(--blue-400)"></i> URL / Link Formulir Online</div>
+            <input type="url" class="finp" id="fUrl" placeholder="https://layanan.pekalongan.go.id/...">
+          </div>
+        </div>
+        <div class="col-12 col-md-5">
+          <div class="fg">
+            <div class="flbl"><i class="bi bi-hash" style="color:var(--purple)"></i> Kode Layanan</div>
+            <input type="text" class="finp" id="fKode" placeholder="LYN-001" style="text-transform:uppercase">
+          </div>
+        </div>
+
+        <!-- Tag / Kata Kunci (Select2 Multiple) -->
+        <div class="col-12">
+          <div class="fg">
+            <div class="flbl"><i class="bi bi-bookmark-fill" style="color:var(--rose)"></i> Tag / Kata Kunci</div>
+            <select id="fTags" class="modal-tags-select" multiple>
+              <option value="ktp" selected>KTP</option>
+              <option value="kk" selected>Kartu Keluarga</option>
+              <option value="surat">Surat</option>
+              <option value="izin">Izin</option>
+              <option value="online">Online</option>
+              <option value="gratis">Gratis</option>
+              <option value="bantuan">Bantuan Sosial</option>
+              <option value="bangunan">Bangunan</option>
+              <option value="digital">Digital</option>
+              <option value="domisili">Domisili</option>
+            </select>
+            <div class="fhint"><i class="bi bi-info-circle"></i> Tag membantu pemohon menemukan layanan melalui pencarian</div>
+          </div>
+        </div>
+
+        <!-- Status + Tampilkan -->
+        <div class="col-12 col-md-6">
+          <div class="fg">
+            <div class="flbl"><i class="bi bi-toggle-on" style="color:var(--green)"></i> Status Publikasi</div>
+            <div class="sw-row" style="height:44px">
+              <label class="sw">
+                <input type="checkbox" id="fStatus" checked onchange="updateStatusPreview()">
+                <span class="sw-slider"></span>
+              </label>
+              <span class="sw-lbl" id="swLbl">Status: <strong style="color:var(--green)">Aktif</strong></span>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-6">
+          <div class="fg">
+            <div class="flbl"><i class="bi bi-star-fill" style="color:var(--gold)"></i> Fitur Khusus</div>
+            <div style="display:flex;flex-direction:column;gap:8px;padding-top:6px">
+              <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--gray-700);cursor:pointer">
+                <input type="checkbox" id="fFeatured" checked style="accent-color:var(--blue-600);width:15px;height:15px">
+                Tampilkan di beranda portal
+              </label>
+              <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--gray-700);cursor:pointer">
+                <input type="checkbox" style="accent-color:var(--blue-600);width:15px;height:15px">
+                Layanan prioritas / unggulan
+              </label>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="mfooter">
+      <button class="btn-out" onclick="saveDraft()"><i class="bi bi-save"></i> Simpan Draft</button>
+      <button class="btn-out" onclick="closeModal()"><i class="bi bi-x-circle"></i> Batal</button>
+      <button class="btn-prim" onclick="submitForm()"><i class="bi bi-check-circle-fill"></i> <span id="mBtnTxt">Simpan Layanan</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- LOGOUT MODAL -->
+<div class="lo-veil" id="loVeil" onclick="if(event.target===this)closeLo()">
+  <div class="lo-card">
+    <div class="lo-icon"><i class="bi bi-box-arrow-right"></i></div>
+    <h2 style="font-family:'Instrument Serif',serif;font-size:22px;color:var(--gray-900);margin-bottom:10px">Konfirmasi Logout</h2>
+    <p style="font-size:13.5px;color:var(--gray-500);line-height:1.65;margin-bottom:28px">Apakah Anda yakin ingin keluar dari sistem?</p>
+    <div style="display:flex;gap:10px">
+      <button class="btn-out" style="flex:1" onclick="closeLo()">Batal</button>
+      <button class="btn-red" onclick="closeLo();showToast('info','Logout','Anda telah keluar.')">Logout</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast-wrap" id="toastWrap"></div>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script>
+$(function(){
+
+  /* ══════════════════════════════════════
+     TOOLBAR FILTER — kategori (single)
+  ══════════════════════════════════════ */
+  function formatFilterResult(state){
+    if(!state.id) return $('<span style="color:var(--gray-400);font-size:13px">'+state.text+'</span>');
+    return $('<div class="s2-item"><span class="s2-label">'+state.text+'</span></div>');
+  }
+
+  $('#filterKategori').select2({
+    placeholder: 'Semua Kategori',
+    allowClear: true,
+    minimumResultsForSearch: 0,
+    templateResult: formatFilterResult,
+    templateSelection: function(s){
+      if(!s.id) return s.text;
+      return s.text;
+    },
+    dropdownAutoWidth: true,
+    width: '100%'
+  });
+
+  /* ══════════════════════════════════════
+     MODAL KATEGORI — single, dengan ikon + sub
+  ══════════════════════════════════════ */
+  function formatKategori(state){
+    if(!state.id) return $('<span style="color:var(--gray-400);font-weight:400">'+state.text+'</span>');
+    var opt = $(state.element);
+    var icon = opt.data('icon') || '📁';
+    var bg   = opt.data('bg')   || '#f3f4f6';
+    var sub  = opt.data('sub')  || '';
+    return $(
+      '<div class="s2-item">' +
+        '<div class="s2-icon" style="background:'+bg+'">'+icon+'</div>' +
+        '<div>' +
+          '<div class="s2-label">'+state.text+'</div>' +
+          (sub ? '<div class="s2-sub">'+sub+'</div>' : '') +
+        '</div>' +
+      '</div>'
+    );
+  }
+
+  function formatKategoriSel(state){
+    if(!state.id) return state.text;
+    var opt = $(state.element);
+    var icon = opt.data('icon') || '📁';
+    return icon + ' ' + state.text;
+  }
+
+  $('#fKategori').select2({
+    placeholder: '— Pilih kategori —',
+    allowClear: true,
+    templateResult: formatKategori,
+    templateSelection: formatKategoriSel,
+    dropdownParent: $('#mveil'),
+    width: '100%'
+  }).on('change', function(){
+    updatePreview();
+  });
+
+  /* ══════════════════════════════════════
+     MODAL TAGS — multiple
+  ══════════════════════════════════════ */
+  $('#fTags').select2({
+    placeholder: 'Pilih atau tambah tag...',
+    allowClear: true,
+    tags: true,
+    tokenSeparators: [','],
+    dropdownParent: $('#mveil'),
+    width: '100%',
+    createTag: function(params){
+      return {id: params.term, text: params.term, newTag: true};
+    }
+  });
+
+});
+
+/* ══════════════════════════════════════
+   PREVIEW UPDATE
+══════════════════════════════════════ */
+function updatePreview(){
+  var nama = document.getElementById('fNama').value || 'Nama Layanan';
+  var sla  = document.getElementById('fSla').value;
+  var selEl = document.getElementById('fKategori');
+  var selOpt = selEl.options[selEl.selectedIndex];
+  var bg   = selOpt ? (selOpt.dataset.bg || '#eff6ff') : '#eff6ff';
+  var icon = selOpt ? (selOpt.dataset.icon || '📄') : '📄';
+  var katNama = selOpt && selOpt.value ? selOpt.text : '—';
+
+  document.getElementById('prevName').textContent = nama;
+  document.getElementById('prevSub').textContent  = katNama + (sla ? ' · SLA: '+sla+' hari' : ' · SLA: — hari');
+  document.getElementById('prevIcon').style.background = bg;
+  document.getElementById('prevIcon').textContent = icon;
+}
+
+function updateStatusPreview(){
+  var chk = document.getElementById('fStatus').checked;
+  var lbl = document.getElementById('swLbl');
+  var badge = document.getElementById('prevBadge');
+  lbl.innerHTML = chk
+    ? 'Status: <strong style="color:var(--green)">Aktif</strong>'
+    : 'Status: <strong style="color:var(--gray-400)">Non-Aktif</strong>';
+  badge.className = chk ? 'badge-status aktif' : 'badge-status nonaktif';
+  badge.innerHTML = '<span class="stt-dot" style="background:'+(chk?'var(--green)':'var(--gray-400)')+'"></span>'+(chk?'Aktif':'Non-Aktif');
+}
+
+function updateCharCount(el, id, max){
+  var c = el.value.length;
+  var el2 = document.getElementById(id);
+  if(el2){ el2.textContent = c + ' / ' + max; el2.style.color = c > max ? 'var(--rose)' : 'var(--gray-400)'; }
+}
+
+/* ══════════════════════════════════════
+   MODAL OPEN / CLOSE
+══════════════════════════════════════ */
+var isEdit = false;
+
+function openModal(){
+  isEdit = false;
+  resetForm();
+  document.getElementById('mTitle').textContent = 'Tambah Layanan Baru';
+  document.getElementById('mSub').textContent   = 'Lengkapi informasi layanan berikut';
+  document.getElementById('mBtnTxt').textContent = 'Simpan Layanan';
+  document.getElementById('mIcon').innerHTML = '<i class="bi bi-plus-circle-fill"></i>';
+  document.getElementById('mveil').classList.add('show');
+  setTimeout(function(){ document.getElementById('fNama').focus(); }, 400);
+}
+
+function openModalEdit(nama, icon, bg, katId, sla, desc, biaya, syarat){
+  isEdit = true;
+  resetForm();
+  document.getElementById('fNama').value = nama;
+  document.getElementById('fSla').value  = sla;
+  document.getElementById('fDesc').value = desc || '';
+  document.getElementById('fSyarat').value = syarat || '';
+  if(biaya && biaya.toLowerCase() === 'berbayar') document.getElementById('fBiaya').value = 'berbayar';
+
+  // Set Select2 kategori
+  $('#fKategori').val(katId).trigger('change');
+
+  document.getElementById('mTitle').textContent = 'Edit Layanan';
+  document.getElementById('mSub').textContent   = 'Mengedit: ' + nama;
+  document.getElementById('mBtnTxt').textContent = 'Simpan Perubahan';
+  document.getElementById('mIcon').innerHTML = '<i class="bi bi-pencil-fill"></i>';
+
+  updatePreview();
+  document.getElementById('mveil').classList.add('show');
+}
+
+function closeModal(){
+  document.getElementById('mveil').classList.remove('show');
+}
+
+function resetForm(){
+  document.getElementById('fNama').value  = '';
+  document.getElementById('fSla').value   = '';
+  document.getElementById('fDesc').value  = '';
+  document.getElementById('fSyarat').value= '';
+  document.getElementById('fAlur').value  = '';
+  document.getElementById('fUrl').value   = '';
+  document.getElementById('fKode').value  = '';
+  document.getElementById('fBiaya').value = 'gratis';
+  document.getElementById('fUnit').value  = '';
+  document.getElementById('fStatus').checked = true;
+  document.getElementById('fFeatured').checked = true;
+  document.getElementById('ccDesc').textContent = '0 / 250';
+  $('#fKategori').val('').trigger('change');
+  $('#fTags').val(['ktp','kk']).trigger('change');
+  updatePreview();
+  updateStatusPreview();
+}
+
+/* ══════════════════════════════════════
+   SUBMIT
+══════════════════════════════════════ */
+function submitForm(){
+  var nama   = document.getElementById('fNama').value.trim();
+  var katId  = document.getElementById('fKategori').value;
+  var sla    = document.getElementById('fSla').value;
+  if(!nama)  { showToast('warn','Perhatian','Nama layanan wajib diisi.'); document.getElementById('fNama').focus(); return; }
+  if(!katId) { showToast('warn','Perhatian','Pilih kategori layanan terlebih dahulu.'); return; }
+  if(!sla)   { showToast('warn','Perhatian','SLA (hari kerja) wajib diisi.'); document.getElementById('fSla').focus(); return; }
+  closeModal();
+  setTimeout(function(){
+    showToast('success', isEdit ? 'Layanan Diperbarui' : 'Layanan Ditambahkan',
+      '"'+nama+'" berhasil '+(isEdit?'diperbarui':'ditambahkan')+' ke daftar layanan.');
+  }, 300);
+}
+
+function saveDraft(){
+  var nama = document.getElementById('fNama').value.trim() || 'Layanan Baru';
+  closeModal();
+  setTimeout(function(){ showToast('info','Draft Tersimpan','"'+nama+'" disimpan sebagai draft.'); }, 300);
+}
+
+function confirmDel(nama){
+  if(confirm('Hapus layanan "'+nama+'"?\nTindakan ini tidak dapat dibatalkan.')){
+    showToast('error','Layanan Dihapus','"'+nama+'" telah dihapus dari sistem.');
+  }
+}
+
+/* ══════════════════════════════════════
+   TOPBAR / DRAWER
+══════════════════════════════════════ */
+function toggleUsr(){ document.getElementById('usrWrap').classList.toggle('open'); }
+document.addEventListener('click',function(e){
+  if(!e.target.closest('#usrWrap')) document.getElementById('usrWrap').classList.remove('open');
+});
+var drwOpen=false;
+function toggleDrw(){drwOpen=!drwOpen;document.getElementById('hamBtn').classList.toggle('open',drwOpen);document.getElementById('mobDrw').classList.toggle('open',drwOpen);}
+function toggleMob(el){el.classList.toggle('expanded');}
+
+/* ══════════════════════════════════════
+   LOGOUT
+══════════════════════════════════════ */
+function openLo(e){if(e)e.preventDefault();document.getElementById('loVeil').classList.add('show');}
+function closeLo(){document.getElementById('loVeil').classList.remove('show');}
+
+/* ══════════════════════════════════════
+   TOAST
+══════════════════════════════════════ */
+var tc=0;
+function showToast(type,title,msg){
+  var icons={success:'bi-check-circle-fill',error:'bi-x-circle-fill',info:'bi-info-circle-fill',warn:'bi-exclamation-triangle-fill'};
+  var id='t'+(++tc);
+  var el=document.createElement('div');
+  el.className='ti '+type; el.id=id;
+  el.innerHTML='<div class="t-ic"><i class="bi '+icons[type]+'"></i></div><div style="flex:1"><div class="t-title">'+title+'</div><div class="t-msg">'+msg+'</div></div><button onclick="rmToast(\''+id+'\')" style="border:none;background:transparent;color:var(--gray-400);cursor:pointer;padding:4px;border-radius:6px;font-size:12px"><i class="bi bi-x-lg"></i></button>';
+  document.getElementById('toastWrap').appendChild(el);
+  requestAnimationFrame(function(){el.classList.add('show');});
+  setTimeout(function(){rmToast(id);},4500);
+}
+function rmToast(id){var el=document.getElementById(id);if(!el)return;el.classList.remove('show');setTimeout(function(){el.remove();},400);}
+
+/* ══════════════════════════════════════
+   ANIMATED BG
+══════════════════════════════════════ */
+(function(){
+  var cv=document.getElementById('bg-canvas');
+  var cx=cv.getContext('2d');
+  var W,H;
+  var orbs=Array.from({length:6},function(_,i){return{x:Math.random()*100,y:Math.random()*100,vx:(Math.random()-.5)*.012,vy:(Math.random()-.5)*.012,r:200+Math.random()*280,h:[215,200,185,40,168,230][i],s:55+Math.random()*25,l:60+Math.random()*20,a:.025+Math.random()*.02};});
+  var pts=Array.from({length:45},function(){return{x:Math.random(),y:Math.random(),vx:(Math.random()-.5)*.00022,vy:(Math.random()-.5)*.00022,r:.5+Math.random()*1.6,a:.08+Math.random()*.18};});
+  function resize(){W=cv.width=window.innerWidth;H=cv.height=window.innerHeight;}
+  window.addEventListener('resize',resize);resize();
+  function draw(){
+    cx.clearRect(0,0,W,H);
+    orbs.forEach(function(o){o.x+=o.vx;o.y+=o.vy;if(o.x<-15||o.x>115)o.vx*=-1;if(o.y<-15||o.y>115)o.vy*=-1;var gx=o.x/100*W,gy=o.y/100*H,g=cx.createRadialGradient(gx,gy,0,gx,gy,o.r);g.addColorStop(0,'hsla('+o.h+','+o.s+'%,'+o.l+'%,'+o.a+')');g.addColorStop(1,'hsla('+o.h+','+o.s+'%,'+o.l+'%,0)');cx.fillStyle=g;cx.beginPath();cx.arc(gx,gy,o.r,0,Math.PI*2);cx.fill();});
+    pts.forEach(function(p){p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>1)p.vx*=-1;if(p.y<0||p.y>1)p.vy*=-1;cx.beginPath();cx.arc(p.x*W,p.y*H,p.r,0,Math.PI*2);cx.fillStyle='rgba(26,68,128,'+p.a+')';cx.fill();});
+    for(var i=0;i<pts.length;i++)for(var j=i+1;j<pts.length;j++){var dx=(pts[i].x-pts[j].x)*W,dy=(pts[i].y-pts[j].y)*H,d=Math.sqrt(dx*dx+dy*dy);if(d<90){cx.beginPath();cx.moveTo(pts[i].x*W,pts[i].y*H);cx.lineTo(pts[j].x*W,pts[j].y*H);cx.strokeStyle='rgba(26,68,128,'+(0.045*(1-d/90))+')';cx.lineWidth=.6;cx.stroke();}}
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+</script>
+</body>
+</html>

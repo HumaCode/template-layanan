@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Verifikasi Email — SIPEKA Kota Pekalongan</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{
+  --b9:#0d2d5e;--b8:#1a4480;--b7:#1d55a0;--b6:#2b6cb0;
+  --b5:#3182ce;--b4:#4299e1;--b3:#63b3ed;--b1:#dbeafe;--b0:#eff6ff;
+  --green:#16a34a;--teal:#0d9488;
+  --g8:#1e293b;--g7:#334155;--g6:#475569;--g5:#64748b;
+  --g4:#94a3b8;--g3:#cbd5e1;--g2:#e2e8f0;--g1:#f1f5f9;
+  --r:12px;--r-xl:26px;--tr:.2s cubic-bezier(.4,0,.2,1);--tr-b:.36s cubic-bezier(.34,1.56,.64,1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{font-family:'DM Sans',sans-serif;background:#e8f1fb;color:var(--g8);display:flex;align-items:center;justify-content:center;-webkit-font-smoothing:antialiased}
+#cv{position:fixed;inset:0;z-index:0;pointer-events:none}
+.grid{position:fixed;inset:0;z-index:1;pointer-events:none;background-image:linear-gradient(rgba(43,108,176,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(43,108,176,.055) 1px,transparent 1px);background-size:56px 56px}
+.page{position:relative;z-index:10;width:100%;height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;overflow-y:auto;overflow-x:hidden;scrollbar-width:none;-ms-overflow-style:none}
+.page::-webkit-scrollbar{display:none}
+
+.card{display:flex;align-items:stretch;width:100%;max-width:880px;border-radius:var(--r-xl);background:#fff;border:1px solid rgba(255,255,255,.95);box-shadow:0 2px 8px rgba(43,108,176,.06),0 12px 40px rgba(43,108,176,.12),0 40px 80px rgba(43,108,176,.08);overflow:hidden;animation:cardIn .75s cubic-bezier(.34,1.15,.64,1) both}
+@keyframes cardIn{from{opacity:0;transform:translateY(28px) scale(.97)}to{opacity:1;transform:none}}
+
+/* LEFT */
+.lp{width:320px;flex-shrink:0;padding:48px 38px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden;background:linear-gradient(148deg,var(--b9) 0%,var(--b8) 50%,#1a5c8a 100%)}
+.lp::before{content:'';position:absolute;width:360px;height:360px;border-radius:50%;background:radial-gradient(circle,rgba(99,179,237,.16) 0%,transparent 65%);top:-100px;right:-100px;pointer-events:none}
+.lp::after{content:'';position:absolute;width:250px;height:250px;border-radius:50%;background:radial-gradient(circle,rgba(13,148,136,.18) 0%,transparent 65%);bottom:-60px;left:-40px;pointer-events:none}
+.lp-brand{display:flex;align-items:center;gap:12px;position:relative;z-index:2;margin-bottom:44px}
+.lp-logo{width:46px;height:46px;border-radius:13px;flex-shrink:0;background:linear-gradient(145deg,var(--b5),var(--b9));display:flex;align-items:center;justify-content:center;font-size:21px;box-shadow:0 4px 16px rgba(43,108,176,.5),0 0 0 1px rgba(99,179,237,.22);animation:logoPulse 5s ease-in-out infinite}
+@keyframes logoPulse{0%,100%{box-shadow:0 4px 16px rgba(43,108,176,.5),0 0 0 1px rgba(99,179,237,.22)}50%{box-shadow:0 6px 26px rgba(43,108,176,.7),0 0 0 4px rgba(99,179,237,.1)}}
+.brand-name{font-family:'Instrument Serif',serif;font-size:15.5px;color:#fff;line-height:1.25;display:block}
+.brand-sub{font-size:10px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:rgba(255,255,255,.42);margin-top:2px;display:block}
+.lp-hero{display:flex;align-items:center;justify-content:center;position:relative;z-index:2;margin-bottom:36px}
+.icon-rig{position:relative;width:124px;height:124px;display:flex;align-items:center;justify-content:center}
+.r1{position:absolute;inset:0;border-radius:50%;border:1.5px solid rgba(99,179,237,.3);animation:spin 14s linear infinite}
+.r1::before{content:'';position:absolute;top:-4px;left:50%;transform:translateX(-50%);width:7px;height:7px;border-radius:50%;background:var(--b3);box-shadow:0 0 8px var(--b3)}
+.r2{position:absolute;inset:16px;border-radius:50%;border:1px dashed rgba(99,179,237,.2);animation:spin 9s linear infinite reverse}
+.r2::after{content:'';position:absolute;bottom:-3px;left:50%;transform:translateX(-50%);width:5px;height:5px;border-radius:50%;background:rgba(13,148,136,.7)}
+.r3{position:absolute;inset:30px;border-radius:50%;border:1px solid rgba(99,179,237,.1);animation:spin 6s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.icon-core{width:70px;height:70px;border-radius:20px;z-index:1;background:linear-gradient(145deg,var(--b5),var(--b9));display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 8px 28px rgba(43,108,176,.55),inset 0 1px 0 rgba(255,255,255,.14);animation:float 4.5s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+
+/* progress indicator */
+.progress-steps{position:relative;z-index:2}
+.ps-ttl{font-size:10.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:10px}
+.ps-track{display:flex;align-items:center;gap:0;margin-bottom:12px}
+.ps-dot{width:28px;height:28px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;background:rgba(255,255,255,.1);color:rgba(255,255,255,.4);border:1.5px solid rgba(255,255,255,.1);transition:all .3s}
+.ps-dot.done{background:var(--green);color:#fff;border-color:var(--green);box-shadow:0 2px 10px rgba(22,163,74,.4)}
+.ps-dot.active{background:var(--b4);color:#fff;border-color:var(--b4);box-shadow:0 2px 10px rgba(66,153,225,.4)}
+.ps-line{flex:1;height:2px;background:rgba(255,255,255,.1);margin:0 -1px;transition:background .3s}
+.ps-line.done{background:var(--green)}
+.ps-labels{display:flex;justify-content:space-between}
+.ps-lbl{font-size:10px;color:rgba(255,255,255,.35);text-align:center;flex:1}
+.ps-lbl.done,.ps-lbl.active{color:rgba(255,255,255,.65)}
+
+.lp-text{position:relative;z-index:2}
+.tagline{font-family:'Instrument Serif',serif;font-size:22px;color:#fff;line-height:1.38;margin-bottom:8px}
+.tagline em{font-style:italic;color:var(--b3)}
+.lp-desc{font-size:12px;color:rgba(255,255,255,.45);line-height:1.7}
+
+/* RIGHT */
+.rp{flex:1;min-width:0;background:#fff;border-left:1px solid rgba(226,232,240,.9);display:flex;flex-direction:column;overflow-y:auto;overflow-x:hidden;scrollbar-width:none;-ms-overflow-style:none}
+.rp::-webkit-scrollbar{display:none}
+.rp-inner{padding:52px 44px;min-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+
+/* email illustration */
+.mail-wrap{position:relative;width:100px;height:100px;margin:0 auto 28px;animation:up .6s .05s cubic-bezier(.34,1.3,.64,1) both}
+@keyframes up{from{opacity:0;transform:translateY(20px) scale(.9)}to{opacity:1;transform:none}}
+.mail-bg{width:100px;height:100px;border-radius:28px;background:linear-gradient(145deg,var(--b0),#dbeeff);display:flex;align-items:center;justify-content:center;font-size:44px;box-shadow:0 8px 24px rgba(43,108,176,.14);position:relative}
+.mail-badge{position:absolute;top:-6px;right:-6px;width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#f59e0b,#d97706);display:flex;align-items:center;justify-content:center;font-size:12px;box-shadow:0 2px 8px rgba(245,158,11,.4);animation:pulse 2s ease-in-out infinite;color:#fff;font-weight:800}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
+
+/* waves (decorative envelope opening animation) */
+.wave-ring{position:absolute;inset:-8px;border-radius:36px;border:2px solid rgba(66,153,225,.15);animation:waveOut 2s ease-out infinite}
+.wave-ring:nth-child(2){inset:-18px;border-radius:44px;animation-delay:.4s;border-color:rgba(66,153,225,.08)}
+.wave-ring:nth-child(3){inset:-28px;border-radius:52px;animation-delay:.8s;border-color:rgba(66,153,225,.04)}
+@keyframes waveOut{0%{opacity:1;transform:scale(.95)}100%{opacity:0;transform:scale(1.1)}}
+
+/* content */
+.ve-eyebrow{display:flex;align-items:center;justify-content:center;gap:7px;font-size:11.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--b5);margin-bottom:10px;animation:up .55s .15s cubic-bezier(.4,0,.2,1) both}
+.ve-eyebrow::before,.ve-eyebrow::after{content:'';width:18px;height:2px;background:linear-gradient(90deg,var(--b5),var(--b3));border-radius:2px}
+.ve-title{font-family:'Instrument Serif',serif;font-size:26px;color:var(--b9);line-height:1.25;margin-bottom:8px;animation:up .55s .2s cubic-bezier(.4,0,.2,1) both}
+.ve-sub{font-size:13.5px;color:var(--g5);line-height:1.65;max-width:360px;margin:0 auto 20px;animation:up .55s .25s cubic-bezier(.4,0,.2,1) both}
+.email-chip{display:inline-flex;align-items:center;gap:7px;padding:7px 16px;background:var(--b0);border:1.5px solid var(--b1);border-radius:24px;font-size:13px;font-weight:700;color:var(--b7);margin-bottom:24px;animation:up .55s .28s cubic-bezier(.4,0,.2,1) both}
+
+/* timer */
+.timer-box{
+  padding:14px 20px;border-radius:var(--r);
+  background:var(--g1);border:1.5px solid var(--g2);
+  margin-bottom:22px;
+  animation:up .55s .3s cubic-bezier(.4,0,.2,1) both;
+}
+.timer-row{display:flex;align-items:center;justify-content:center;gap:8px;font-size:13px;color:var(--g6)}
+.timer-row i{color:var(--gold);font-size:15px}
+.timer-val{font-family:'DM Sans',sans-serif;font-weight:800;color:var(--b7);font-variant-numeric:tabular-nums;min-width:38px}
+.timer-val.warning{color:#dc2626}
+
+/* action buttons */
+.ve-actions{display:flex;flex-direction:column;align-items:center;gap:12px;width:100%;max-width:320px;animation:up .55s .34s cubic-bezier(.4,0,.2,1) both}
+.btn-main{position:relative;overflow:hidden;width:100%;padding:13px 20px;background:linear-gradient(135deg,var(--b6),var(--b9));border:none;border-radius:var(--r);font-size:14px;font-weight:700;font-family:'DM Sans',sans-serif;color:#fff;cursor:pointer;letter-spacing:.015em;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 4px 16px rgba(43,108,176,.3);transition:transform var(--tr-b),box-shadow var(--tr-b)}
+.btn-main:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(43,108,176,.4)}.btn-main:active{transform:scale(.98)}
+.btn-main::after{content:'';position:absolute;inset:0;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.18) 50%,transparent 65%);transform:translateX(-100%);animation:sweep 2.8s ease-in-out infinite}
+@keyframes sweep{0%,100%{transform:translateX(-100%)}50%{transform:translateX(100%)}}
+.btn-sec{width:100%;padding:11px 20px;background:#fff;border:1.5px solid var(--g2);border-radius:var(--r);font-size:13px;font-weight:600;font-family:'DM Sans',sans-serif;color:var(--g6);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;transition:all var(--tr)}
+.btn-sec:hover{background:var(--b0);border-color:var(--b3);color:var(--b7)}
+.btn-sec i{font-size:15px;color:var(--b5)}
+.btn-sec.loading{pointer-events:none;opacity:.7}
+
+/* divider */
+.or{display:flex;align-items:center;gap:10px;width:100%}
+.or-line{flex:1;height:1px;background:var(--g2)}
+.or-txt{font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--g4)}
+
+/* help */
+.ve-help{font-size:12.5px;color:var(--g4);line-height:1.65;animation:up .55s .38s cubic-bezier(.4,0,.2,1) both}
+.ve-help a{color:var(--b6);font-weight:700;text-decoration:none;transition:color var(--tr)}.ve-help a:hover{color:var(--b8)}
+
+/* footer */
+.rp-foot{margin-top:auto;padding-top:24px;width:100%;text-align:center}
+.rp-foot p{font-size:11.5px;color:var(--g4);line-height:1.65}
+.rp-foot a{color:var(--b6);text-decoration:none;font-weight:600;transition:color var(--tr)}.rp-foot a:hover{color:var(--b8)}
+
+/* toast */
+.toast{
+  position:fixed;bottom:20px;right:20px;z-index:999;
+  padding:12px 18px;border-radius:var(--r);background:var(--b9);color:#fff;
+  font-size:13px;font-weight:600;display:flex;align-items:center;gap:9px;
+  box-shadow:0 8px 24px rgba(13,45,94,.3);
+  transform:translateX(120%);transition:transform .35s cubic-bezier(.34,1.2,.64,1);
+}
+.toast.show{transform:translateX(0)}
+.toast.green{background:var(--green)}
+.toast i{font-size:16px}
+
+@media(max-width:700px){
+  .card{flex-direction:column;max-width:440px}
+  .lp{width:100%;padding:28px 26px}
+  .lp-text,.progress-steps{display:none}
+  .lp-hero{margin-bottom:0}.lp-brand{margin-bottom:20px}
+  .rp-inner{padding:32px 24px}
+}
+</style>
+</head>
+<body>
+<canvas id="cv"></canvas>
+<div class="grid"></div>
+<div class="page">
+<div class="card">
+
+  <!-- LEFT -->
+  <div class="lp">
+    <div>
+      <div class="lp-brand">
+        <div class="lp-logo">🏛️</div>
+        <div><span class="brand-name">Dinas Kominfo</span><span class="brand-sub">Kota Pekalongan</span></div>
+      </div>
+      <div class="lp-hero">
+        <div class="icon-rig">
+          <div class="r1"></div><div class="r2"></div><div class="r3"></div>
+          <div class="icon-core">✉️</div>
+        </div>
+      </div>
+      <div class="progress-steps">
+        <div class="ps-ttl">Status Pendaftaran</div>
+        <div class="ps-track">
+          <div class="ps-dot done"><i class="bi bi-check"></i></div>
+          <div class="ps-line done"></div>
+          <div class="ps-dot active">2</div>
+          <div class="ps-line"></div>
+          <div class="ps-dot">3</div>
+        </div>
+        <div class="ps-labels">
+          <span class="ps-lbl done">Daftar</span>
+          <span class="ps-lbl active">Verifikasi</span>
+          <span class="ps-lbl">Aktif</span>
+        </div>
+      </div>
+    </div>
+    <div class="lp-text">
+      <p class="tagline">Satu Langkah<br>Lagi untuk<br><em>Aktifkan</em> Akun</p>
+      <p class="lp-desc">Verifikasi email diperlukan untuk memastikan keamanan akun Anda di sistem SIPEKA.</p>
+    </div>
+  </div>
+
+  <!-- RIGHT -->
+  <div class="rp">
+    <div class="rp-inner">
+
+      <div class="mail-wrap">
+        <div class="wave-ring"></div><div class="wave-ring"></div><div class="wave-ring"></div>
+        <div class="mail-bg">📧<div class="mail-badge">1</div></div>
+      </div>
+
+      <div class="ve-eyebrow">Verifikasi Email</div>
+      <h1 class="ve-title">Cek Inbox Email Anda</h1>
+      <p class="ve-sub">Kami telah mengirimkan tautan verifikasi ke alamat email Anda. Klik tautan tersebut untuk mengaktifkan akun.</p>
+
+      <div class="email-chip">
+        <i class="bi bi-envelope-fill"></i>
+        <span id="veEmail">budi.santoso@pekalongan.go.id</span>
+      </div>
+
+      <div class="timer-box">
+        <div class="timer-row">
+          <i class="bi bi-clock-history"></i>
+          <span>Tautan berlaku selama</span>
+          <span class="timer-val" id="timerVal">60:00</span>
+        </div>
+      </div>
+
+      <div class="ve-actions">
+        <button type="button" class="btn-main" id="openMailBtn" onclick="openMail()">
+          <i class="bi bi-envelope-open-fill"></i> Buka Aplikasi Email
+        </button>
+
+        <div class="or"><div class="or-line"></div><span class="or-txt">atau</span><div class="or-line"></div></div>
+
+        <button type="button" class="btn-sec" id="resendBtn" onclick="resendEmail()">
+          <i class="bi bi-arrow-clockwise"></i>
+          <span id="resendTxt">Kirim Ulang Email Verifikasi</span>
+        </button>
+      </div>
+
+      <br>
+      <div class="ve-help">
+        Tidak menemukan email? Periksa folder <strong>Spam</strong> atau <strong>Junk</strong>.<br>
+        Alamat email salah? <a href="register.html">Kembali dan daftar ulang</a> &nbsp;·&nbsp; <a href="login.html">Sudah verifikasi?</a>
+      </div>
+
+      <div class="rp-foot">
+        <p>© 2024 Dinas Kominfo Kota Pekalongan &nbsp;·&nbsp; <a href="#">Bantuan</a></p>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- toast -->
+<div class="toast" id="toast"><i class="bi bi-check-circle-fill"></i><span id="toastTxt"></span></div>
+
+<script>
+(function(){var cv=document.getElementById('cv'),cx=cv.getContext('2d'),W,H;var orbs=[{x:10,y:15,vx:.007,vy:.005,r:340,h:215,a:.09},{x:80,y:10,vx:-.006,vy:.008,r:290,h:200,a:.07},{x:45,y:75,vx:.008,vy:-.006,r:380,h:180,a:.06},{x:88,y:78,vx:-.005,vy:-.005,r:260,h:195,a:.08},{x:8,y:82,vx:.006,vy:-.008,r:230,h:168,a:.065},{x:60,y:38,vx:-.005,vy:.007,r:310,h:210,a:.05}];var pts=[];for(var i=0;i<45;i++)pts.push({x:Math.random(),y:Math.random(),vx:(Math.random()-.5)*.00015,vy:(Math.random()-.5)*.00015,r:.5+Math.random()*1.5,a:.08+Math.random()*.16,ph:Math.random()*Math.PI*2});var nodes=[];for(var j=0;j<7;j++)nodes.push({x:Math.random(),y:Math.random(),vx:(Math.random()-.5)*.00007,vy:(Math.random()-.5)*.00007,s:2.5+Math.random()*3,a:.15+Math.random()*.22,sp:.4+Math.random()*.8});function resize(){W=cv.width=innerWidth;H=cv.height=innerHeight}addEventListener('resize',resize);resize();var t=0;function draw(){t+=.008;cx.clearRect(0,0,W,H);var bg=cx.createLinearGradient(0,0,W,H);bg.addColorStop(0,'#dce9f8');bg.addColorStop(.35,'#e6eef8');bg.addColorStop(.7,'#eaf1fb');bg.addColorStop(1,'#d8e6f5');cx.fillStyle=bg;cx.fillRect(0,0,W,H);orbs.forEach(function(o){o.x+=o.vx;o.y+=o.vy;if(o.x<-20||o.x>120)o.vx*=-1;if(o.y<-20||o.y>120)o.vy*=-1;var gx=o.x/100*W,gy=o.y/100*H;var g=cx.createRadialGradient(gx,gy,0,gx,gy,o.r);g.addColorStop(0,'hsla('+o.h+',72%,82%,'+o.a+')');g.addColorStop(1,'hsla('+o.h+',72%,82%,0)');cx.fillStyle=g;cx.beginPath();cx.arc(gx,gy,o.r,0,Math.PI*2);cx.fill()});pts.forEach(function(p,i){p.x+=p.vx;p.y+=p.vy;p.ph+=.018;if(p.x<0||p.x>1)p.vx*=-1;if(p.y<0||p.y>1)p.vy*=-1;var r=p.r*(.85+.15*Math.sin(p.ph));cx.beginPath();cx.arc(p.x*W,p.y*H,r,0,Math.PI*2);cx.fillStyle='rgba(43,108,176,'+(p.a*.5)+')';cx.fill();for(var j=i+1;j<pts.length;j++){var dx=(pts[i].x-pts[j].x)*W,dy=(pts[i].y-pts[j].y)*H,d=Math.sqrt(dx*dx+dy*dy);if(d<110){cx.beginPath();cx.moveTo(pts[i].x*W,pts[i].y*H);cx.lineTo(pts[j].x*W,pts[j].y*H);cx.strokeStyle='rgba(43,108,176,'+(.05*(1-d/110))+')';cx.lineWidth=.65;cx.stroke()}}});nodes.forEach(function(n){n.x+=n.vx;n.y+=n.vy;if(n.x<0||n.x>1)n.vx*=-1;if(n.y<0||n.y>1)n.vy*=-1;var pulse=.72+.28*Math.sin(t*n.sp);var g2=cx.createRadialGradient(n.x*W,n.y*H,0,n.x*W,n.y*H,n.s*12*pulse);g2.addColorStop(0,'rgba(49,130,206,'+(n.a*.45*pulse)+')');g2.addColorStop(1,'rgba(49,130,206,0)');cx.fillStyle=g2;cx.beginPath();cx.arc(n.x*W,n.y*H,n.s*12*pulse,0,Math.PI*2);cx.fill();cx.beginPath();cx.arc(n.x*W,n.y*H,n.s*.8*pulse,0,Math.PI*2);cx.fillStyle='rgba(255,255,255,'+(n.a*.9*pulse)+')';cx.fill()});var sl=(t*36)%(H+50)-25;var slg=cx.createLinearGradient(0,sl-18,0,sl+18);slg.addColorStop(0,'rgba(255,255,255,0)');slg.addColorStop(.5,'rgba(255,255,255,.07)');slg.addColorStop(1,'rgba(255,255,255,0)');cx.fillStyle=slg;cx.fillRect(0,sl-18,W,36);requestAnimationFrame(draw)}draw()})();
+
+/* timer countdown */
+var total=60*60;
+function pad(n){return n<10?'0'+n:n}
+var timerInv=setInterval(function(){
+  total--;
+  var m=Math.floor(total/60),s=total%60;
+  var el=document.getElementById('timerVal');
+  el.textContent=pad(m)+':'+pad(s);
+  if(total<=300)el.classList.add('warning');
+  if(total<=0){clearInterval(timerInv);el.textContent='Kedaluwarsa';el.classList.add('warning')}
+},1000);
+
+/* get email from URL param (simulate) */
+var params=new URLSearchParams(window.location.search);
+var em=params.get('email')||'budi.santoso@pekalongan.go.id';
+document.getElementById('veEmail').textContent=em;
+
+function showToast(msg,green){
+  var t=document.getElementById('toast');
+  document.getElementById('toastTxt').textContent=msg;
+  t.className='toast'+(green?' green':'');
+  t.classList.add('show');
+  setTimeout(function(){t.classList.remove('show')},3500);
+}
+
+var resendCool=false;
+function resendEmail(){
+  if(resendCool)return;
+  resendCool=true;
+  var btn=document.getElementById('resendBtn'),txt=document.getElementById('resendTxt');
+  btn.classList.add('loading');
+  txt.textContent='Mengirim...';
+  setTimeout(function(){
+    btn.classList.remove('loading');
+    txt.textContent='Kirim Ulang (60s)';
+    showToast('Email verifikasi telah dikirim ulang!',true);
+    var sec=60;
+    var cd=setInterval(function(){
+      sec--;txt.textContent='Kirim Ulang ('+sec+'s)';
+      if(sec<=0){clearInterval(cd);txt.textContent='Kirim Ulang Email Verifikasi';resendCool=false}
+    },1000);
+  },1800);
+}
+
+function openMail(){showToast('Membuka aplikasi email...',false)}
+</script>
+</body>
+</html>
