@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PA Alerts — SIPEKA UI Library | Dinas Kominfo Kota Pekalongan</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --blue-900:#0d2d5e;--blue-800:#1a4480;--blue-700:#1d55a0;
+      --blue-600:#2b6cb0;--blue-500:#3182ce;--blue-400:#63b3ed;
+      --blue-100:#ebf4ff;--blue-50:#f0f7ff;
+      --accent-gold:#e8a020;--accent-teal:#0d9488;
+      --accent-rose:#e53e3e;--accent-green:#16a34a;
+      --gray-900:#111827;--gray-800:#1f2937;--gray-700:#374151;
+      --gray-600:#4b5563;--gray-500:#6b7280;--gray-400:#9ca3af;
+      --gray-300:#d1d5db;--gray-200:#e5e7eb;--gray-100:#f3f4f6;
+      --gray-50:#f9fafb;
+      --shadow-sm:0 1px 3px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.04);
+      --shadow-md:0 4px 16px rgba(13,45,94,.08),0 2px 6px rgba(13,45,94,.05);
+      --shadow-lg:0 12px 40px rgba(13,45,94,.12),0 4px 12px rgba(13,45,94,.06);
+      --r-sm:8px;--r-md:14px;--r-lg:20px;--r-xl:26px;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:'DM Sans',sans-serif;background:#f4f7fc;color:var(--gray-800);font-size:14px;line-height:1.6;min-height:100vh;overflow-x:hidden}
+
+    #bg-canvas{position:fixed;inset:0;z-index:0;pointer-events:none}
+
+    /* ── TOPBAR ── */
+    .topbar{
+      position:sticky;top:0;z-index:100;
+      background:rgba(255,255,255,.92);backdrop-filter:blur(24px) saturate(180%);
+      border-bottom:1px solid rgba(13,45,94,.08);box-shadow:0 1px 0 rgba(13,45,94,.05),0 4px 24px rgba(13,45,94,.06);
+    }
+    .topbar-inner{max-width:1200px;margin:0 auto;padding:0 24px;height:66px;display:flex;align-items:center;gap:16px}
+    .brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+    .brand-icon{width:42px;height:42px;background:linear-gradient(145deg,var(--blue-700),var(--blue-900));border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 4px 14px rgba(26,68,128,.35);animation:emblem 6s ease-in-out infinite}
+    @keyframes emblem{0%,100%{box-shadow:0 4px 14px rgba(26,68,128,.35)}50%{box-shadow:0 4px 22px rgba(26,68,128,.55),0 0 0 6px rgba(26,68,128,.08)}}
+    .brand-text .name{font-family:'Instrument Serif',serif;font-size:15px;color:var(--blue-900);display:block}
+    .brand-text .sub{font-size:10.5px;font-weight:600;color:var(--gray-400);letter-spacing:.04em;text-transform:uppercase}
+    .topbar-badge{margin-left:8px;background:linear-gradient(135deg,var(--blue-600),var(--blue-900));color:#fff;padding:4px 12px;border-radius:20px;font-size:11.5px;font-weight:700;letter-spacing:.04em}
+    .topbar-back{margin-left:auto;display:flex;align-items:center;gap:7px;padding:7px 14px;border-radius:var(--r-sm);border:1.5px solid var(--gray-200);background:#fff;font-size:12.5px;font-weight:600;color:var(--gray-600);cursor:pointer;text-decoration:none;transition:all .2s}
+    .topbar-back:hover{background:var(--blue-50);border-color:var(--blue-300);color:var(--blue-700)}
+
+    /* ── PAGE ── */
+    .page{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:40px 24px 80px}
+
+    /* ── HERO ── */
+    .hero{text-align:center;margin-bottom:52px}
+    .hero-tag{display:inline-flex;align-items:center;gap:7px;background:var(--blue-100);color:var(--blue-700);padding:6px 16px;border-radius:30px;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;margin-bottom:18px;border:1px solid rgba(43,108,176,.15)}
+    .hero-tag i{font-size:14px}
+    .hero-title{font-family:'Instrument Serif',serif;font-size:clamp(28px,5vw,44px);color:var(--blue-900);line-height:1.2;margin-bottom:14px}
+    .hero-title em{font-style:italic;color:var(--blue-600)}
+    .hero-desc{font-size:15px;color:var(--gray-500);max-width:560px;margin:0 auto 28px;line-height:1.75}
+    .hero-code{display:inline-flex;align-items:center;gap:10px;background:var(--gray-900);color:#e2e8f0;padding:10px 20px;border-radius:var(--r-sm);font-family:'DM Mono',monospace;font-size:13px;border:1px solid rgba(255,255,255,.08)}
+    .hero-code .kw{color:#93c5fd}
+    .hero-code .fn{color:#86efac}
+    .hero-code .p{color:#fde68a}
+
+    /* ── SECTION ── */
+    .section{margin-bottom:48px}
+    .section-label{display:flex;align-items:center;gap:10px;margin-bottom:20px}
+    .section-label-num{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,var(--blue-600),var(--blue-900));color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .section-label h2{font-family:'Instrument Serif',serif;font-size:20px;color:var(--blue-900)}
+    .section-label span{font-size:12px;color:var(--gray-400);font-weight:500}
+
+    /* ── CARDS ── */
+    .demo-grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
+    .demo-grid.col2{grid-template-columns:repeat(auto-fill,minmax(340px,1fr))}
+    .demo-grid.col3{grid-template-columns:repeat(3,1fr)}
+    @media(max-width:860px){.demo-grid.col3{grid-template-columns:1fr 1fr}}
+    @media(max-width:560px){.demo-grid,.demo-grid.col2,.demo-grid.col3{grid-template-columns:1fr}}
+
+    .demo-card{
+      background:#fff;border:1px solid rgba(13,45,94,.07);border-radius:var(--r-lg);
+      padding:22px;box-shadow:var(--shadow-sm);
+      transition:transform .25s ease,box-shadow .25s ease;
+      position:relative;overflow:hidden;
+    }
+    .demo-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+    .demo-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--card-strip,linear-gradient(90deg,var(--blue-600),var(--blue-400)));border-radius:var(--r-lg) var(--r-lg) 0 0}
+
+    .demo-card.c-success{--card-strip:linear-gradient(90deg,#22c55e,#86efac)}
+    .demo-card.c-error  {--card-strip:linear-gradient(90deg,#ef4444,#f87171)}
+    .demo-card.c-warning{--card-strip:linear-gradient(90deg,#f59e0b,#fbbf24)}
+    .demo-card.c-info   {--card-strip:linear-gradient(90deg,var(--blue-600),var(--blue-400))}
+    .demo-card.c-teal   {--card-strip:linear-gradient(90deg,var(--accent-teal),#2dd4bf)}
+    .demo-card.c-purple {--card-strip:linear-gradient(90deg,#7c3aed,#a78bfa)}
+
+    .dc-top{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+    .dc-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+    .dc-title{font-size:14.5px;font-weight:700;color:var(--gray-800)}
+    .dc-desc{font-size:12.5px;color:var(--gray-500);line-height:1.6;margin-bottom:16px}
+
+    /* code snippet */
+    .dc-code{background:var(--gray-900);border-radius:var(--r-sm);padding:10px 14px;font-family:'DM Mono',monospace;font-size:11.5px;color:#94a3b8;margin-bottom:14px;overflow-x:auto;white-space:pre;line-height:1.7;border:1px solid rgba(255,255,255,.06)}
+    .dc-code .kw{color:#93c5fd}
+    .dc-code .fn{color:#86efac}
+    .dc-code .str{color:#fde68a}
+    .dc-code .co{color:#64748b}
+
+    /* demo button */
+    .dc-btn{
+      display:inline-flex;align-items:center;gap:7px;
+      padding:9px 18px;border-radius:var(--r-sm);
+      font-size:13px;font-weight:700;font-family:'DM Sans',sans-serif;
+      cursor:pointer;border:none;transition:all .28s cubic-bezier(.34,1.2,.64,1);
+      position:relative;overflow:hidden;
+    }
+    .dc-btn::after{content:'';position:absolute;inset:0;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.2) 50%,transparent 65%);transform:translateX(-100%);transition:transform .5s ease}
+    .dc-btn:hover::after{transform:translateX(100%)}
+    .dc-btn:active{transform:scale(.95)}
+    .dc-btn.blue  {background:linear-gradient(135deg,var(--blue-600),var(--blue-900));color:#fff;box-shadow:0 3px 12px rgba(43,108,176,.25)}
+    .dc-btn.green {background:linear-gradient(135deg,#22c55e,var(--accent-green));color:#fff;box-shadow:0 3px 12px rgba(22,163,74,.25)}
+    .dc-btn.red   {background:linear-gradient(135deg,#f87171,var(--accent-rose));color:#fff;box-shadow:0 3px 12px rgba(229,62,62,.25)}
+    .dc-btn.gold  {background:linear-gradient(135deg,#fbbf24,var(--accent-gold));color:#fff;box-shadow:0 3px 12px rgba(232,160,32,.25)}
+    .dc-btn.teal  {background:linear-gradient(135deg,#2dd4bf,var(--accent-teal));color:#fff;box-shadow:0 3px 12px rgba(13,148,136,.25)}
+    .dc-btn.purple{background:linear-gradient(135deg,#a78bfa,#7c3aed);color:#fff;box-shadow:0 3px 12px rgba(124,58,237,.25)}
+    .dc-btn.gray  {background:#fff;color:var(--gray-600);border:1.5px solid var(--gray-200)}
+    .dc-btn.gray:hover{background:var(--blue-50);border-color:var(--blue-300);color:var(--blue-700)}
+    .dc-btn:hover{transform:translateY(-2px)}
+
+    .dc-btn-row{display:flex;gap:8px;flex-wrap:wrap}
+
+    /* result area */
+    .result-area{background:var(--gray-50);border:1.5px dashed var(--gray-200);border-radius:var(--r-sm);padding:12px 14px;min-height:44px;font-size:12.5px;color:var(--gray-500);margin-top:12px;transition:all .3s ease}
+    .result-area.has-result{background:var(--blue-50);border-color:var(--blue-300);color:var(--blue-700)}
+    .result-area.success-r{background:#f0fdf4;border-color:#86efac;color:#15803d}
+    .result-area.cancel-r{background:#fff5f5;border-color:#fca5a5;color:#dc2626}
+
+    /* inline alert demo */
+    #inline-target{display:flex;flex-direction:column;gap:10px;min-height:60px}
+
+    /* toast position grid */
+    .pos-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+    .pos-btn{padding:9px 6px;border-radius:var(--r-sm);border:1.5px solid var(--gray-200);background:#fff;font-size:11.5px;font-weight:600;color:var(--gray-600);cursor:pointer;text-align:center;transition:all .2s;font-family:'DM Sans',sans-serif;display:flex;flex-direction:column;align-items:center;gap:3px}
+    .pos-btn i{font-size:14px;color:var(--blue-400)}
+    .pos-btn:hover{background:var(--blue-50);border-color:var(--blue-300);color:var(--blue-700)}
+
+    /* API reference table */
+    .api-table{width:100%;border-collapse:collapse;font-size:12.5px}
+    .api-table th{background:var(--gray-50);padding:10px 14px;text-align:left;font-size:11px;font-weight:700;color:var(--gray-500);letter-spacing:.05em;text-transform:uppercase;border-bottom:2px solid var(--gray-200)}
+    .api-table td{padding:11px 14px;border-bottom:1px solid var(--gray-100);vertical-align:top;color:var(--gray-700)}
+    .api-table tr:last-child td{border-bottom:none}
+    .api-table code{background:var(--blue-50);color:var(--blue-700);padding:2px 6px;border-radius:4px;font-family:'DM Mono',monospace;font-size:11.5px}
+    .api-table .badge{display:inline-block;padding:1px 7px;border-radius:4px;font-size:10.5px;font-weight:700;margin-right:3px}
+    .api-table .badge.req{background:#fee2e2;color:#dc2626}
+    .api-table .badge.opt{background:#f0fdf4;color:#16a34a}
+    .api-card{background:#fff;border:1px solid rgba(13,45,94,.07);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow-sm)}
+
+    /* anim in */
+    .anim-in{opacity:0;transform:translateY(18px);animation:fadeUp .5s ease both}
+    @keyframes fadeUp{to{opacity:1;transform:none}}
+  </style>
+</head>
+<body>
+
+<canvas id="bg-canvas"></canvas>
+
+<!-- TOPBAR -->
+<header class="topbar">
+  <div class="topbar-inner">
+    <a href="dashboard-pekalongan.html" class="brand">
+      <div class="brand-icon">🏛️</div>
+      <div class="brand-text">
+        <span class="name">SIPEKA</span>
+        <span class="sub">Layanan Kota Pekalongan</span>
+      </div>
+    </a>
+    <span class="topbar-badge">PA Alerts v1.0</span>
+    <a href="dashboard-pekalongan.html" class="topbar-back">
+      <i class="bi bi-arrow-left"></i> Kembali ke Dashboard
+    </a>
+  </div>
+</header>
+
+<div class="page">
+
+  <!-- HERO -->
+  <div class="hero anim-in">
+    <div class="hero-tag"><i class="bi bi-bell-fill"></i> UI Component Library</div>
+    <h1 class="hero-title">PA Alerts — <em>SIPEKA</em> Notification System</h1>
+    <p class="hero-desc">Library notifikasi & dialog khusus SIPEKA. Toast, dialog, confirm, prompt, loading, dan inline alert dengan animasi smooth dan ikon interaktif.</p>
+    <div class="hero-code">
+      <span class="kw">import</span>
+      <span> pa-alerts.js</span>
+      &nbsp;→&nbsp;
+      <span class="fn">PA</span><span class="p">.</span><span class="fn">toast</span><span class="p">()</span>
+      &nbsp;·&nbsp;
+      <span class="fn">PA</span><span class="p">.</span><span class="fn">dialog</span><span class="p">()</span>
+      &nbsp;·&nbsp;
+      <span class="fn">PA</span><span class="p">.</span><span class="fn">confirm</span><span class="p">()</span>
+    </div>
+  </div>
+
+  <!-- ══ 1. TOAST ══ -->
+  <div class="section anim-in" style="animation-delay:.08s">
+    <div class="section-label">
+      <div class="section-label-num">1</div>
+      <h2>Toast Notifications</h2>
+      <span>PA.toast()</span>
+    </div>
+
+    <div class="demo-grid">
+      <!-- Success -->
+      <div class="demo-card c-success">
+        <div class="dc-top"><div class="dc-icon" style="background:#dcfce7;color:#16a34a"><i class="bi bi-check-circle-fill"></i></div><div class="dc-title">Success Toast</div></div>
+        <div class="dc-desc">Notifikasi berhasil — data tersimpan, aksi berhasil dieksekusi.</div>
+        <div class="dc-code"><span class="fn">PA</span>.<span class="fn">success</span>(<span class="str">'Data berhasil disimpan'</span>);</div>
+        <button class="dc-btn green" onclick="PA.success('Data user berhasil diperbarui.','Berhasil Disimpan')"><i class="bi bi-check2-circle"></i> Coba</button>
+      </div>
+
+      <!-- Error -->
+      <div class="demo-card c-error">
+        <div class="dc-top"><div class="dc-icon" style="background:#fee2e2;color:#e53e3e"><i class="bi bi-x-circle-fill"></i></div><div class="dc-title">Error Toast</div></div>
+        <div class="dc-desc">Notifikasi gagal — koneksi error, validasi gagal, dsb.</div>
+        <div class="dc-code"><span class="fn">PA</span>.<span class="fn">error</span>(<span class="str">'Koneksi ke server gagal'</span>);</div>
+        <button class="dc-btn red" onclick="PA.error('Koneksi ke server gagal. Coba lagi.','Terjadi Kesalahan')"><i class="bi bi-x-circle"></i> Coba</button>
+      </div>
+
+      <!-- Warning -->
+      <div class="demo-card c-warning">
+        <div class="dc-top"><div class="dc-icon" style="background:#fef3c7;color:#e8a020"><i class="bi bi-exclamation-triangle-fill"></i></div><div class="dc-title">Warning Toast</div></div>
+        <div class="dc-desc">Peringatan — sesi hampir habis, data tidak lengkap, dsb.</div>
+        <div class="dc-code"><span class="fn">PA</span>.<span class="fn">warning</span>(<span class="str">'Sesi Anda akan berakhir'</span>);</div>
+        <button class="dc-btn gold" onclick="PA.warning('Sesi Anda akan berakhir dalam 5 menit.','Perhatian')"><i class="bi bi-exclamation-triangle"></i> Coba</button>
+      </div>
+
+      <!-- Info -->
+      <div class="demo-card c-info">
+        <div class="dc-top"><div class="dc-icon" style="background:#ebf4ff;color:#2b6cb0"><i class="bi bi-info-circle-fill"></i></div><div class="dc-title">Info Toast</div></div>
+        <div class="dc-desc">Notifikasi informasi — pembaruan sistem, info umum.</div>
+        <div class="dc-code"><span class="fn">PA</span>.<span class="fn">info</span>(<span class="str">'Pembaruan sistem tersedia'</span>);</div>
+        <button class="dc-btn blue" onclick="PA.info('Pembaruan sistem v2.3.1 tersedia.','Info Sistem')"><i class="bi bi-info-circle"></i> Coba</button>
+      </div>
+
+      <!-- Teal -->
+      <div class="demo-card c-teal">
+        <div class="dc-top"><div class="dc-icon" style="background:#ccfbf1;color:#0d9488"><i class="bi bi-lightning-charge-fill"></i></div><div class="dc-title">Teal Toast</div></div>
+        <div class="dc-desc">Custom teal — notifikasi aksi khusus atau highlight.</div>
+        <div class="dc-code"><span class="fn">PA</span>.<span class="fn">toast</span>({type:<span class="str">'teal'</span>,message:...});</div>
+        <button class="dc-btn teal" onclick="PA.toast({type:'teal',title:'Permohonan Diproses',message:'Permohonan PMH-2024-001 sedang diverifikasi.'})"><i class="bi bi-lightning-charge"></i> Coba</button>
+      </div>
+
+      <!-- Custom lama -->
+      <div class="demo-card c-purple">
+        <div class="dc-top"><div class="dc-icon" style="background:#f5f3ff;color:#7c3aed"><i class="bi bi-stars"></i></div><div class="dc-title">Custom Toast</div></div>
+        <div class="dc-desc">Custom icon, durasi panjang, posisi atas-kanan.</div>
+        <div class="dc-code"><span class="fn">PA</span>.<span class="fn">toast</span>({<br>  type:<span class="str">'purple'</span>,duration:<span class="str">8000</span>,<br>  position:<span class="str">'top-right'</span><br>});</div>
+        <button class="dc-btn purple" onclick="PA.toast({type:'purple',title:'Selamat Datang!',message:'Halo Admin, selamat bekerja hari ini 🎉',position:'top-right',duration:6000})"><i class="bi bi-stars"></i> Coba</button>
+      </div>
+    </div>
+
+    <!-- Position grid -->
+    <div class="demo-card" style="margin-top:16px">
+      <div class="dc-top"><div class="dc-icon" style="background:var(--blue-100);color:var(--blue-600)"><i class="bi bi-layout-text-window-reverse"></i></div><div class="dc-title">Posisi Toast</div></div>
+      <div class="dc-desc">Klik posisi untuk melihat toast muncul di lokasi tersebut.</div>
+      <div class="pos-grid">
+        <button class="pos-btn" onclick="PA.toast({type:'success',title:'Top Left',message:'Posisi kiri atas',position:'top-left'})"><i class="bi bi-arrow-up-left"></i>Top Left</button>
+        <button class="pos-btn" onclick="PA.toast({type:'info',title:'Top Center',message:'Posisi tengah atas',position:'top-center'})"><i class="bi bi-arrow-up"></i>Top Center</button>
+        <button class="pos-btn" onclick="PA.toast({type:'warning',title:'Top Right',message:'Posisi kanan atas',position:'top-right'})"><i class="bi bi-arrow-up-right"></i>Top Right</button>
+        <button class="pos-btn" onclick="PA.toast({type:'teal',title:'Bottom Left',message:'Posisi kiri bawah',position:'bottom-left'})"><i class="bi bi-arrow-down-left"></i>Bottom Left</button>
+        <button class="pos-btn" onclick="PA.toast({type:'purple',title:'Bottom Center',message:'Posisi tengah bawah',position:'bottom-center'})"><i class="bi bi-arrow-down"></i>Bottom Center</button>
+        <button class="pos-btn" onclick="PA.toast({type:'error',title:'Bottom Right',message:'Posisi kanan bawah',position:'bottom-right'})"><i class="bi bi-arrow-down-right"></i>Bottom Right</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ 2. DIALOG ══ -->
+  <div class="section anim-in" style="animation-delay:.12s">
+    <div class="section-label">
+      <div class="section-label-num">2</div>
+      <h2>Dialog Modal</h2>
+      <span>PA.dialog()</span>
+    </div>
+    <div class="demo-grid col2">
+      <!-- Info dialog -->
+      <div class="demo-card c-info">
+        <div class="dc-top"><div class="dc-icon" style="background:var(--blue-100);color:var(--blue-600)"><i class="bi bi-info-circle-fill"></i></div><div class="dc-title">Info Dialog</div></div>
+        <div class="dc-desc">Dialog informasi umum dengan satu tombol tutup.</div>
+        <div class="dc-code"><span class="fn">PA</span>.<span class="fn">dialog</span>({<br>  type:<span class="str">'info'</span>,<br>  title:<span class="str">'Informasi Sistem'</span>,<br>  message:<span class="str">'Pesan info...'</span><br>});</div>
+        <button class="dc-btn blue" onclick="showInfoDialog()"><i class="bi bi-info-circle"></i> Tampilkan</button>
+      </div>
+
+      <!-- Success dialog -->
+      <div class="demo-card c-success">
+        <div class="dc-top"><div class="dc-icon" style="background:#dcfce7;color:#16a34a"><i class="bi bi-check-circle-fill"></i></div><div class="dc-title">Success Dialog</div></div>
+        <div class="dc-desc">Dialog berhasil — konfirmasi setelah aksi selesai.</div>
+        <div class="dc-code"><span class="fn">PA</span>.<span class="fn">dialog</span>({<br>  type:<span class="str">'success'</span>, icon:<span class="str">'save'</span>,<br>  buttons:[{label:<span class="str">'Lanjut'</span>,...}]<br>});</div>
+        <button class="dc-btn green" onclick="showSuccessDialog()"><i class="bi bi-check2"></i> Tampilkan</button>
+      </div>
+
+      <!-- Warning dialog -->
+      <div class="demo-card c-warning">
+        <div class="dc-top"><div class="dc-icon" style="background:#fef3c7;color:#e8a020"><i class="bi bi-exclamation-triangle-fill"></i></div><div class="dc-title">Warning Dialog</div></div>
+        <div class="dc-desc">Dialog peringatan — aksi berisiko, perhatian diperlukan.</div>
+        <div class="dc-code"><span class="fn">PA</span>.<span class="fn">dialog</span>({<br>  type:<span class="str">'warning'</span>, icon:<span class="str">'lock'</span>,<br>  title:<span class="str">'Akses Terbatas'</span><br>});</div>
+        <button class="dc-btn gold" onclick="showWarningDialog()"><i class="bi bi-exclamation-triangle"></i> Tampilkan</button>
+      </div>
+
+      <!-- Custom multi-button -->
+      <div class="demo-card c-purple">
+        <div class="dc-top"><div class="dc-icon" style="background:#f5f3ff;color:#7c3aed"><i class="bi bi-ui-checks-grid"></i></div><div class="dc-title">Multi-Action Dialog</div></div>
+        <div class="dc-desc">Dialog dengan beberapa pilihan tombol — Promise resolve ke label tombol.</div>
+        <div class="dc-code"><span class="fn">PA</span>.<span class="fn">dialog</span>({<br>  buttons:[<br>    {label:<span class="str">'Simpan Draft'</span>,...},<br>    {label:<span class="str">'Publish'</span>,...}<br>  ]<br>});</div>
+        <button class="dc-btn purple" onclick="showMultiDialog()"><i class="bi bi-layout-three-columns"></i> Tampilkan</button>
+        <div class="result-area" id="multi-result">Klik tombol untuk melihat hasil Promise...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ 3. CONFIRM ══ -->
+  <div class="section anim-in" style="animation-delay:.16s">
+    <div class="section-label">
+      <div class="section-label-num">3</div>
+      <h2>Confirm Dialog</h2>
+      <span>PA.confirm()</span>
+    </div>
+    <div class="demo-grid col2">
+      <!-- Delete confirm -->
+      <div class="demo-card c-error">
+        <div class="dc-top"><div class="dc-icon" style="background:#fee2e2;color:#e53e3e"><i class="bi bi-trash3-fill"></i></div><div class="dc-title">Hapus Data</div></div>
+        <div class="dc-desc">Konfirmasi sebelum menghapus data — <code>resolve(true/false)</code>.</div>
+        <div class="dc-code"><span class="kw">const</span> ok = <span class="kw">await</span> <span class="fn">PA</span>.<span class="fn">confirm</span>({<br>  type:<span class="str">'error'</span>, icon:<span class="str">'delete'</span>,<br>  confirmLabel:<span class="str">'Ya, Hapus'</span>,<br>  confirmClass:<span class="str">'pa-btn-danger'</span><br>});</div>
+        <button class="dc-btn red" onclick="showDeleteConfirm()"><i class="bi bi-trash3"></i> Coba Hapus</button>
+        <div class="result-area" id="delete-result">Menunggu konfirmasi...</div>
+      </div>
+
+      <!-- Logout confirm -->
+      <div class="demo-card c-warning">
+        <div class="dc-top"><div class="dc-icon" style="background:#fef3c7;color:#e8a020"><i class="bi bi-box-arrow-right"></i></div><div class="dc-title">Konfirmasi Logout</div></div>
+        <div class="dc-desc">Konfirmasi sebelum keluar dari sistem.</div>
+        <div class="dc-code"><span class="fn">PA</span>.<span class="fn">confirm</span>({<br>  type:<span class="str">'warning'</span>, icon:<span class="str">'logout'</span>,<br>  title:<span class="str">'Keluar dari Sistem?'</span><br>});</div>
+        <button class="dc-btn gold" onclick="showLogoutConfirm()"><i class="bi bi-box-arrow-right"></i> Coba Logout</button>
+        <div class="result-area" id="logout-result">Menunggu konfirmasi...</div>
+      </div>
+
+      <!-- Require checkbox confirm -->
+      <div class="demo-card c-error">
+        <div class="dc-top"><div class="dc-icon" style="background:#fee2e2;color:#e53e3e"><i class="bi bi-shield-fill-exclamation"></i></div><div class="dc-title">Konfirmasi + Checkbox</div></div>
+        <div class="dc-desc">Tombol Konfirmasi hanya aktif setelah checkbox dicentang — untuk aksi berbahaya.</div>
+        <div class="dc-code"><span class="fn">PA</span>.<span class="fn">confirm</span>({<br>  requireCheck: <span class="str">true</span>,<br>  checkLabel:<span class="str">'Saya memahami...'</span><br>});</div>
+        <button class="dc-btn red" onclick="showDangerConfirm()"><i class="bi bi-shield-fill-exclamation"></i> Aksi Berbahaya</button>
+        <div class="result-area" id="danger-result">Menunggu konfirmasi...</div>
+      </div>
+
+      <!-- Reset pass confirm -->
+      <div class="demo-card c-info">
+        <div class="dc-top"><div class="dc-icon" style="background:var(--blue-100);color:var(--blue-600)"><i class="bi bi-key-fill"></i></div><div class="dc-title">Reset Password</div></div>
+        <div class="dc-desc">Konfirmasi reset password pengguna dengan ikon key.</div>
+        <div class="dc-code"><span class="fn">PA</span>.<span class="fn">confirm</span>({<br>  type:<span class="str">'info'</span>, icon:<span class="str">'key'</span>,<br>  confirmClass:<span class="str">'pa-btn-primary'</span><br>});</div>
+        <button class="dc-btn blue" onclick="showResetConfirm()"><i class="bi bi-key"></i> Reset Password</button>
+        <div class="result-area" id="reset-result">Menunggu konfirmasi...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ 4. PROMPT ══ -->
+  <div class="section anim-in" style="animation-delay:.2s">
+    <div class="section-label">
+      <div class="section-label-num">4</div>
+      <h2>Prompt Input Dialog</h2>
+      <span>PA.prompt()</span>
+    </div>
+    <div class="demo-grid col2">
+      <!-- Simple prompt -->
+      <div class="demo-card c-info">
+        <div class="dc-top"><div class="dc-icon" style="background:var(--blue-100);color:var(--blue-600)"><i class="bi bi-pencil-fill"></i></div><div class="dc-title">Input Sederhana</div></div>
+        <div class="dc-desc">Input teks sederhana — resolve ke string yang dimasukkan user.</div>
+        <div class="dc-code"><span class="kw">const</span> val = <span class="kw">await</span> <span class="fn">PA</span>.<span class="fn">prompt</span>({<br>  title:<span class="str">'Nama Kategori Baru'</span>,<br>  label:<span class="str">'Nama'</span>,<br>  placeholder:<span class="str">'Masukkan nama...'</span><br>});</div>
+        <button class="dc-btn blue" onclick="showSimplePrompt()"><i class="bi bi-pencil"></i> Coba</button>
+        <div class="result-area" id="simple-prompt-result">Menunggu input...</div>
+      </div>
+
+      <!-- Validated prompt -->
+      <div class="demo-card c-teal">
+        <div class="dc-top"><div class="dc-icon" style="background:#ccfbf1;color:#0d9488"><i class="bi bi-check2-all"></i></div><div class="dc-title">Input + Validasi</div></div>
+        <div class="dc-desc">Input dengan custom validate function — reject jika format salah.</div>
+        <div class="dc-code"><span class="fn">PA</span>.<span class="fn">prompt</span>({<br>  validate(v){<br>    <span class="kw">if</span>(!v.includes(<span class="str">'@'</span>))<br>    <span class="kw">return</span> <span class="str">'Email tidak valid'</span><br>  }<br>});</div>
+        <button class="dc-btn teal" onclick="showValidatedPrompt()"><i class="bi bi-envelope"></i> Email Prompt</button>
+        <div class="result-area" id="validated-prompt-result">Menunggu input...</div>
+      </div>
+
+      <!-- Rename prompt -->
+      <div class="demo-card c-purple">
+        <div class="dc-top"><div class="dc-icon" style="background:#f5f3ff;color:#7c3aed"><i class="bi bi-fonts"></i></div><div class="dc-title">Rename / Edit Nama</div></div>
+        <div class="dc-desc">Prompt dengan nilai default — untuk fitur rename atau edit cepat.</div>
+        <div class="dc-code"><span class="fn">PA</span>.<span class="fn">prompt</span>({<br>  title:<span class="str">'Rename Layanan'</span>,<br>  defaultValue:<span class="str">'Surat Keterangan'</span>,<br>  confirmLabel:<span class="str">'Simpan Nama'</span><br>});</div>
+        <button class="dc-btn purple" onclick="showRenamePrompt()"><i class="bi bi-fonts"></i> Rename</button>
+        <div class="result-area" id="rename-result">Menunggu input...</div>
+      </div>
+
+      <!-- NIP prompt -->
+      <div class="demo-card c-success">
+        <div class="dc-top"><div class="dc-icon" style="background:#dcfce7;color:#16a34a"><i class="bi bi-person-badge-fill"></i></div><div class="dc-title">Verifikasi NIP</div></div>
+        <div class="dc-desc">Input NIP dengan validasi 18 digit angka.</div>
+        <div class="dc-code"><span class="fn">PA</span>.<span class="fn">prompt</span>({<br>  label:<span class="str">'NIP (18 digit)'</span>,<br>  inputType:<span class="str">'text'</span>,<br>  validate: v => ...<br>});</div>
+        <button class="dc-btn green" onclick="showNipPrompt()"><i class="bi bi-person-badge"></i> Input NIP</button>
+        <div class="result-area" id="nip-result">Menunggu input...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ 5. LOADING ══ -->
+  <div class="section anim-in" style="animation-delay:.24s">
+    <div class="section-label">
+      <div class="section-label-num">5</div>
+      <h2>Loading Overlay</h2>
+      <span>PA.loading()</span>
+    </div>
+    <div class="demo-grid col3">
+      <!-- Basic loading -->
+      <div class="demo-card c-info">
+        <div class="dc-top"><div class="dc-icon" style="background:var(--blue-100);color:var(--blue-600)"><i class="bi bi-hourglass-split"></i></div><div class="dc-title">Loading Dasar</div></div>
+        <div class="dc-desc">Loading overlay dengan auto-close setelah 2 detik.</div>
+        <div class="dc-code"><span class="kw">const</span> ld = <span class="fn">PA</span>.<span class="fn">loading</span>({<br>  title:<span class="str">'Memuat...'</span><br>});<br><span class="co">// nanti:</span><br>ld.<span class="fn">close</span>();</div>
+        <button class="dc-btn blue" onclick="showBasicLoading()"><i class="bi bi-hourglass-split"></i> Tampilkan</button>
+      </div>
+
+      <!-- Upload loading -->
+      <div class="demo-card c-teal">
+        <div class="dc-top"><div class="dc-icon" style="background:#ccfbf1;color:#0d9488"><i class="bi bi-cloud-upload-fill"></i></div><div class="dc-title">Loading Upload</div></div>
+        <div class="dc-desc">Loading dengan pesan dinamis — update via <code>setMessage()</code>.</div>
+        <div class="dc-code">ld.<span class="fn">setTitle</span>(<span class="str">'Mengunggah...'</span>);<br>ld.<span class="fn">setMessage</span>(<span class="str">'File 2/3...'</span>);</div>
+        <button class="dc-btn teal" onclick="showUploadLoading()"><i class="bi bi-cloud-upload"></i> Simulasi Upload</button>
+      </div>
+
+      <!-- Cancellable loading -->
+      <div class="demo-card c-warning">
+        <div class="dc-top"><div class="dc-icon" style="background:#fef3c7;color:#e8a020"><i class="bi bi-x-circle-fill"></i></div><div class="dc-title">Loading + Batalkan</div></div>
+        <div class="dc-desc">Loading yang bisa dibatalkan — <code>closable: true</code>.</div>
+        <div class="dc-code"><span class="fn">PA</span>.<span class="fn">loading</span>({<br>  title:<span class="str">'Memproses...'</span>,<br>  closable:<span class="str">true</span><br>});</div>
+        <button class="dc-btn gold" onclick="showCancellableLoading()"><i class="bi bi-x-circle"></i> Tampilkan</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ 6. INLINE ALERT ══ -->
+  <div class="section anim-in" style="animation-delay:.28s">
+    <div class="section-label">
+      <div class="section-label-num">6</div>
+      <h2>Inline Alert</h2>
+      <span>PA.alert()</span>
+    </div>
+    <div class="demo-card">
+      <div class="dc-top"><div class="dc-icon" style="background:var(--blue-100);color:var(--blue-600)"><i class="bi bi-ui-checks"></i></div><div class="dc-title">Inject ke Elemen</div></div>
+      <div class="dc-desc">Alert yang diinjeksikan ke dalam elemen DOM — cocok untuk form validation atau feedback di dalam page.</div>
+      <div class="dc-btn-row" style="margin-bottom:16px">
+        <button class="dc-btn green"  onclick="PA.alert('#inline-target',{type:'success',title:'Data Tersimpan',message:'Perubahan profil berhasil disimpan ke sistem.'})"><i class="bi bi-check-circle"></i> Success</button>
+        <button class="dc-btn red"    onclick="PA.alert('#inline-target',{type:'error',title:'Validasi Gagal',message:'Email sudah terdaftar di sistem. Gunakan email lain.'})"><i class="bi bi-x-circle"></i> Error</button>
+        <button class="dc-btn gold"   onclick="PA.alert('#inline-target',{type:'warning',title:'Perhatian',message:'Anda belum menyimpan perubahan terakhir.'})"><i class="bi bi-exclamation-triangle"></i> Warning</button>
+        <button class="dc-btn blue"   onclick="PA.alert('#inline-target',{type:'info',title:'Info',message:'Sistem akan maintenance pada Minggu, 15 Des 2024 pukul 00.00–06.00 WIB.'})"><i class="bi bi-info-circle"></i> Info</button>
+        <button class="dc-btn teal"   onclick="PA.alert('#inline-target',{type:'teal',title:'Proses Berjalan',message:'Permohonan Anda sedang diproses oleh petugas.'})"><i class="bi bi-lightning-charge"></i> Teal</button>
+        <button class="dc-btn gray"   onclick="document.getElementById('inline-target').innerHTML=''"><i class="bi bi-trash3"></i> Clear All</button>
+      </div>
+      <div id="inline-target"></div>
+    </div>
+  </div>
+
+  <!-- ══ 7. REAL-WORLD SCENARIOS ══ -->
+  <div class="section anim-in" style="animation-delay:.32s">
+    <div class="section-label">
+      <div class="section-label-num">7</div>
+      <h2>Skenario Nyata</h2>
+      <span>Alur lengkap PA Alerts</span>
+    </div>
+    <div class="demo-grid col2">
+      <!-- Simpan form -->
+      <div class="demo-card c-success">
+        <div class="dc-top"><div class="dc-icon" style="background:#dcfce7;color:#16a34a"><i class="bi bi-floppy2-fill"></i></div><div class="dc-title">Simpan Formulir</div></div>
+        <div class="dc-desc">Alur: Loading → API call simulasi → Success dialog → Toast.</div>
+        <div class="dc-code"><span class="co">// loading → sukses</span><br><span class="kw">const</span> ld = <span class="fn">PA</span>.<span class="fn">loading</span>(...);<br><span class="co">// await API...</span><br>ld.<span class="fn">close</span>(() => <span class="fn">PA</span>.<span class="fn">dialog</span>(...));</div>
+        <button class="dc-btn green" onclick="scenarioSave()"><i class="bi bi-floppy2"></i> Simulasi Simpan</button>
+      </div>
+
+      <!-- Hapus user -->
+      <div class="demo-card c-error">
+        <div class="dc-top"><div class="dc-icon" style="background:#fee2e2;color:#e53e3e"><i class="bi bi-person-x-fill"></i></div><div class="dc-title">Hapus User</div></div>
+        <div class="dc-desc">Alur: Confirm → Loading → Success toast atau Error.</div>
+        <div class="dc-code"><span class="kw">if</span>(<span class="kw">await</span> <span class="fn">PA</span>.<span class="fn">confirm</span>(...)){<br>  <span class="kw">const</span> ld = <span class="fn">PA</span>.<span class="fn">loading</span>(...);<br>  <span class="co">// await API...</span><br>  ld.<span class="fn">close</span>(() => <span class="fn">PA</span>.<span class="fn">success</span>(...));<br>}</div>
+        <button class="dc-btn red" onclick="scenarioDelete()"><i class="bi bi-person-x"></i> Simulasi Hapus User</button>
+      </div>
+
+      <!-- Approve permohonan -->
+      <div class="demo-card c-teal">
+        <div class="dc-top"><div class="dc-icon" style="background:#ccfbf1;color:#0d9488"><i class="bi bi-file-check-fill"></i></div><div class="dc-title">Approve Permohonan</div></div>
+        <div class="dc-desc">Alur: Prompt catatan → Confirm → Loading → Success.</div>
+        <div class="dc-code"><span class="kw">const</span> catatan = <span class="kw">await</span> <span class="fn">PA</span>.<span class="fn">prompt</span>(...);<br><span class="kw">if</span>(catatan && <span class="kw">await</span> <span class="fn">PA</span>.<span class="fn">confirm</span>(...)){<br>  <span class="co">// proses...</span><br>}</div>
+        <button class="dc-btn teal" onclick="scenarioApprove()"><i class="bi bi-file-check"></i> Simulasi Approve</button>
+      </div>
+
+      <!-- Ganti Password -->
+      <div class="demo-card c-purple">
+        <div class="dc-top"><div class="dc-icon" style="background:#f5f3ff;color:#7c3aed"><i class="bi bi-lock-fill"></i></div><div class="dc-title">Ganti Password</div></div>
+        <div class="dc-desc">Alur: Prompt password baru → Validasi → Confirm → Loading → Success.</div>
+        <div class="dc-code"><span class="kw">const</span> pwd = <span class="kw">await</span> <span class="fn">PA</span>.<span class="fn">prompt</span>({<br>  inputType:<span class="str">'password'</span>,<br>  validate: v => v.length < 8<br>    ? <span class="str">'Min 8 karakter'</span> : <span class="str">null</span><br>});</div>
+        <button class="dc-btn purple" onclick="scenarioChangePassword()"><i class="bi bi-key"></i> Simulasi Ganti Password</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ API TABLE ══ -->
+  <div class="section anim-in" style="animation-delay:.36s">
+    <div class="section-label">
+      <div class="section-label-num">8</div>
+      <h2>Referensi API</h2>
+      <span>Semua opsi yang tersedia</span>
+    </div>
+    <div class="api-card">
+      <table class="api-table">
+        <thead><tr><th>Method</th><th>Parameter Utama</th><th>Return</th><th>Keterangan</th></tr></thead>
+        <tbody>
+          <tr><td><code>PA.toast(opt)</code></td><td><code>type</code> <code>title</code> <code>message</code> <code>duration</code> <code>position</code> <code>icon</code></td><td><code>{ dismiss() }</code></td><td>Notifikasi pojok layar, auto-dismiss</td></tr>
+          <tr><td><code>PA.success(msg)</code></td><td><code>message</code> <code>title?</code></td><td><code>{ dismiss() }</code></td><td>Shorthand green toast</td></tr>
+          <tr><td><code>PA.error(msg)</code></td><td><code>message</code> <code>title?</code></td><td><code>{ dismiss() }</code></td><td>Shorthand red toast</td></tr>
+          <tr><td><code>PA.warning(msg)</code></td><td><code>message</code> <code>title?</code></td><td><code>{ dismiss() }</code></td><td>Shorthand gold toast</td></tr>
+          <tr><td><code>PA.info(msg)</code></td><td><code>message</code> <code>title?</code></td><td><code>{ dismiss() }</code></td><td>Shorthand blue toast</td></tr>
+          <tr><td><code>PA.dialog(opt)</code></td><td><code>type</code> <code>title</code> <code>message</code> <code>icon</code> <code>buttons[]</code></td><td><code>Promise&lt;value&gt;</code></td><td>Modal dialog custom tombol</td></tr>
+          <tr><td><code>PA.confirm(opt)</code></td><td><code>type</code> <code>title</code> <code>message</code> <code>confirmLabel</code> <code>confirmClass</code> <code>requireCheck</code></td><td><code>Promise&lt;boolean&gt;</code></td><td>Konfirmasi ya/tidak</td></tr>
+          <tr><td><code>PA.prompt(opt)</code></td><td><code>title</code> <code>label</code> <code>placeholder</code> <code>defaultValue</code> <code>inputType</code> <code>validate()</code></td><td><code>Promise&lt;string|null&gt;</code></td><td>Input dialog dengan validasi</td></tr>
+          <tr><td><code>PA.loading(opt)</code></td><td><code>title</code> <code>message</code> <code>closable</code></td><td><code>{ close(), setMessage(), setTitle() }</code></td><td>Full-screen loading overlay</td></tr>
+          <tr><td><code>PA.alert(el,opt)</code></td><td><code>type</code> <code>title</code> <code>message</code> <code>icon</code> <code>closable</code> <code>prepend</code></td><td><code>HTMLElement</code></td><td>Inject inline alert ke elemen</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div><!-- /.page -->
+
+<!-- Load PA Alerts from inline (same as external file) -->
+<script>
+/* Quick inline injection of pa-alerts.js */
+</script>
+<script src="pa-alerts.js"></script>
+
+<script>
+/* ── CANVAS BG ── */
+(function(){
+  var cv=document.getElementById('bg-canvas'),cx=cv.getContext('2d'),W,H;
+  var orbs=[{x:5,y:10,vx:.005,vy:.004,r:400,h:215,s:60,l:76,a:.055},{x:88,y:8,vx:-.005,vy:.006,r:350,h:200,s:55,l:79,a:.045},{x:45,y:82,vx:.006,vy:-.005,r:450,h:185,s:62,l:80,a:.04},{x:90,y:88,vx:-.004,vy:-.005,r:300,h:195,s:58,l:77,a:.05}];
+  var pts=[];for(var i=0;i<50;i++)pts.push({x:Math.random(),y:Math.random(),vx:(Math.random()-.5)*.00012,vy:(Math.random()-.5)*.00012,r:.7+Math.random()*1.8,a:.04+Math.random()*.1,ph:Math.random()*Math.PI*2});
+  function resize(){W=cv.width=innerWidth;H=cv.height=innerHeight;}
+  addEventListener('resize',resize);resize();
+  var t=0;
+  function draw(){
+    t+=.007;cx.clearRect(0,0,W,H);
+    var bg=cx.createLinearGradient(0,0,W,H);bg.addColorStop(0,'#edf3fb');bg.addColorStop(.5,'#f4f7fc');bg.addColorStop(1,'#edf3fb');cx.fillStyle=bg;cx.fillRect(0,0,W,H);
+    orbs.forEach(function(o){o.x+=o.vx;o.y+=o.vy;if(o.x<-20||o.x>120)o.vx*=-1;if(o.y<-20||o.y>120)o.vy*=-1;var gx=o.x/100*W,gy=o.y/100*H;var g=cx.createRadialGradient(gx,gy,0,gx,gy,o.r);g.addColorStop(0,'hsla('+o.h+','+o.s+'%,'+o.l+'%,'+o.a+')');g.addColorStop(1,'transparent');cx.fillStyle=g;cx.beginPath();cx.arc(gx,gy,o.r,0,Math.PI*2);cx.fill();});
+    pts.forEach(function(p,i){p.x+=p.vx;p.y+=p.vy;p.ph+=.015;if(p.x<0||p.x>1)p.vx*=-1;if(p.y<0||p.y>1)p.vy*=-1;cx.beginPath();cx.arc(p.x*W,p.y*H,p.r*(.85+.15*Math.sin(p.ph)),0,Math.PI*2);cx.fillStyle='rgba(43,108,176,'+(p.a*.6)+')';cx.fill();for(var j=i+1;j<pts.length;j++){var dx=(pts[i].x-pts[j].x)*W,dy=(pts[i].y-pts[j].y)*H,d=Math.sqrt(dx*dx+dy*dy);if(d<130){cx.beginPath();cx.moveTo(pts[i].x*W,pts[i].y*H);cx.lineTo(pts[j].x*W,pts[j].y*H);cx.strokeStyle='rgba(43,108,176,'+(.04*(1-d/130))+')';cx.lineWidth=.6;cx.stroke();}}});
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* ── HELPER ── */
+function setResult(id, msg, cls) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  el.className = 'result-area ' + (cls || '');
+  el.innerHTML = msg;
+}
+
+/* ── DIALOG DEMOS ── */
+function showInfoDialog() {
+  PA.dialog({
+    type: 'info', icon: 'shield',
+    title: 'Informasi Kebijakan Akses',
+    message: 'Akun Anda memiliki hak akses <strong>Super Admin</strong>. Semua aktivitas dicatat dalam log sistem dan dapat diaudit oleh administrator pusat.',
+    buttons: [{ label: 'Mengerti', class: 'pa-btn-primary', close: true, icon: '<i class="bi bi-check2"></i>' }]
+  });
+}
+function showSuccessDialog() {
+  PA.dialog({
+    type: 'success', icon: 'save',
+    title: 'Data Berhasil Disimpan!',
+    message: 'Perubahan data pengguna <strong>Budi Santoso</strong> telah tersimpan ke sistem dan akan berlaku segera.',
+    buttons: [
+      { label: 'Lihat Detail', class: 'pa-btn-ghost', close: true },
+      { label: 'Kembali ke Daftar', class: 'pa-btn-success', close: true, icon: '<i class="bi bi-arrow-left"></i>' }
+    ]
+  });
+}
+function showWarningDialog() {
+  PA.dialog({
+    type: 'warning', icon: 'lock',
+    title: 'Akses Terbatas',
+    message: 'Anda tidak memiliki izin untuk mengakses menu <strong>Akses Role</strong>. Hubungi Super Admin untuk mendapatkan akses.',
+    buttons: [
+      { label: 'Minta Akses', class: 'pa-btn-warning', close: true, icon: '<i class="bi bi-envelope"></i>' },
+      { label: 'Tutup', class: 'pa-btn-ghost', close: true }
+    ]
+  });
+}
+async function showMultiDialog() {
+  var result = await PA.dialog({
+    type: 'purple', icon: 'send',
+    title: 'Simpan atau Publikasi?',
+    message: 'Pilih tindakan untuk dokumen permohonan <strong>PMH-2024-042</strong> yang telah Anda lengkapi.',
+    buttons: [
+      { label: 'Batalkan', class: 'pa-btn-ghost', close: true, value: 'cancel' },
+      { label: 'Simpan Draft', class: 'pa-btn-ghost', close: true, value: 'draft', icon: '<i class="bi bi-floppy2"></i>' },
+      { label: 'Kirim Sekarang', class: 'pa-btn-primary', close: true, value: 'publish', icon: '<i class="bi bi-send-fill"></i>' }
+    ]
+  });
+  if (result === 'publish') setResult('multi-result', '✅ Promise resolve: <strong>"publish"</strong> — Dokumen dikirim!', 'success-r');
+  else if (result === 'draft') setResult('multi-result', '💾 Promise resolve: <strong>"draft"</strong> — Tersimpan sebagai draft.', 'has-result');
+  else setResult('multi-result', '❌ Promise resolve: <strong>"cancel"</strong> — Dibatalkan.', 'cancel-r');
+}
+
+/* ── CONFIRM DEMOS ── */
+async function showDeleteConfirm() {
+  var ok = await PA.confirm({
+    type: 'error', icon: 'delete',
+    title: 'Hapus Pengguna?',
+    message: 'Akun <strong>Ahmad Fauzi</strong> (ahmad.fauzi@pekalongan.go.id) akan dihapus permanen dari sistem.',
+    confirmLabel: 'Ya, Hapus', confirmClass: 'pa-btn-danger',
+    cancelLabel: 'Batalkan',
+    confirmIcon: '<i class="bi bi-trash3"></i>'
+  });
+  setResult('delete-result', ok ? '✅ Dikonfirmasi — user dihapus.' : '❌ Dibatalkan.', ok ? 'success-r' : 'cancel-r');
+}
+async function showLogoutConfirm() {
+  var ok = await PA.confirm({
+    type: 'warning', icon: 'logout',
+    title: 'Keluar dari SIPEKA?',
+    message: 'Sesi Anda akan diakhiri. Pastikan semua pekerjaan sudah tersimpan sebelum keluar.',
+    confirmLabel: 'Ya, Keluar', confirmClass: 'pa-btn-warning',
+    confirmIcon: '<i class="bi bi-box-arrow-right"></i>'
+  });
+  setResult('logout-result', ok ? '✅ Logout dikonfirmasi.' : '❌ Dibatalkan, tetap di sistem.', ok ? 'success-r' : 'cancel-r');
+}
+async function showDangerConfirm() {
+  var ok = await PA.confirm({
+    type: 'error', icon: 'shield',
+    title: 'Hapus Seluruh Data Log?',
+    message: 'Tindakan ini akan <strong>menghapus permanen</strong> seluruh log sistem (±48.000 entri). Tidak dapat dikembalikan.',
+    confirmLabel: 'Hapus Semua Log', confirmClass: 'pa-btn-danger',
+    requireCheck: true,
+    checkLabel: 'Saya memahami bahwa data log tidak dapat dipulihkan setelah dihapus.'
+  });
+  setResult('danger-result', ok ? '⚠️ Dikonfirmasi — log system dihapus.' : '❌ Dibatalkan.', ok ? 'success-r' : 'cancel-r');
+}
+async function showResetConfirm() {
+  var ok = await PA.confirm({
+    type: 'info', icon: 'key',
+    title: 'Reset Password?',
+    message: 'Link reset password akan dikirimkan ke email <strong>siti.rahayu@pekalongan.go.id</strong>. Link berlaku 15 menit.',
+    confirmLabel: 'Kirim Link Reset', confirmClass: 'pa-btn-primary',
+    confirmIcon: '<i class="bi bi-send"></i>'
+  });
+  setResult('reset-result', ok ? '✅ Link reset dikirim ke email.' : '❌ Dibatalkan.', ok ? 'success-r' : 'cancel-r');
+}
+
+/* ── PROMPT DEMOS ── */
+async function showSimplePrompt() {
+  var val = await PA.prompt({
+    type: 'info', icon: 'bell',
+    title: 'Tambah Kategori Baru',
+    message: 'Masukkan nama untuk kategori layanan baru.',
+    label: 'Nama Kategori',
+    placeholder: 'cth: Layanan Kependudukan Digital',
+    confirmLabel: 'Tambahkan'
+  });
+  setResult('simple-prompt-result', val ? '✅ Input: <strong>"' + val + '"</strong>' : '❌ Dibatalkan.', val ? 'success-r' : 'cancel-r');
+}
+async function showValidatedPrompt() {
+  var val = await PA.prompt({
+    type: 'teal', icon: 'send',
+    title: 'Tambah Email Notifikasi',
+    label: 'Alamat Email',
+    placeholder: 'nama@pekalongan.go.id',
+    inputType: 'email',
+    confirmLabel: 'Daftarkan',
+    validate: function(v) {
+      if (!v.includes('@')) return 'Format email tidak valid.';
+      if (!v.includes('.')) return 'Domain email tidak lengkap.';
+      return null;
+    }
+  });
+  setResult('validated-prompt-result', val ? '✅ Email terdaftar: <strong>' + val + '</strong>' : '❌ Dibatalkan.', val ? 'success-r' : 'cancel-r');
+}
+async function showRenamePrompt() {
+  var val = await PA.prompt({
+    type: 'purple', icon: 'user',
+    title: 'Rename Layanan',
+    message: 'Ubah nama layanan yang ada.',
+    label: 'Nama Baru',
+    defaultValue: 'Surat Keterangan Domisili',
+    confirmLabel: 'Simpan Nama'
+  });
+  setResult('rename-result', val ? '✅ Nama baru: <strong>"' + val + '"</strong>' : '❌ Dibatalkan.', val ? 'success-r' : 'cancel-r');
+}
+async function showNipPrompt() {
+  var val = await PA.prompt({
+    type: 'success', icon: 'user',
+    title: 'Verifikasi NIP ASN',
+    message: 'Masukkan NIP untuk memverifikasi identitas ASN.',
+    label: 'Nomor Induk Pegawai (NIP)',
+    placeholder: '198405152006041003',
+    confirmLabel: 'Verifikasi',
+    validate: function(v) {
+      var clean = v.replace(/\D/g, '');
+      if (clean.length !== 18) return 'NIP harus tepat 18 digit angka.';
+      return null;
+    }
+  });
+  setResult('nip-result', val ? '✅ NIP diverifikasi: <strong>' + val + '</strong>' : '❌ Dibatalkan.', val ? 'success-r' : 'cancel-r');
+}
+
+/* ── LOADING DEMOS ── */
+function showBasicLoading() {
+  var ld = PA.loading({ title: 'Memuat Data...', message: 'Mengambil data dari server' });
+  setTimeout(function() { ld.close(); PA.success('Data berhasil dimuat dari server.'); }, 2200);
+}
+function showUploadLoading() {
+  var ld = PA.loading({ title: 'Mengunggah File...', message: 'Mempersiapkan file (1/3)' });
+  setTimeout(function() { ld.setTitle('Mengunggah...'); ld.setMessage('KTP_Pemohon.jpg (2/3)'); }, 900);
+  setTimeout(function() { ld.setMessage('Surat_Domisili.pdf (3/3)'); }, 1900);
+  setTimeout(function() { ld.close(function() { PA.dialog({ type:'success', icon:'upload', title:'Upload Selesai!', message:'3 file berhasil diunggah: <strong>KTP, Surat Domisili, Foto</strong>.', buttons:[{label:'Oke',class:'pa-btn-success',close:true}] }); }); }, 2800);
+}
+function showCancellableLoading() {
+  PA.loading({ title: 'Memproses Permohonan...', message: 'Menunggu respons server', closable: true });
+}
+
+/* ── REAL-WORLD SCENARIOS ── */
+async function scenarioSave() {
+  var ld = PA.loading({ title: 'Menyimpan Data...', message: 'Mengirim ke server' });
+  await new Promise(r => setTimeout(r, 1800));
+  ld.close(function() {
+    PA.dialog({
+      type: 'success', icon: 'save',
+      title: 'Tersimpan!',
+      message: 'Data pengguna <strong>Budi Santoso</strong> berhasil diperbarui. Perubahan aktif dalam 30 detik.',
+      buttons: [{ label: 'OK', class: 'pa-btn-success', close: true, icon: '<i class="bi bi-check2"></i>' }]
+    }).then(function() { PA.success('Kembali ke halaman daftar.'); });
+  });
+}
+async function scenarioDelete() {
+  var ok = await PA.confirm({
+    type: 'error', icon: 'delete',
+    title: 'Hapus Akun Pengguna?',
+    message: 'Akun <strong>Teguh Santosa</strong> akan dihapus. Semua data terkait juga ikut terhapus.',
+    confirmLabel: 'Hapus Permanen', confirmClass: 'pa-btn-danger'
+  });
+  if (!ok) { PA.warning('Penghapusan dibatalkan.'); return; }
+  var ld = PA.loading({ title: 'Menghapus...', message: 'Membersihkan data terkait' });
+  await new Promise(r => setTimeout(r, 1500));
+  ld.close(function() { PA.success('Akun Teguh Santosa berhasil dihapus dari sistem.'); });
+}
+async function scenarioApprove() {
+  var catatan = await PA.prompt({
+    type: 'teal', icon: 'send',
+    title: 'Catatan Persetujuan',
+    message: 'Tambahkan catatan untuk permohonan <strong>PMH-2024-042</strong>.',
+    label: 'Catatan (opsional)',
+    placeholder: 'cth: Dokumen lengkap, disetujui.',
+    required: false,
+    confirmLabel: 'Lanjut ke Konfirmasi'
+  });
+  if (catatan === null) { PA.info('Proses approval dibatalkan.'); return; }
+  var ok = await PA.confirm({
+    type: 'teal', icon: 'shield',
+    title: 'Konfirmasi Persetujuan',
+    message: 'Permohonan PMH-2024-042 akan <strong>disetujui</strong>. Pemohon akan mendapat notifikasi email.',
+    confirmLabel: 'Ya, Setujui', confirmClass: 'pa-btn-success'
+  });
+  if (!ok) { PA.warning('Approval dibatalkan.'); return; }
+  var ld = PA.loading({ title: 'Memproses Persetujuan...' });
+  await new Promise(r => setTimeout(r, 1600));
+  ld.close(function() {
+    PA.dialog({ type:'success', icon:'send', title:'Permohonan Disetujui!',
+      message:'PMH-2024-042 telah disetujui. Email notifikasi terkirim ke pemohon' + (catatan ? ' dengan catatan: <em>"' + catatan + '"</em>' : '.'),
+      buttons:[{label:'Lihat Permohonan',class:'pa-btn-success',close:true}]
+    });
+  });
+}
+async function scenarioChangePassword() {
+  var pwd = await PA.prompt({
+    type: 'purple', icon: 'lock',
+    title: 'Ganti Password',
+    message: 'Masukkan password baru untuk akun Anda.',
+    label: 'Password Baru',
+    inputType: 'password',
+    placeholder: 'Min 8 karakter',
+    confirmLabel: 'Ganti Password',
+    validate: function(v) {
+      if (v.length < 8) return 'Password minimal 8 karakter.';
+      if (!/[A-Z]/.test(v)) return 'Harus ada huruf kapital.';
+      if (!/[0-9]/.test(v)) return 'Harus ada angka.';
+      return null;
+    }
+  });
+  if (!pwd) { PA.info('Ganti password dibatalkan.'); return; }
+  var ok = await PA.confirm({
+    type: 'warning', icon: 'lock',
+    title: 'Konfirmasi Ganti Password',
+    message: 'Password Anda akan segera diperbarui. Sesi lain akan otomatis logout.',
+    confirmLabel: 'Ganti Sekarang', confirmClass: 'pa-btn-warning'
+  });
+  if (!ok) return;
+  var ld = PA.loading({ title: 'Memperbarui Password...' });
+  await new Promise(r => setTimeout(r, 1400));
+  ld.close(function() { PA.success('Password berhasil diperbarui. Silakan login ulang.', 'Password Diperbarui'); });
+}
+</script>
+</body>
+</html>
